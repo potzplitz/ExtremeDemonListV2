@@ -30,6 +30,6 @@ class Template {
     }
 
     public function show_template() {
-        echo $this->finished_template;
+        MainController::setContent($this->finished_template);
     }
 }
