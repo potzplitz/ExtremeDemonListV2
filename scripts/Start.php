@@ -8,6 +8,10 @@ class Start implements BaseScript{
     }
 
     private function show() {
-        echo SESS_ID;
+        $Template = new Template();
+        $Template->load_template("start/start.php");
+        $Template->load_hash([]);
+        $Template->compile_template();
+        $Template->show_template();
     }
 }

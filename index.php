@@ -64,14 +64,13 @@ if ($route === null) {
 }
 
 if (!str_contains($request, "/api")) {
-    MainController::addJavascript("components/animeTile.js");
 
     $Template = new Template();
     $Template->load_template("main/main.php");
     $Template->load_hash([
         "TITLE"       => MainController::getTitle(),
         "META_TAGS"   => MainController::getMetaTags(),
-        "HEAD_HTML"   => MainController::getHeadHTML(),
+        "HEAD_HTML"   => MainController::getHeadHTML() ?? "",
         "ICONS"       => MainController::getIcons(),
         "BODY_HEADER" => MainController::getHeader(),
         "CONTENT"     => MainController::getContent(),
