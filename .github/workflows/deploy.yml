@@ -52,6 +52,7 @@ jobs:
           # --delete entfernt Dateien im Ziel, die nicht mehr im Repo sind.
           # Alles, was nur auf dem Server liegt (Config, Uploads, Cache), hier per --exclude schützen!
           sshpass -e ssh proxmox "pct exec $CT_ID -- sh -c '\
+            (command -v rsync >/dev/null 2>&1 || (apt-get update -qq && apt-get install -y -qq rsync)) && \
             mkdir -p $TARGET_DIR && \
             rsync -a --delete \
               --exclude=.env \
