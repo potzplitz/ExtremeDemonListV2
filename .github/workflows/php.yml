@@ -1,0 +1,61 @@
+name: Deploy to live server
+
+on:
+  push:
+    branches:
+      - deploy
+
+# Verhindert, dass zwei Deployments gleichzeitig laufen
+concurrency:
+  group: deploy-live
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      CT_ID: "727"
+      TARGET_DIR: /var/www/html/gd
+      STAGING_DIR: /tmp/gd-deploy
+      SSH_HOST: ${{ secrets.PROXMOX_HOST }}
+      SSH_USER: ${{ secrets.PROXMOX_USER }}
+      SSH_PORT: ${{ secrets.PROXMOX_PORT || '22' }}
+      SSHPASS: ${{ secrets.PROXMOX_PASSWORD }}
+
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: sshpass installieren und SSH einrichten
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq sshpass
+          mkdir -p ~/.ssh
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host proxmox
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            PreferredAuthentications password
+            PubkeyAuthentication no
+          EOF
+
+      - name: Dateien in LXC ${{ env.CT_ID }} übertragen (Staging)
+        run: |
+          tar --exclude='./.git' --exclude='./.github' -czf - . | \
+            sshpass -e ssh proxmox "pct exec $CT_ID -- sh -c 'rm -rf $STAGING_DIR && mkdir -p $STAGING_DIR && tar -xzf - -C $STAGING_DIR'"
+
+      - name: Staging nach ${{ env.TARGET_DIR }} synchronisieren
+        run: |
+          # --delete entfernt Dateien im Ziel, die nicht mehr im Repo sind.
+          # Alles, was nur auf dem Server liegt (Config, Uploads, Cache), hier per --exclude schützen!
+          sshpass -e ssh proxmox "pct exec $CT_ID -- sh -c '\
+            mkdir -p $TARGET_DIR && \
+            rsync -a --delete \
+              --exclude=.env \
+              --exclude=uploads/ \
+              $STAGING_DIR/ $TARGET_DIR/ && \
+            chown -R www-data:www-data $TARGET_DIR && \
+            rm -rf $STAGING_DIR'"
