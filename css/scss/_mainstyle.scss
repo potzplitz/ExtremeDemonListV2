@@ -17,8 +17,41 @@ body {
     font-size: 90%;
 }
 
-p {
-    color: $white;
+p, h1, h2, h3, h5{
+    color: $white !important;
+}
+
+h5 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    opacity: .70;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+}
+
+.#{$prefix}Section {
+    width: 100%;
+    margin-bottom: 100px;
+    margin-top: 20px;
+    max-width: 2000px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &--xxxl {
+        width: 80%;
+    }
+
+    &--xxxxl {
+        width: 90%;
+    }
 }
 
 

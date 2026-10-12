@@ -8,6 +8,13 @@ class Template {
     private $title = "";
 
     public function load_hash($placeholder = []) {
+
+        $vars = [
+            "DIR_ROOT" => DIR_ROOT,
+            "URL_HTBASE" => URL_HTBASE
+        ];
+
+        $placeholder = array_merge($placeholder, $vars);
         $this->hash = $placeholder;
     }
 

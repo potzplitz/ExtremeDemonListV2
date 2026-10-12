@@ -16,6 +16,7 @@ $deep-space-blue-4: rgba(0, 46, 78, 1);
 $deep-space-blue-5: rgba(0, 51, 86, 1);
 $yale-blue: rgba(0, 58, 97, 1);
 $yale-blue-2: rgba(0, 64, 108, 1);
+$yale-blue-3: rgb(131, 204, 253);
 $white: white;
 
 /* SCSS Gradient */
@@ -30,3 +31,4 @@ $gradient-bottom-left: linear-gradient(315deg, #00111cff, #001523ff, #001a2cff, 
 $gradient-radial: radial-gradient(#00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
 
 $prefix: gd;
+$border-radius-base: 4px;
