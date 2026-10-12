@@ -8,8 +8,8 @@ class Database {
     public $rows = 0;
 
     public function __construct() {
-        $host = "127.0.0.1";
-        $port = 15432;
+        $host = getenv("DB_IP");
+        $port = getenv("DB_PORT");
         $user = getenv("DB_USER");
         $pass = getenv("DB_PASS");
         $name = "postgres"; // Datenbank Name
