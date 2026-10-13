@@ -58,5 +58,61 @@ main {
 // Components
 
 .#{$prefix}Btn {
-    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    padding: 0.575rem 1.75rem;
+
+    background-color: $yale-blue-5;
+    color: $white;
+
+    border: 1px solid $yale-blue-2;
+    border-radius: $border-radius-base;
+
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+
+    &:hover {
+        background-color: $yale-blue;
+        border-color: $yale-blue-3;
+
+        box-shadow:
+            0 6px 14px rgba(0, 0, 0, 0.35),
+            0 0 10px rgba($yale-blue-3, 0.12);
+
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        background-color: $deep-space-blue-4;
+        transform: translateY(0);
+    }
+
+    &:focus-visible {
+        outline: 2px solid $yale-blue-3;
+        outline-offset: 3px;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }

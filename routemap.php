@@ -1,5 +1,6 @@
 <?php 
 
 const ROUTEMAP = [
-    "/" => "Start"
+    "/" => "Start",
+    "/account/login" => "Account",
 ];

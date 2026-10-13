@@ -5,6 +5,10 @@
     border-bottom: 1px solid $yale-blue-3;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.425);
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 2rem;
 
     img {
         width: 150px;
