@@ -1,0 +1,139 @@
+.#{$prefix}Login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+
+    &__nest1 {
+        position: relative;
+        width: 100%;
+        max-width: 460px;
+        overflow: hidden;
+
+        background-color: $ink-black-2;
+        border: 1px solid rgba($yale-blue-3, 0.14);
+        border-bottom: 3px solid $yale-blue-5;
+        border-radius: $border-radius-base;
+
+        box-shadow:
+            0 16px 45px rgba($black, 0.35),
+            0 0 30px rgba($yale-blue-4, 0.05);
+
+        &__nest2 {
+            position: relative;
+            z-index: 1;
+            padding: 40px;
+
+            &__header {
+                margin-bottom: 32px;
+
+                &__eyebrow {
+                    display: inline-block;
+                    margin-bottom: 16px;
+
+                    color: $yale-blue-3;
+                    font-size: 11px;
+                    font-weight: 800;
+                    letter-spacing: 2px;
+                }
+
+                &__title {
+                    margin: 0 0 12px;
+                    color: $white;
+                    font-size: 32px;
+                    font-weight: 800;
+                    line-height: 1.2;
+                }
+
+                &__description {
+                    margin: 0;
+                    color: rgba($white, 0.6);
+                    font-size: 14px;
+                    line-height: 1.7;
+                }
+            }
+
+            &__form {
+                display: flex;
+                flex-direction: column;
+                gap: 22px;
+
+                &__remember {
+                    display: flex;
+                    align-items: center;
+                    gap: 9px;
+
+                    color: rgba($white, 0.65);
+                    font-size: 12px;
+                    cursor: pointer;
+                }
+
+                &__submit {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
+
+            &__footer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 5px;
+
+                margin-top: 28px;
+                padding-top: 22px;
+                border-top: 1px solid rgba($yale-blue-3, 0.12);
+
+                color: rgba($white, 0.55);
+                font-size: 12px;
+
+                a {
+                    color: $yale-blue-3;
+                    font-weight: 700;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: $white;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        &__decoration {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            pointer-events: none;
+
+            &__line {
+                position: absolute;
+                inset: 0;
+
+                background: linear-gradient(
+                    135deg,
+                    transparent 50%,
+                    rgba($yale-blue-4, 0.08) 50%
+                );
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: 35px 14px;
+
+        &__nest1 {
+            &__nest2 {
+                padding: 28px 22px;
+
+                &__header__title {
+                    font-size: 28px;
+                }
+            }
+        }
+    }
+}
