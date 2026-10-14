@@ -286,18 +286,162 @@ main {
   background-color: #002945;
   border-bottom: 1px solid #83ccfd;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.425);
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 2rem;
+  padding: 0 2rem;
   position: fixed;
-  z-index: 10000; }
-  .gdHeader img {
-    width: 150px;
-    height: auto;
-    margin-left: 2rem; }
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  box-sizing: border-box; }
+  .gdHeader__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; }
+    .gdHeader__logo img {
+      width: 150px;
+      height: auto;
+      display: block; }
+  .gdHeader__user {
+    position: relative;
+    display: flex;
+    align-items: center; }
+    .gdHeader__user[hidden] {
+      display: none; }
+    .gdHeader__user__trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid rgba(124, 158, 178, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.035);
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease; }
+      .gdHeader__user__trigger:hover, .gdHeader__user__trigger[aria-expanded="true"] {
+        background: rgba(124, 158, 178, 0.12);
+        border-color: #83ccfd; }
+      .gdHeader__user__trigger:focus-visible {
+        outline: 2px solid #7c9eb2ff;
+        outline-offset: 3px; }
+    .gdHeader__user__avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #002945;
+      border: 1px solid rgba(124, 158, 178, 0.35);
+      flex-shrink: 0; }
+    .gdHeader__user__info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      min-width: 0; }
+    .gdHeader__user__name {
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff; }
+    .gdHeader__user__label {
+      font-size: 0.72rem;
+      color: #7c9eb2ff; }
+    .gdHeader__user__chevron {
+      width: 18px;
+      height: 18px;
+      color: #7c9eb2ff;
+      flex-shrink: 0;
+      transition: transform 0.2s ease; }
+    .gdHeader__user__trigger[aria-expanded="true"] .gdHeader__user__chevron {
+      transform: rotate(180deg); }
+    .gdHeader__user__dropdown {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      width: 250px;
+      padding: 0.5rem;
+      border: 1px solid rgba(124, 158, 178, 0.25);
+      border-radius: 14px;
+      background: #002945;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4);
+      animation: gdDropdownIn 0.16s ease-out;
+      transform-origin: top right; }
+      .gdHeader__user__dropdown[hidden] {
+        display: none; }
+      .gdHeader__user__dropdown__heading {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 0.85rem 0.75rem; }
+      .gdHeader__user__dropdown__eyebrow {
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        color: #7c9eb2ff; }
+      .gdHeader__user__dropdown__username {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+        overflow-wrap: anywhere; }
+      .gdHeader__user__dropdown__divider {
+        height: 1px;
+        margin: 0.35rem 0;
+        background: rgba(124, 158, 178, 0.16); }
+      .gdHeader__user__dropdown__item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 9px;
+        color: #dce6f0;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.15s ease, background 0.15s ease; }
+        .gdHeader__user__dropdown__item:hover {
+          color: #fff;
+          background: rgba(124, 158, 178, 0.12); }
+        .gdHeader__user__dropdown__item--danger {
+          color: #ff858d; }
+          .gdHeader__user__dropdown__item--danger:hover {
+            color: #ffb0b5;
+            background: rgba(255, 75, 90, 0.1); }
+      .gdHeader__user__dropdown__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        font-size: 1.1rem;
+        flex-shrink: 0; }
 
+@keyframes gdDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98); }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1); } }
+@media (max-width: 600px) {
+  .gdHeader {
+    padding: 0 1rem; }
+    .gdHeader__logo img {
+      width: 110px; }
+    .gdHeader__user__trigger {
+      gap: 0.5rem;
+      padding: 0.4rem; }
+    .gdHeader__user__avatar {
+      width: 38px;
+      height: 38px; }
+    .gdHeader__user__name {
+      max-width: 100px; }
+    .gdHeader__user__dropdown {
+      width: min(250px, calc(100vw - 2rem)); } }
 .gdStart__hero {
   position: relative;
   width: 100%;
