@@ -43,4 +43,26 @@
             justify-content: center;
         }
     }
+
+    &__sections {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 1rem;
+        padding-top: 1rem;
+    }
+
+    &__section {
+        width: 100%;
+        display: flex;
+        flex-direction: center;
+        align-items: center;
+        padding: 2rem;
+        background-color: $deep-space-blue-3;
+        border-radius: $border-radius-base;
+        border: 1px $yale-blue-2 solid;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.425);
+    }
 }

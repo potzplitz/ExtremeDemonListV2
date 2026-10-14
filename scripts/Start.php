@@ -4,7 +4,12 @@ class Start implements BaseScript {
     public function init() {
         MainController::setTitle("Main Page");
         MainController::setBreadcrumb(["invisible"]);
-        $this->show();
+        
+        // if(IS_LOGGED_IN) {
+            $this->show();
+        // } else {
+        //     $this->show_not_logged_in();
+        // }
     }
 
     private function show() {
@@ -24,5 +29,15 @@ class Start implements BaseScript {
         $DB->query($query);
 
         return $DB->RSArray[0]['level_id'];
+    }
+
+    private function show_not_logged_in() {
+        $Template = new Template();
+        $Template->load_template("start/start_not_logged_in.php");
+        $Template->load_hash([
+            "RANDOM_LEVEL" => $this->get_random_level(),
+        ]);
+        $Template->compile_template();
+        $Template->show_template();
     }
 }

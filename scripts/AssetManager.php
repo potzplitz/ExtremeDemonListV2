@@ -28,9 +28,9 @@ class AssetManager implements BaseScript {
             readfile(DIR_ASSETS . "profilepictures/" . $userid . ".png");
 
         } else {
-
             header('Content-Type: image/png');
             readfile(DIR_ASSETS . "profilepictures/default.png");
+            
         }
     }
 
