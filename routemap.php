@@ -1,5 +1,8 @@
 <?php 
 
 const ROUTEMAP = [
-    "/" => "Start"
+    "/" => "Start",
+    "/account/login" => "Account",
+    "/account/register" => "Account",
+    "/api/profilepicture/{id}" => "AssetManager",
 ];
