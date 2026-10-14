@@ -10,6 +10,13 @@ class AssetManager implements BaseScript {
     private function return_profilepicture() {
         $userid = MainController::getRouteParam("id");
 
+        if($userid == "-1") {
+            header('Content-Type: image/png');
+            readfile(DIR_ASSETS . "profilepictures/default.png");
+            
+            return;
+        }
+
         if(!$this->user_exists($userid)) {
             header("Content-Type: application/json");
 
@@ -21,9 +28,9 @@ class AssetManager implements BaseScript {
             readfile(DIR_ASSETS . "profilepictures/" . $userid . ".png");
 
         } else {
-
             header('Content-Type: image/png');
             readfile(DIR_ASSETS . "profilepictures/default.png");
+            
         }
     }
 

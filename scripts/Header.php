@@ -18,12 +18,14 @@ class Header implements BaseScript {
 
         $DB->query2($query, $binds);
 
+        $username = $DB->RSArray[0]['username'] ?? '';
+
         $Template = new Template();
         $Template->load_template("header/header.php");
         $Template->load_hash([
             "DISP_LOGINBTN" => ((SESS_USERID == -1) ? "" : "hiddenIp"),
             "DISP_USER" => ((SESS_USERID == -1) ? "hiddenIp" : ""),
-            "USERNAME" => $DB->RSArray[0]['username'],
+            "USERNAME" => $username,
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
         ]);
         

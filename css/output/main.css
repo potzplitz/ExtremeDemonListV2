@@ -477,6 +477,24 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center; }
+.gdStart__sections {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding-top: 1rem; }
+.gdStart__section {
+  width: 100%;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #002945;
+  border-radius: 4px;
+  border: 1px #00406c solid;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.425); }
 
 .gdLogin {
   display: flex;
