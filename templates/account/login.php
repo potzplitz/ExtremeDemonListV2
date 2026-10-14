@@ -15,10 +15,10 @@
                 </p>
             </header>
 
-            <div class="gdAlert gdAlert--error" role="alert">
+            <div class="gdAlert gdAlert--error <-DISP_ERROR->" role="alert">
                 <span class="gdAlert__icon" aria-hidden="true">!</span>
 
-                <div class="gdAlert__content <-DISP_ERROR->">
+                <div class="gdAlert__content">
                     <span class="gdAlert__content__title">Login failed</span>
                     <p class="gdAlert__content__message">
                         <-ERROR->

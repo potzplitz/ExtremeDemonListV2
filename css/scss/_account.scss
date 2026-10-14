@@ -137,3 +137,42 @@
         }
     }
 }
+
+.#{$prefix}Register {
+    &__form {
+        gap: 20px;
+    }
+
+    &__terms {
+        align-items: flex-start;
+        line-height: 1.6;
+
+        input {
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        a {
+            color: $yale-blue-3;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 180ms ease;
+
+            &:hover {
+                color: $white;
+                text-decoration: underline;
+            }
+
+            &:focus-visible {
+                outline: 2px solid $yale-blue-3;
+                outline-offset: 3px;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        &__form {
+            gap: 18px;
+        }
+    }
+}

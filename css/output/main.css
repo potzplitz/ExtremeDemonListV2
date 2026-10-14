@@ -36,7 +36,7 @@ main {
 .gdSection {
   width: 100%;
   margin-bottom: 100px;
-  margin-top: 20px;
+  margin-top: 120px;
   max-width: 2000px;
   display: flex;
   flex-direction: column;
@@ -290,7 +290,9 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 2rem; }
+  padding-right: 2rem;
+  position: fixed;
+  z-index: 10000; }
   .gdHeader img {
     width: 150px;
     height: auto;
@@ -422,5 +424,28 @@ main {
         padding: 28px 22px; }
         .gdLogin__nest1__nest2__header__title {
           font-size: 28px; } }
+
+.gdRegister__form {
+  gap: 20px; }
+.gdRegister__terms {
+  align-items: flex-start;
+  line-height: 1.6; }
+  .gdRegister__terms input {
+    flex-shrink: 0;
+    margin-top: 3px; }
+  .gdRegister__terms a {
+    color: #83ccfd;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 180ms ease; }
+    .gdRegister__terms a:hover {
+      color: white;
+      text-decoration: underline; }
+    .gdRegister__terms a:focus-visible {
+      outline: 2px solid #83ccfd;
+      outline-offset: 3px; }
+@media (max-width: 480px) {
+  .gdRegister__form {
+    gap: 18px; } }
 
 /*# sourceMappingURL=main.css.map */
