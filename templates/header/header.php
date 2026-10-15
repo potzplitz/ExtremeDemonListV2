@@ -1,10 +1,24 @@
-
 <header class="gdHeader">
     <a class="gdHeader__logo" href="<-URL_HTBASE->">
         <img src="<-URL_HTBASE->assets/logo.png" alt="Extreme Demon List">
     </a>
 
-    <a class="gdBtn <-DISP_LOGINBTN->"
+    <nav class="gdHeader__nav" aria-label="Main navigation">
+        <a href="<-URL_HTBASE->list"
+           class="gdHeader__nav__link <-NAV_ACTIVE_LIST->">
+            Demonlist
+        </a>
+        <a href="<-URL_HTBASE->leaderboard"
+           class="gdHeader__nav__link <-NAV_ACTIVE_LEADERBOARD->">
+            Leaderboard
+        </a>
+        <a href="<-URL_HTBASE->submit"
+           class="gdHeader__nav__link <-NAV_ACTIVE_SUBMIT->">
+            Submit Record
+        </a>
+    </nav>
+
+    <a class="gdBtn gdHeader__login <-DISP_LOGINBTN->"
        href="<-URL_HTBASE->account/login">
         Login
     </a>
@@ -62,4 +76,6 @@
             </a>
         </div>
     </div>
+
+    <-BURGERMENU->
 </header>

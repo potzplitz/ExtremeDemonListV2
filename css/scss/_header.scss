@@ -1,4 +1,3 @@
-
 .#{$prefix}Header {
     width: 100%;
     height: 100px;
@@ -27,6 +26,61 @@
         }
     }
 
+    // ── Reiter (Desktop) ────────────────────────────────────────────
+    &__nav {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin: 0 auto 0 2.5rem;
+        min-width: 0;
+
+        &__link {
+            position: relative;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            color: #dce6f0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition:
+                color 0.15s ease,
+                background 0.15s ease;
+
+            &::after {
+                content: "";
+                position: absolute;
+                left: 1rem;
+                right: 1rem;
+                bottom: 0.2rem;
+                height: 2px;
+                border-radius: 2px;
+                background: $steel-blue;
+                transform: scaleX(0);
+                transition: transform 0.2s ease;
+            }
+
+            &:hover {
+                color: #fff;
+                background: rgba(124, 158, 178, 0.12);
+            }
+
+            &:focus-visible {
+                outline: 2px solid $steel-blue;
+                outline-offset: 2px;
+            }
+
+            &.is-active {
+                color: #fff;
+
+                &::after {
+                    transform: scaleX(1);
+                }
+            }
+        }
+    }
+
+    // ── Account-Dropdown (Desktop) ──────────────────────────────────
     &__user {
         position: relative;
         display: flex;
@@ -191,6 +245,220 @@
             }
         }
     }
+
+    // ── Burgermenü (Mobile) ─────────────────────────────────────────
+    &__burgermenu {
+        display: none;
+
+        &__toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0 11px;
+            border: 1px solid rgba(124, 158, 178, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.035);
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease;
+
+            &:hover,
+            &[aria-expanded="true"] {
+                background: rgba(124, 158, 178, 0.12);
+                border-color: $yale-blue-3;
+            }
+
+            &:focus-visible {
+                outline: 2px solid $steel-blue;
+                outline-offset: 3px;
+            }
+
+            &__bar {
+                display: block;
+                width: 100%;
+                height: 2px;
+                border-radius: 2px;
+                background: #fff;
+                transition:
+                    transform 0.25s ease,
+                    opacity 0.2s ease;
+            }
+        }
+
+        // Bars → X
+        &__toggle[aria-expanded="true"] &__toggle__bar {
+            &:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+
+            &:nth-child(2) {
+                opacity: 0;
+            }
+
+            &:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+        }
+
+        &__backdrop {
+            position: fixed;
+            inset: 100px 0 0 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s;
+        }
+
+        &__panel {
+            position: fixed;
+            top: 100px;
+            right: 0;
+            bottom: 0;
+            width: min(320px, 100vw);
+            padding: 1rem;
+            box-sizing: border-box;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            background: $deep-space-blue-3;
+            border-left: 1px solid rgba(124, 158, 178, 0.25);
+            box-shadow: -14px 0 35px rgba(0, 0, 0, 0.4);
+            transform: translateX(100%);
+            visibility: hidden;
+            transition:
+                transform 0.28s ease,
+                visibility 0.28s;
+        }
+
+        &.is-open &__backdrop {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &.is-open &__panel {
+            transform: translateX(0);
+            visibility: visible;
+        }
+
+        &__account {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 0.75rem;
+            border: 1px solid rgba(124, 158, 178, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.035);
+
+            &__avatar {
+                width: 52px;
+                height: 52px;
+                border-radius: 12px;
+                object-fit: cover;
+                background: $deep-space-blue-3;
+                border: 1px solid rgba(124, 158, 178, 0.35);
+                flex-shrink: 0;
+            }
+
+            &__info {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                min-width: 0;
+            }
+
+            &__eyebrow {
+                font-size: 0.65rem;
+                font-weight: 800;
+                letter-spacing: 0.12em;
+                color: $steel-blue;
+            }
+
+            &__name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #fff;
+            }
+        }
+
+        &__login {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        &__divider {
+            height: 1px;
+            margin: 0.6rem 0;
+            background: rgba(124, 158, 178, 0.16);
+        }
+
+        &__heading {
+            display: block;
+            padding: 0.6rem 0.75rem 0.35rem;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: $steel-blue;
+        }
+
+        &__item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 0.75rem;
+            border-radius: 9px;
+            color: #dce6f0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition:
+                color 0.15s ease,
+                background 0.15s ease;
+
+            &:hover {
+                color: #fff;
+                background: rgba(124, 158, 178, 0.12);
+            }
+
+            &:focus-visible {
+                outline: 2px solid $steel-blue;
+                outline-offset: 2px;
+            }
+
+            &.is-active {
+                color: #fff;
+                background: rgba(124, 158, 178, 0.16);
+                box-shadow: inset 3px 0 0 $steel-blue;
+            }
+
+            &--danger {
+                color: #ff858d;
+
+                &:hover {
+                    color: #ffb0b5;
+                    background: rgba(255, 75, 90, 0.1);
+                }
+            }
+        }
+
+        &__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+    }
 }
 
 @keyframes gdDropdownIn {
@@ -205,32 +473,27 @@
     }
 }
 
+// Ab hier übernimmt das Burgermenü Reiter, Login und Account
+@media (max-width: 900px) {
+    .#{$prefix}Header {
+        &__nav,
+        &__user,
+        & > &__login {
+            display: none;
+        }
+
+        &__burgermenu {
+            display: block;
+        }
+    }
+}
+
 @media (max-width: 600px) {
     .#{$prefix}Header {
         padding: 0 1rem;
 
         &__logo img {
             width: 110px;
-        }
-
-        &__user {
-            &__trigger {
-                gap: 0.5rem;
-                padding: 0.4rem;
-            }
-
-            &__avatar {
-                width: 38px;
-                height: 38px;
-            }
-
-            &__name {
-                max-width: 100px;
-            }
-
-            &__dropdown {
-                width: min(250px, calc(100vw - 2rem));
-            }
         }
     }
 }
