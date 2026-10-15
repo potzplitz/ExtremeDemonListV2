@@ -8,6 +8,7 @@ class Header implements BaseScript {
     private function render_header() {
 
         MainController::addJavascript("header/headerdropdown.js");
+        MainController::addJavascript("header/burgermenu.js");
 
         $DB = new Database();
 
@@ -27,9 +28,23 @@ class Header implements BaseScript {
             "DISP_USER" => ((SESS_USERID == -1) ? "hiddenIp" : ""),
             "USERNAME" => $username,
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
+            "BURGERMENU" => $this->render_burger($username),
         ]);
         
         $Template->compile_template();
         MainController::setHeader($Template->get_output());
+    }
+
+    private function render_burger($username) {
+        $Template = new Template();
+        $Template->load_template("header/burgermenu.php");
+        $Template->load_hash([
+            "DISP_LOGINBTN" => ((SESS_USERID == -1) ? "" : "hiddenIp"),
+            "DISP_USER" => ((SESS_USERID == -1) ? "hiddenIp" : ""),
+            "USERNAME" => $username,
+            "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
+        ]);
+        $Template->compile_template();
+        return $Template->get_output();
     }
 }

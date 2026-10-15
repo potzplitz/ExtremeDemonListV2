@@ -27,7 +27,7 @@ class Session {
             $DB->query2($query, $binds);
 
             // check if user has a valid persistent session
-            if(!$this->validate_persistent_session($DB->RSArray[0]['userid'] ?? -1) && count($DB->RSArray) < 1) { // invalid persistent session => finally log out user
+            if(!$this->validate_persistent_session($DB->RSArray[0]['userid'] ?? -1) || count($DB->RSArray) < 1) { // invalid persistent session => finally log out user
                 define("SESS_USERID", -1);
                 define("SESS_ID", null);
                 return -1; 
@@ -205,7 +205,13 @@ class Session {
 
         $timestamp = $time->getTimestamp();
 
-        setcookie("persistent", $token, $timestamp, "/");
+        setcookie("persistent", $token, [
+            "expires"  => $timestamp,
+            "path"     => "/",
+            "secure"   => true,
+            "httponly" => true,
+            "samesite" => "Strict"
+        ]);
     }
 
     private function regenerate_persistent_session($userid) {
@@ -225,7 +231,13 @@ class Session {
         $DB->query2($query, $binds);
 
         // unset old persistent cookie
-        setcookie("persistent", "unset", time() - 86400, "/");
+        setcookie("persistent", "", [
+            "expires"  => time() - 86400,
+            "path"     => "/",
+            "secure"   => true,
+            "httponly" => true,
+            "samesite" => "Strict"
+        ]);
 
         // generate and set new persistent cookie => write in cookie and DB
         $this->create_persistent_session($userid);
@@ -248,7 +260,13 @@ class Session {
 
         $DB->query2($query, $binds);
 
-        setcookie("session", $sess_ident, time() + 86400, "/");
+        setcookie("session", $sess_ident, [
+            "expires"  => time() + 86400,
+            "path"     => "/",
+            "secure"   => true,
+            "httponly" => true,
+            "samesite" => "Strict"
+        ]);
     }
 
     private function invalidate_session($session) {
