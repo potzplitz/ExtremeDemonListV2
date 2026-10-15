@@ -1,36 +1,36 @@
 /* SCSS HEX */
-$steel-blue: #7c9eb2ff;
-$dusty-grape: #52528cff;
-$dark-amethyst: #372554ff;
-$midnight-violet: #231123ff;
-$black: #000000ff;
+$steel-blue: #86a0b6ff;
+$dusty-grape: #7b74aaff;
+$dark-amethyst: #3e3253ff;
+$midnight-violet: #1e1622ff;
+$black: #070a0fff;
 
 /* SCSS RGB */
-$ink-black: rgba(0, 17, 28, 1);
-$ink-black-2: rgba(0, 21, 35, 1);
-$ink-black-3: rgba(0, 26, 44, 1);
-$deep-space-blue: rgba(0, 33, 55, 1);
-$deep-space-blue-2: rgba(0, 37, 62, 1);
-$deep-space-blue-3: rgba(0, 41, 69, 1);
-$deep-space-blue-4: rgba(0, 46, 78, 1);
-$deep-space-blue-5: rgba(0, 51, 86, 1);
-$yale-blue: rgba(0, 58, 97, 1);
-$yale-blue-2: rgba(0, 64, 108, 1);
-$yale-blue-3: rgb(131, 204, 253);
-$yale-blue-4: rgb(20, 134, 211);
-$yale-blue-5: rgb(17, 99, 155);
-$white: white;
+$ink-black: rgba(11, 17, 25, 1);
+$ink-black-2: rgba(13, 21, 30, 1);
+$ink-black-3: rgba(15, 25, 36, 1);
+$deep-space-blue: rgba(18, 29, 41, 1);
+$deep-space-blue-2: rgba(20, 32, 46, 1);
+$deep-space-blue-3: rgba(22, 36, 52, 1);
+$deep-space-blue-4: rgba(24, 40, 57, 1);
+$deep-space-blue-5: rgba(27, 43, 62, 1);
+$yale-blue: rgba(29, 47, 68, 1);
+$yale-blue-2: rgba(32, 52, 75, 1);
+$yale-blue-3: rgb(160, 202, 238);
+$yale-blue-4: rgb(65, 137, 200);
+$yale-blue-5: rgb(48, 100, 145);
+$white: rgb(239, 242, 245);
 
 /* SCSS Gradient */
-$gradient-top: linear-gradient(0deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-right: linear-gradient(90deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-bottom: linear-gradient(180deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-left: linear-gradient(270deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-top-right: linear-gradient(45deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-bottom-right: linear-gradient(135deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-top-left: linear-gradient(225deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-bottom-left: linear-gradient(315deg, #00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
-$gradient-radial: radial-gradient(#00111cff, #001523ff, #001a2cff, #002137ff, #00253eff, #002945ff, #002e4eff, #003356ff, #003a61ff, #00406cff);
+$gradient-top: linear-gradient(0deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-right: linear-gradient(90deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-bottom: linear-gradient(180deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-left: linear-gradient(270deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-top-right: linear-gradient(45deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-bottom-right: linear-gradient(135deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-top-left: linear-gradient(225deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-bottom-left: linear-gradient(315deg, #0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
+$gradient-radial: radial-gradient(#0b1119ff, #0d151eff, #0f1924ff, #121d29ff, #14202eff, #162434ff, #182839ff, #1b2b3eff, #1d2f44ff, #20344bff);
 
 $prefix: gd;
 $border-radius-base: 4px;
