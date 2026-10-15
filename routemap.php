@@ -6,4 +6,5 @@ const ROUTEMAP = [
     "/account/register" => "Account",
     "/account/logout" => "Logout",
     "/api/profilepicture/{id}" => "AssetManager",
+    "/list" => "GDList",
 ];

@@ -683,8 +683,8 @@ main {
 .gdStart__tags__tag {
   width: 9rem;
   height: 3rem;
-  background-color: #306491;
-  border: #a0caee solid 1px;
+  background-color: #20344b;
+  border: #306491 solid 1px;
   border-radius: 4px;
   overflow: hidden;
   color: white;
@@ -715,7 +715,7 @@ main {
   width: 100%;
   height: 80px;
   overflow: hidden;
-  border: #a0caee solid 1px;
+  border: #306491 solid 1px;
   border-radius: 4px;
   display: flex;
   flex-direction: row;
