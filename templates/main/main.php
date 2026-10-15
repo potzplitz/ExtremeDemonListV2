@@ -29,6 +29,8 @@
             <-CONTENT->
         </main>
 
+        <-BODY_FOOTER->
+
     </body>
 
 </html>
