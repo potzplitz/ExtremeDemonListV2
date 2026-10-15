@@ -1,0 +1,122 @@
+.#{$prefix}Footer {
+    width: 100%;
+    margin-top: 3rem;
+    background-color: $deep-space-blue-3;
+    border-top: 1px solid $yale-blue-3;
+    box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.425);
+    box-sizing: border-box;
+
+    &__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        padding: 1.5rem 2rem;
+    }
+
+    &__logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+
+        img {
+            width: 120px;
+            height: auto;
+            display: block;
+        }
+    }
+
+    // ── Links (gleiches Verhalten wie im Header) ────────────────────
+    &__nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.25rem;
+
+        &__link {
+            position: relative;
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            color: #dce6f0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition:
+                color 0.15s ease,
+                background 0.15s ease;
+
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0.9rem;
+                right: 0.9rem;
+                bottom: 0.2rem;
+                height: 2px;
+                border-radius: 2px;
+                background: $steel-blue;
+                transform: scaleX(0);
+                transition: transform 0.2s ease;
+            }
+
+            &:hover {
+                color: #fff;
+                background: rgba(124, 158, 178, 0.12);
+
+                &::after {
+                    transform: scaleX(1);
+                }
+            }
+
+            &:focus-visible {
+                outline: 2px solid $steel-blue;
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    // ── Unterleiste ─────────────────────────────────────────────────
+    &__bottom {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+        padding: 0.9rem 2rem;
+        border-top: 1px solid rgba(124, 158, 178, 0.16);
+        font-size: 0.75rem;
+        color: $steel-blue;
+    }
+}
+
+@media (max-width: 900px) {
+    .#{$prefix}Footer {
+        &__inner {
+            flex-direction: column;
+        }
+
+        &__nav {
+            justify-content: center;
+        }
+
+        &__bottom {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .#{$prefix}Footer {
+        &__inner,
+        &__bottom {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        &__logo img {
+            width: 100px;
+        }
+    }
+}

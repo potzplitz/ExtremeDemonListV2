@@ -6,6 +6,7 @@ class MainController {
     private static string $headHtml = "";
     private static string $bodyContent = "";
     private static string $headerHtml = "";
+    private static string $footerHtml = "";
     private static string $breadcrumb = "";
     private static string $mobile_breadcrumb = "";
     private static string $scriptname = "";
@@ -95,8 +96,16 @@ class MainController {
         self::$headerHtml = $header_html;
     }
 
+    public static function setFooter($footer_html) {
+        self::$footerHtml = $footer_html;
+    }
+
     public static function getHeader() {
         return self::$headerHtml;
+    }
+
+    public static function getFooter() {
+        return self::$footerHtml;
     }
 
     public static function setBreadcrumb(array $bread) {

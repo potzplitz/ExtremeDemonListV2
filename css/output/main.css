@@ -873,4 +873,86 @@ main {
   .gdRegister__form {
     gap: 18px; } }
 
+.gdFooter {
+  width: 100%;
+  margin-top: 3rem;
+  background-color: #162434;
+  border-top: 1px solid #a0caee;
+  box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.425);
+  box-sizing: border-box; }
+  .gdFooter__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem; }
+  .gdFooter__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; }
+    .gdFooter__logo img {
+      width: 120px;
+      height: auto;
+      display: block; }
+  .gdFooter__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem; }
+    .gdFooter__nav__link {
+      position: relative;
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      color: #dce6f0;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 0.15s ease, background 0.15s ease; }
+      .gdFooter__nav__link::after {
+        content: "";
+        position: absolute;
+        left: 0.9rem;
+        right: 0.9rem;
+        bottom: 0.2rem;
+        height: 2px;
+        border-radius: 2px;
+        background: #86a0b6ff;
+        transform: scaleX(0);
+        transition: transform 0.2s ease; }
+      .gdFooter__nav__link:hover {
+        color: #fff;
+        background: rgba(124, 158, 178, 0.12); }
+        .gdFooter__nav__link:hover::after {
+          transform: scaleX(1); }
+      .gdFooter__nav__link:focus-visible {
+        outline: 2px solid #86a0b6ff;
+        outline-offset: 2px; }
+  .gdFooter__bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding: 0.9rem 2rem;
+    border-top: 1px solid rgba(124, 158, 178, 0.16);
+    font-size: 0.75rem;
+    color: #86a0b6ff; }
+
+@media (max-width: 900px) {
+  .gdFooter__inner {
+    flex-direction: column; }
+  .gdFooter__nav {
+    justify-content: center; }
+  .gdFooter__bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center; } }
+@media (max-width: 600px) {
+  .gdFooter__inner, .gdFooter__bottom {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .gdFooter__logo img {
+    width: 100px; } }
+
 /*# sourceMappingURL=main.css.map */

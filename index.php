@@ -61,6 +61,10 @@ if ($route === null) {
     require_once("scripts/Header.php");
     $Header = new Header();
     $Header->init();
+
+    require_once("scripts/Footer.php");
+    $Footer = new Footer();
+    $Footer->init();
 }
 
 if (!str_contains($request, "/api")) {
@@ -73,6 +77,7 @@ if (!str_contains($request, "/api")) {
         "HEAD_HTML"   => MainController::getHeadHTML() ?? "",
         "ICONS"       => MainController::getIcons(),
         "BODY_HEADER" => MainController::getHeader(),
+        "BODY_FOOTER" => MainController::getFooter(),
         "CONTENT"     => MainController::getContent(),
         "SCRIPTS"     => MainController::getJavascript(),
     ]);
