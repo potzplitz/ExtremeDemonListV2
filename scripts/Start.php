@@ -13,10 +13,26 @@ class Start implements BaseScript {
     }
 
     private function show() {
+
+        $order = ["list", "tags", "recommended"];
+        $rows = "";
+
+        foreach($order as $elem) {
+            switch($elem) {
+                case "tags":
+                    $rows .= $this->render_tags();
+                    break;
+                case "list":
+                    $rows .= $this->render_top();
+                    break;
+            }
+        }
+
         $Template = new Template();
         $Template->load_template("start/start.php");
         $Template->load_hash([
             "RANDOM_LEVEL" => $this->get_random_level(),
+            "SECTIONS" => $rows,
         ]);
         $Template->compile_template();
         $Template->show_template();
@@ -29,6 +45,76 @@ class Start implements BaseScript {
         $DB->query($query);
 
         return $DB->RSArray[0]['level_id'];
+    }
+
+    private function render_tags() {
+        
+        $tags = $this->get_tags();
+        $tag_rows = "";
+
+        foreach($tags as $tag) {
+            $Template = new Template();
+            $Template->load_template("start/tags_tile.php");
+            $Template->load_hash([
+                "TAG" => $tag['tag']
+            ]);
+            $Template->compile_template();
+            $tag_rows .= $Template->get_output();
+        }
+
+        $Template = new Template();
+        $Template->load_template("start/tags.php");
+        $Template->load_hash([
+            "TAGS" => $tag_rows
+        ]);
+        $Template->compile_template();
+
+        return $Template->get_output();
+    }
+
+    private function render_top() {
+        
+        $levels = $this->get_top();
+        $level_rows = "";
+
+        foreach($levels as $level) {
+            $Template = new Template();
+            $Template->load_template("start/list_row.php");
+            $Template->load_hash([
+                "LEVELNAME" => $level['levelname'],
+                "IMAGE" => "https://levelthumbs.prevter.me/thumbnail/" . $level['level_id'] . "/small",
+                "POSITION" => $level['position']
+            ]);
+            $Template->compile_template();
+            $level_rows .= $Template->get_output();
+        }
+
+        $Template = new Template();
+        $Template->load_template("start/list.php");
+        $Template->load_hash([
+            "ROWS" => $level_rows
+        ]);
+        $Template->compile_template();
+
+        return $Template->get_output();
+    }
+
+    private function get_tags() {
+        $DB = new Database();
+        
+        $query = "SELECT distinct(tag) from levels, jsonb_array_elements_text(tags::jsonb) as tag order by tag";
+        $DB->query($query);
+
+        return $DB->RSArray;
+    }
+
+    private function get_top() {
+        $DB = new Database();
+
+        $query = "SELECT * from levels where sart = 'AREDL' order by position asc fetch first 100 rows only";
+        $DB->query($query);
+
+        return $DB->RSArray;
     }
 
     private function show_not_logged_in() {
