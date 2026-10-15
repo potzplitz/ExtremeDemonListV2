@@ -8,8 +8,6 @@
     </div>
 
     <div class="gdStart__sections">
-        <div class="gdStart__section">
-
-        </div>
+        <-SECTIONS->
     </div>
 </section>

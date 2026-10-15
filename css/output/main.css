@@ -495,6 +495,42 @@ main {
   border-radius: 4px;
   border: 1px #00406c solid;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.425); }
+.gdStart__tags__wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 9rem);
+  justify-content: center;
+  gap: .4rem;
+  width: 100%; }
+.gdStart__tags__tag {
+  width: 9rem;
+  height: 3rem;
+  background-color: #11639b;
+  border: #83ccfd solid 1px;
+  border-radius: 4px;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-sizing: border-box; }
+.gdStart__tags__tag {
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+  .gdStart__tags__tag:hover {
+    background-color: #1578bb;
+    border-color: #bfe5fe;
+    box-shadow: 0 0 12px rgba(131, 204, 253, 0.35);
+    transform: translateY(-2px);
+    cursor: pointer; }
+  .gdStart__tags__tag:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 0 5px rgba(131, 204, 253, 0.25); }
+.gdStart__tags__section {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important; }
 
 .gdLogin {
   display: flex;
