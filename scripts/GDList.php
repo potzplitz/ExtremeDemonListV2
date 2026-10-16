@@ -14,6 +14,7 @@ class GDList implements BaseScript {
 
         $bread[] = ["link" => "/", "text" => "Main Page"];
         
+        MainController::addJavascript("gdlist/submit_record.js");
 
         switch(ROUTE) {
             case "/extremedemons":
@@ -52,6 +53,14 @@ class GDList implements BaseScript {
 
     private function show() {
 
+        $page = max(1, (int) (INS['page'] ?? 1));
+
+        if (isset(INS['prev'])) {
+            $page = max(1, $page - 1);
+        } elseif (isset(INS['next'])) {
+            $page++;
+        }
+
         $Template = new Template();
         $Template->load_template("gdlist/list.php");
         $Template->load_hash([
@@ -62,6 +71,9 @@ class GDList implements BaseScript {
             "ACTIVE_UNCOMPLETED" => $this->active_uncompleted,
             "ACTIVE_CLASS_UNCOMPLETED" => ($this->active_uncompleted == 1 ? "gdList__controls__active" : ""),
             "SEARCHTERM" => h(INS['q'] ?? ''),
+            "PAGE" => $page,
+            "NEXT_PAGE" => ($page + 1),
+            "PREV_PAGE" => max(1, $page - 1),
         ]);
         $Template->compile_template();
         $Template->show_template();
@@ -79,7 +91,9 @@ class GDList implements BaseScript {
             $Template->load_hash([
                 "LEVELNAME" => $elem['levelname'],
                 "LEVEL_ID" => $elem['level_id'],
-                "POSITION" => $elem['position']
+                "POSITION" => $elem['position'],
+                "CHECKED_CLASS" => ($elem['completed'] == 1 ? "gdList__item--checked" : ""),
+                "ATTEMPTS" => $elem['attempts'] ?? 0,
             ]);
             $Template->compile_template();
             $rows .= $Template->get_output();
@@ -94,18 +108,31 @@ class GDList implements BaseScript {
         $page = max(1, (int) (INS['page'] ?? 1));
         $searchterm = INS['q'] ?? '';
 
-        $query = "SELECT * from levels where sart = :sart";
         $binds = [
             "offset" => ($page - 1) * 100,
             "sart" => ($this->listtype == ListType::AREDL ? "AREDL" : "NCL"),
         ];
+
+        $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id) then 1 else 0 end as completed, "; 
+        $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id) as attempts";
+        $query .= ", a.* from levels a ";
+
+        if($this->active_completed == 1) {
+            $query .= "join levelrecords b on b.level_id = a.level_id";
+        }
+
+        $query .= " where a.sart = :sart";
         
         if(!empty($searchterm)) {
-            $query .= " and (lower(levelname) like :searchterm or lower(levelname_raw) like :searchterm or cast(level_id as text) like :searchterm)";
+            $query .= " and (lower(a.levelname) like :searchterm or lower(a.levelname_raw) like :searchterm or cast(a.level_id as text) like :searchterm)";
             $binds['searchterm'] = "%" . $searchterm . "%";
         }
 
-        $query .= " order by position asc offset :offset fetch first 100 rows only";
+        if($this->active_uncompleted == 1) {
+            $query .= " and not exists(SELECT 1 from levelrecords c where c.level_id = a.level_id)";
+        }
+
+        $query .= " order by a.position asc offset :offset fetch first 100 rows only";
 
         $DB->query2($query, $binds);
 

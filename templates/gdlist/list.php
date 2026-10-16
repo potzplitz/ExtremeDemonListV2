@@ -1,17 +1,42 @@
 <section class="gdSection gdSection--xxxxl">
     <form class="gdList__controls" method="GET" action="<-URL_HTBASE->extremedemons">
-        <input type="text" class="gdInput" placeholder="Search..." name="q" value="<-SEARCHTERM->">
-        <input type="submit" class="gdBtn" value="Search">
-        <button type="submit" name="filter_completed" value="<-ACTIVE_COMPLETED->" class="gdBtn <-ACTIVE_CLASS->">
-            <svg class="icon" width="24" height="21" aria-hidden="true">
-                <use href="#checkmark"></use>
-            </svg>
-        </button>
-        <button type="submit" name="filter_uncompleted" value="<-ACTIVE_UNCOMPLETED->" class="gdBtn <-ACTIVE_CLASS_UNCOMPLETED->">
-            <svg class="icon" width="24" height="21" aria-hidden="true">
-                <use href="#uncompleted"></use>
-            </svg>
-        </button>
+        <div class="gdList__controls__filters">
+            <input type="text" class="gdInput gdList__controls__search"
+                placeholder="Search..." name="q" value="<-SEARCHTERM->">
+
+            <input type="submit" class="gdBtn gdBtn--secondary" value="Search">
+
+            <button type="submit" name="filter_completed" value="<-ACTIVE_COMPLETED->"
+                    class="gdBtn gdBtn--secondary <-ACTIVE_CLASS->">
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#checkmark"></use>
+                </svg>
+            </button>
+
+            <button type="submit" name="filter_uncompleted" value="<-ACTIVE_UNCOMPLETED->"
+                    class="gdBtn gdBtn--secondary <-ACTIVE_CLASS_UNCOMPLETED->">
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#uncompleted"></use>
+                </svg>
+            </button>
+        </div>
+
+        <div class="gdList__controls__paging">
+            <button type="submit" name="prev" value="1" class="gdBtn gdBtn--secondary">
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevron-left"></use>
+                </svg>
+            </button>
+
+            <input type="number" class="gdInput gdList__paging"
+                name="page" min="1" value="<-PAGE->">
+
+            <button type="submit" name="next" value="1" class="gdBtn gdBtn--secondary">
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevron-right"></use>
+                </svg>
+            </button>
+        </div>
     </form>
     <div class="gdList__rows__wrapper">
         <-ROWS->

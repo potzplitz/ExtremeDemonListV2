@@ -50,7 +50,10 @@ if ($route === null) {
 
     MainController::setRouteParams($routeParams);
 
-    require_once("scripts/" . $scriptName . ".php");
+    $scriptPath = file_exists("scripts/" . $scriptName . ".php") ? "scripts/" . $scriptName . ".php" : "scripts/api/" . $scriptName . ".php";
+
+    require_once($scriptPath);
+
     $script = new $scriptName;
     $script->init();
 
