@@ -85,7 +85,7 @@ main {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.7rem 1.25rem;
-  background-color: #306491;
+  background-color: #121d29;
   color: #eff2f5;
   border: 1px solid #20344b;
   border-bottom: 3px solid #a0caee;
@@ -99,12 +99,12 @@ main {
   cursor: pointer;
   transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
   .gdBtn:hover {
-    background-color: #4189c8;
     border-color: #a0caee;
     box-shadow: 0 6px 14px rgba(7, 10, 15, 0.35), 0 0 10px rgba(160, 202, 238, 0.12);
     transform: translateY(-1px); }
   .gdBtn:active {
-    background-color: #182839;
+    background-color: #14202e;
+    border-color: #4189c8;
     border-bottom-width: 1px;
     transform: translateY(1px);
     box-shadow: none; }
@@ -1137,6 +1137,18 @@ main {
   display: flex;
   flex-direction: column;
   gap: .5rem; }
+.gdList__controls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: .5rem;
+  padding-bottom: 1rem; }
+  .gdList__controls input[type=text] {
+    max-width: 35rem; }
+  .gdList__controls__active {
+    border-color: green; }
 .gdList__item {
   position: relative;
   width: 100%;

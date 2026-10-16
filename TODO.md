@@ -11,8 +11,11 @@ inputs sanitizen (evil tags)
 Liste:
 
 Victors pro level noch mit anzeigen => danach auch filtern/sortieren können
+Suchfunktion
+
 
 
 Detailseite:
 anzeigen welcher der nächst einfachere/schwerere ist
 Plazierungshistory anzeigen
+Victors anzeigen
