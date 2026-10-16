@@ -59,13 +59,38 @@
     &__section {
         width: 100%;
         display: flex;
-        flex-direction: center;
-        align-items: center;
-        padding: 2rem;
+        flex-direction: column;
         background-color: $deep-space-blue-3;
         border-radius: $border-radius-base;
         border: 1px $yale-blue-2 solid;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.425);
+        overflow: hidden;
+
+        &__header {
+            width: 100%;
+            padding: .75rem 1.25rem;
+            border-bottom: 1px $yale-blue-2 solid;
+            background-color: rgba($yale-blue-2, .35);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            p {
+                margin: 0;
+                font-size: 1.1rem;
+                font-weight: bold;
+                color: white;
+            }
+        }
+
+        &__body {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
     }
 
     &__tags {
@@ -114,11 +139,8 @@
         }
 
         &__section {
-            width: 100%;
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: center !important;
+            flex-direction: row;
+            justify-content: center;
         }
     }
 
@@ -177,11 +199,10 @@
         }
 
         &__section {
-            display: block !important;
+            display: block;
+            height: 500px;
             overflow-y: auto;
             overflow-x: hidden;
-            height: 500px;
-            width: 100%;
             padding: 0;
         }
     }
