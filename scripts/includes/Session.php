@@ -27,7 +27,7 @@ class Session {
             $DB->query2($query, $binds);
 
             // check if user has a valid persistent session
-            if(!$this->validate_persistent_session($DB->RSArray[0]['userid'] ?? -1) || count($DB->RSArray) < 1) { // invalid persistent session => finally log out user
+            if(count($DB->RSArray) < 1 || !$this->validate_persistent_session($DB->RSArray[0]['userid'] ?? -1)) { // invalid persistent session => finally log out user
                 define("SESS_USERID", -1);
                 define("SESS_ID", null);
                 return -1; 
@@ -52,7 +52,7 @@ class Session {
                 define("SESS_ID", $DB->RSArray[0]['sess_id']);
 
                 // update user last login
-                $query = "UPDATE users set lastlog = current_date where user_id = :userid";
+                $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
                 $binds = [
                     "userid" => $DB->RSArray[0]['userid']
                 ];
@@ -121,7 +121,7 @@ class Session {
                 define("SESS_ID", $DB->RSArray[0]['sess_id']);
 
                 // update user last login
-                $query = "UPDATE users set lastlog = current_date where user_id = :userid";
+                $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
                 $binds = [
                     "userid" => $DB->RSArray[0]['userid']
                 ];
@@ -139,7 +139,7 @@ class Session {
         define("SESS_ID", $DB->RSArray[0]['sess_id']);
 
         // update user last login
-        $query = "UPDATE users set lastlog = current_date where user_id = :userid";
+        $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
         $binds = [
             "userid" => $DB->RSArray[0]['userid']
         ];
@@ -157,7 +157,7 @@ class Session {
         }
 
         $query = "SELECT * from sessions_persistent where userid = :userid and valid = 1 
-                    and expires_at > current_date order by created_at desc fetch first 10 rows only";
+                    and expires_at > current_timestamp order by created_at desc fetch first 10 rows only";
 
         $binds = [
             "userid" => $userid
@@ -189,7 +189,7 @@ class Session {
 
         // insert persistent session into DB
         $query = "INSERT into sessions_persistent (userid, expires_at, token_hash, created_at, valid, agent, referrer) values 
-                    (:userid, current_date + interval '1' year, :token_hash, current_date, 1, :useragent, :referrer)";
+                    (:userid, current_timestamp + interval '1' year, :token_hash, current_timestamp, 1, :useragent, :referrer)";
         $binds = [
             "userid" => $userid,
             "token_hash" => $tokenHash,
@@ -249,7 +249,7 @@ class Session {
         $sess_ident = bin2hex(random_bytes(64));
 
         $query = "INSERT into sessions (userid, session_start, sess_ident, expires, valid, referrer, agent) values
-                    (:userid, current_date, :sess_ident, current_date + interval '1 day', 1, :referrer, :agent)";
+                    (:userid, current_timestamp, :sess_ident, current_timestamp + interval '1 day', 1, :referrer, :agent)";
 
         $binds = [
             "userid" => $userid,

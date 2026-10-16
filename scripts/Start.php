@@ -13,20 +13,7 @@ class Start implements BaseScript {
     }
 
     private function show() {
-
-        $order = ["list", "tags", "recommended"];
-        $rows = "";
-
-        foreach($order as $elem) {
-            switch($elem) {
-                case "tags":
-                    $rows .= $this->render_tags();
-                    break;
-                case "list":
-                    $rows .= $this->render_top();
-                    break;
-            }
-        }
+        $rows = $this->wrap_section();
 
         $Template = new Template();
         $Template->load_template("start/start.php");
@@ -36,6 +23,48 @@ class Start implements BaseScript {
         ]);
         $Template->compile_template();
         $Template->show_template();
+    }
+
+    private function wrap_section() {
+
+        $order = ["list", "tags"];
+
+        $sections = [
+            "list" => [
+                "title" => "Current Top 100",
+                "class" => "gdStart__list__section",
+                "render" => fn() => $this->render_top()
+            ],
+            "tags" => [
+                "title" => "Browse Tags",
+                "class" => "gdStart__tags__section",
+                "render" => fn() => $this->render_tags()
+            ],
+        ];
+
+        $sections = array_replace(array_flip($order), $sections);
+
+        $rows = "";
+
+        foreach($sections as $key => $section) {
+            $section = $sections[$key] ?? null;
+            if (!$section) {
+                continue;
+            }
+            
+            $Template = new Template();
+            $Template->load_template("start/section.php");
+            $Template->load_hash([
+                "TITLE" => $section['title'],
+                "BODY_CLASS" => $section['class'],
+                "CONTENT" => $section['render']()
+            ]);
+            $Template->compile_template();
+
+            $rows .= $Template->get_output();
+        }
+
+        return $rows;
     }
 
     private function get_random_level() {

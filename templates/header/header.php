@@ -4,18 +4,18 @@
     </a>
 
     <nav class="gdHeader__nav" aria-label="Main navigation">
-        <a href="<-URL_HTBASE->list"
+        <a href="<-URL_HTBASE->extremedemons"
            class="gdHeader__nav__link <-NAV_ACTIVE_LIST->">
-            Demonlist
+            Extreme Demon List
         </a>
-        <a href="<-URL_HTBASE->leaderboard"
+        <a href="<-URL_HTBASE->ninecircles"
            class="gdHeader__nav__link <-NAV_ACTIVE_LEADERBOARD->">
-            Leaderboard
+            Nine Circles List
         </a>
-        <a href="<-URL_HTBASE->submit"
+        <!-- <a href="<-URL_HTBASE->submit"
            class="gdHeader__nav__link <-NAV_ACTIVE_SUBMIT->">
             Submit Record
-        </a>
+        </a> -->
     </nav>
 
     <a class="gdBtn gdHeader__login <-DISP_LOGINBTN->"
