@@ -1,4 +1,7 @@
 .#{$prefix}Start {
+
+    margin-top: 120px;
+
     &__hero {
         position: relative;
         width: 100%;
@@ -75,6 +78,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
+            text-decoration: none;
 
             p {
                 margin: 0;
