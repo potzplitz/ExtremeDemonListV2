@@ -1138,6 +1138,10 @@ main {
   display: flex;
   flex-direction: column;
   gap: .5rem; }
+.gdList__notfound {
+  width: 100%;
+  margin-top: 150px;
+  text-align: center; }
 .gdList__controls {
   width: 100%;
   display: flex;
@@ -1145,7 +1149,9 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: .75rem;
-  padding-bottom: 1rem; }
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: #306491 1px solid; }
   .gdList__controls__filters, .gdList__controls__paging {
     display: flex;
     align-items: center;

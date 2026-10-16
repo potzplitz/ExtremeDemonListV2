@@ -12,6 +12,12 @@ $success-dark: #23835f;
         }
     }
 
+    &__notfound {
+        width: 100%;
+        margin-top: 150px;
+        text-align: center;
+    }
+
     &__controls {
         width: 100%;
         display: flex;
@@ -20,6 +26,8 @@ $success-dark: #23835f;
         justify-content: space-between;
         gap: .75rem;
         padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: $yale-blue-5 1px solid;
 
         &__filters,
         &__paging {

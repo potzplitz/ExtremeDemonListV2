@@ -78,6 +78,9 @@ class GDList implements BaseScript {
             "PAGE" => $page,
             "NEXT_PAGE" => ($page + 1),
             "PREV_PAGE" => max(1, $page - 1),
+            "LIST_URL" => ($this->listtype == ListType::NCL ? "ninecircles" : "extremedemons"),
+            "NOT_FOUND" => ($this->result_count <= 0 ? "Level was not found!" : ""),
+            "DISP_NOT_FOUND" => ($this->result_count <= 0 ? "" : "hiddenIp")
         ]);
         $Template->compile_template();
         $Template->show_template();
