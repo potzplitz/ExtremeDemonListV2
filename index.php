@@ -58,6 +58,8 @@ if ($route === null) {
         return;
     }
 
+    MainController::addJavascript("header/breadcrumb.js");
+
     require_once("scripts/Header.php");
     $Header = new Header();
     $Header->init();

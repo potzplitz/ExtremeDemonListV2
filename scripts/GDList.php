@@ -9,4 +9,8 @@ class GDList implements BaseScript {
 
         MainController::setBreadcrumb($bread);
     }
+
+    private function show() {
+        
+    }
 }

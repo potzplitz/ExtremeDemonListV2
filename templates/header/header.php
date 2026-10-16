@@ -76,6 +76,16 @@
             </a>
         </div>
     </div>
-
     <-BURGERMENU->
 </header>
+
+<nav class="gdBreadcrumb" aria-label="Breadcrumb">
+    <div class="gdBreadcrumb__inner">
+        <a class="gdBreadcrumb__back" href="<-BREADCRUMB_MOBILE->" aria-label="Back">
+            <svg class="gdBreadcrumb__back__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" />
+            </svg>
+        </a>
+        <div class="gdBreadcrumb__trail"><-BREADCRUMB-></div>
+    </div>
+</nav>
