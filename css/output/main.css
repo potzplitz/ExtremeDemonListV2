@@ -3,7 +3,39 @@
 /* SCSS Gradient */
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 body {
-  background-color: #0b1119 !important; }
+  background-color: #0b1119 !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh; }
+
+/* GLOBAL SCROLLBAR */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a0caee #0b1119; }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px; }
+
+::-webkit-scrollbar-track {
+  background: #0b1119;
+  border-radius: 4px; }
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4189c8 0%, #182839 100%);
+  border-radius: 4px;
+  border: 2px solid #0b1119;
+  transition: background 180ms ease; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a0caee 0%, #4189c8 100%); }
+
+::-webkit-scrollbar-thumb:active {
+  background: #20344b; }
+
+::-webkit-scrollbar-corner {
+  background: #0b1119; }
 
 * {
   font-family: "Quicksand", sans-serif;
@@ -25,6 +57,7 @@ h5 {
   opacity: .70; }
 
 main {
+  flex: 1 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -894,7 +927,8 @@ main {
   background-color: #162434;
   border-top: 1px solid #a0caee;
   box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.425);
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  bottom: 0; }
   .gdFooter__inner {
     display: flex;
     align-items: center;

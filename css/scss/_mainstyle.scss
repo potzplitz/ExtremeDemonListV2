@@ -1,6 +1,60 @@
 body {
     background-color: $ink-black !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
 }
+
+
+/* GLOBAL SCROLLBAR */
+
+// Firefox
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $yale-blue-3 $ink-black;
+}
+
+// Chrome / Edge / Safari
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: $ink-black;
+    border-radius: $border-radius-base;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        $yale-blue-4 0%,
+        $deep-space-blue-4 100%
+    );
+
+    border-radius: $border-radius-base;
+    border: 2px solid $ink-black;
+
+    transition: background 180ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        $yale-blue-3 0%,
+        $yale-blue-4 100%
+    );
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: $yale-blue-2;
+}
+
+::-webkit-scrollbar-corner {
+    background: $ink-black;
+}
+
 
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
@@ -28,6 +82,7 @@ h5 {
 }
 
 main {
+    flex: 1 0 auto;          // neu: füllt den freien Platz
     display: flex;
     align-items: center;
     justify-content: center;

@@ -113,7 +113,7 @@ class Account implements BaseScript {
             return;
         }
 
-        if(strlen(INS['password'] < 12)) {
+        if(strlen(INS['password']) < 12) {
             $this->show_register("Your Password must be at least 12 Characters long!");
             return;
         }

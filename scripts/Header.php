@@ -26,7 +26,7 @@ class Header implements BaseScript {
         $Template->load_hash([
             "DISP_LOGINBTN" => ((SESS_USERID == -1) ? "" : "hiddenIp"),
             "DISP_USER" => ((SESS_USERID == -1) ? "hiddenIp" : ""),
-            "USERNAME" => $username,
+            "USERNAME" => h($username),
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
             "BURGERMENU" => $this->render_burger($username),
         ]);
@@ -41,7 +41,7 @@ class Header implements BaseScript {
         $Template->load_hash([
             "DISP_LOGINBTN" => ((SESS_USERID == -1) ? "" : "hiddenIp"),
             "DISP_USER" => ((SESS_USERID == -1) ? "hiddenIp" : ""),
-            "USERNAME" => $username,
+            "USERNAME" => h($username),
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
         ]);
         $Template->compile_template();

@@ -49,23 +49,23 @@
         <nav aria-label="Main navigation">
             <span class="gdHeader__burgermenu__heading">NAVIGATION</span>
 
-            <a href="<-URL_HTBASE->list"
+            <a href="<-URL_HTBASE->extremedemons"
                class="gdHeader__burgermenu__item <-NAV_ACTIVE_LIST->">
                 <span class="gdHeader__burgermenu__icon">◆</span>
-                <span>Demonlist</span>
+                <span>Extreme Demon List</span>
             </a>
 
-            <a href="<-URL_HTBASE->leaderboard"
+            <a href="<-URL_HTBASE->ninecircles"
                class="gdHeader__burgermenu__item <-NAV_ACTIVE_LEADERBOARD->">
                 <span class="gdHeader__burgermenu__icon">★</span>
-                <span>Leaderboard</span>
+                <span>Nine Circles List</span>
             </a>
 
-            <a href="<-URL_HTBASE->submit"
+            <!-- <a href="<-URL_HTBASE->submit"
                class="gdHeader__burgermenu__item <-NAV_ACTIVE_SUBMIT->">
                 <span class="gdHeader__burgermenu__icon">✚</span>
                 <span>Submit Record</span>
-            </a>
+            </a> -->
         </nav>
 
         <!-- Account-Menüpunkte (eingeloggt) -->
