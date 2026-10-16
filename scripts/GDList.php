@@ -14,6 +14,7 @@ class GDList implements BaseScript {
 
         $bread[] = ["link" => "/", "text" => "Main Page"];
         
+        MainController::addJavascript("gdlist/submit_record.js");
 
         switch(ROUTE) {
             case "/extremedemons":
@@ -90,7 +91,9 @@ class GDList implements BaseScript {
             $Template->load_hash([
                 "LEVELNAME" => $elem['levelname'],
                 "LEVEL_ID" => $elem['level_id'],
-                "POSITION" => $elem['position']
+                "POSITION" => $elem['position'],
+                "CHECKED_CLASS" => ($elem['completed'] == 1 ? "gdList__item--checked" : ""),
+                "ATTEMPTS" => $elem['attempts'] ?? 0,
             ]);
             $Template->compile_template();
             $rows .= $Template->get_output();
@@ -110,7 +113,9 @@ class GDList implements BaseScript {
             "sart" => ($this->listtype == ListType::AREDL ? "AREDL" : "NCL"),
         ];
 
-        $query = "SELECT * from levels a ";
+        $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id) then 1 else 0 end as completed, "; 
+        $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id) as attempts";
+        $query .= ", a.* from levels a ";
 
         if($this->active_completed == 1) {
             $query .= "join levelrecords b on b.level_id = a.level_id";
