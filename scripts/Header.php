@@ -29,6 +29,8 @@ class Header implements BaseScript {
             "USERNAME" => h($username),
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
             "BURGERMENU" => $this->render_burger($username),
+            "BREADCRUMB"  => MainController::getBreadcrumb(),
+            "MOBILE_BREADCRUMB" => MainController::getBreadcrumb("mobile")
         ]);
         
         $Template->compile_template();

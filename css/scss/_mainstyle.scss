@@ -84,7 +84,6 @@ h5 {
 main {
     flex: 1 0 auto;          // neu: füllt den freien Platz
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 100% !important;
 }
@@ -96,7 +95,7 @@ main {
 .#{$prefix}Section {
     width: 100%;
     margin-bottom: 100px;
-    margin-top: 120px;
+    margin-top: 20px;
     max-width: 2000px;
 
     display: flex;
@@ -124,7 +123,7 @@ main {
 
     padding: 0.7rem 1.25rem;
 
-    background-color: $yale-blue-5;
+    background-color: $deep-space-blue;
     color: $white;
 
     border: 1px solid $yale-blue-2;
@@ -150,7 +149,6 @@ main {
         transform 180ms ease;
 
     &:hover {
-        background-color: $yale-blue-4;
         border-color: $yale-blue-3;
 
         box-shadow:
@@ -161,7 +159,8 @@ main {
     }
 
     &:active {
-        background-color: $deep-space-blue-4;
+        background-color: $deep-space-blue-2;
+        border-color: $yale-blue-4;
         border-bottom-width: 1px;
         transform: translateY(1px);
         box-shadow: none;

@@ -33,12 +33,14 @@ class Start implements BaseScript {
             "list" => [
                 "title" => "Current Top 100",
                 "class" => "gdStart__list__section",
-                "render" => fn() => $this->render_top()
+                "render" => fn() => $this->render_top(),
+                "link" => URL_HTBASE . "extremedemons",
             ],
             "tags" => [
                 "title" => "Browse Tags",
                 "class" => "gdStart__tags__section",
-                "render" => fn() => $this->render_tags()
+                "render" => fn() => $this->render_tags(),
+                "link" => URL_HTBASE . "search",
             ],
         ];
 
@@ -57,7 +59,8 @@ class Start implements BaseScript {
             $Template->load_hash([
                 "TITLE" => $section['title'],
                 "BODY_CLASS" => $section['class'],
-                "CONTENT" => $section['render']()
+                "CONTENT" => $section['render'](),
+                "HREF" => $section['link'],
             ]);
             $Template->compile_template();
 

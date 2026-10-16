@@ -12,6 +12,7 @@ require("MainController.php");
 require("Session.php");
 require("BaseScript.php");
 require("HelperFunctions.php");
+require("User.php");
 
 // === Important Defines === \\
 define("DIR_ROOT", $_SERVER['DOCUMENT_ROOT']);
