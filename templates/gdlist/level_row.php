@@ -6,7 +6,7 @@
         <p class="gdList__item__name" title="<-LEVELNAME->"><-LEVELNAME-></p>
     </div>
 
-    <div class="gdList__item__submitwrapper">
+    <div class="gdList__item__submitwrapper <-HIDE_NOT_LOGGED_IN->">
         <input type="hidden" class="gdList__item__levelid" value="<-LEVEL_ID->">
 
         <label class="gdList__item__attempts">

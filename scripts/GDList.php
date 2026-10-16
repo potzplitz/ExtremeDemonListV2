@@ -10,6 +10,7 @@ class GDList implements BaseScript {
     private $result_count = 0;
     private $active_completed = 0;
     private $active_uncompleted = 0;
+    private $page = 0;
     public function init() {
 
         $bread[] = ["link" => "/", "text" => "Main Page"];
@@ -40,12 +41,15 @@ class GDList implements BaseScript {
         $this->active_completed = (string)(INS['filter_completed'] ?? "1") === "0" ? 1 : 0;
         $this->active_uncompleted = (string)(INS['filter_uncompleted'] ?? "1") === "0" ? 1 : 0;
 
+        $this->page = INS['page'] ?? 1;
+
         if($this->active_completed) {
             $this->active_uncompleted = 0;
+            $this->page = 1;
 
         } else if($this->active_uncompleted) {
             $this->active_completed = 0;
-
+            $this->page = 1;
         }
 
         $this->show();
@@ -53,7 +57,7 @@ class GDList implements BaseScript {
 
     private function show() {
 
-        $page = max(1, (int) (INS['page'] ?? 1));
+        $page = max(1, (int) ($this->page ?? 1));
 
         if (isset(INS['prev'])) {
             $page = max(1, $page - 1);
@@ -94,6 +98,7 @@ class GDList implements BaseScript {
                 "POSITION" => $elem['position'],
                 "CHECKED_CLASS" => ($elem['completed'] == 1 ? "gdList__item--checked" : ""),
                 "ATTEMPTS" => $elem['attempts'] ?? 0,
+                "HIDE_NOT_LOGGED_IN" => (IS_LOGGED_IN ? "" : "hiddenIp"),
             ]);
             $Template->compile_template();
             $rows .= $Template->get_output();
@@ -105,16 +110,17 @@ class GDList implements BaseScript {
     private function get_levels() {
         $DB = new Database();
 
-        $page = max(1, (int) (INS['page'] ?? 1));
+        $page = max(1, (int) ($this->page ?? 1));
         $searchterm = INS['q'] ?? '';
 
         $binds = [
             "offset" => ($page - 1) * 100,
             "sart" => ($this->listtype == ListType::AREDL ? "AREDL" : "NCL"),
+            "userid" => SESS_USERID,
         ];
 
-        $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id) then 1 else 0 end as completed, "; 
-        $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id) as attempts";
+        $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid) then 1 else 0 end as completed, "; 
+        $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id and d.user_id = :userid) as attempts";
         $query .= ", a.* from levels a ";
 
         if($this->active_completed == 1) {
