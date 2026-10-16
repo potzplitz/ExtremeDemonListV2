@@ -8,4 +8,5 @@ const ROUTEMAP = [
     "/api/profilepicture/{id}" => "AssetManager",
     "/extremedemons" => "GDList",
     "/ninecircles" => "GDList",
+    "/api/record/submit" => "SubmitRecord"
 ];

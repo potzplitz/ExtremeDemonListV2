@@ -52,6 +52,14 @@ class GDList implements BaseScript {
 
     private function show() {
 
+        $page = max(1, (int) (INS['page'] ?? 1));
+
+        if (isset(INS['prev'])) {
+            $page = max(1, $page - 1);
+        } elseif (isset(INS['next'])) {
+            $page++;
+        }
+
         $Template = new Template();
         $Template->load_template("gdlist/list.php");
         $Template->load_hash([
@@ -62,6 +70,9 @@ class GDList implements BaseScript {
             "ACTIVE_UNCOMPLETED" => $this->active_uncompleted,
             "ACTIVE_CLASS_UNCOMPLETED" => ($this->active_uncompleted == 1 ? "gdList__controls__active" : ""),
             "SEARCHTERM" => h(INS['q'] ?? ''),
+            "PAGE" => $page,
+            "NEXT_PAGE" => ($page + 1),
+            "PREV_PAGE" => max(1, $page - 1),
         ]);
         $Template->compile_template();
         $Template->show_template();
@@ -94,18 +105,29 @@ class GDList implements BaseScript {
         $page = max(1, (int) (INS['page'] ?? 1));
         $searchterm = INS['q'] ?? '';
 
-        $query = "SELECT * from levels where sart = :sart";
         $binds = [
             "offset" => ($page - 1) * 100,
             "sart" => ($this->listtype == ListType::AREDL ? "AREDL" : "NCL"),
         ];
+
+        $query = "SELECT * from levels a ";
+
+        if($this->active_completed == 1) {
+            $query .= "join levelrecords b on b.level_id = a.level_id";
+        }
+
+        $query .= " where a.sart = :sart";
         
         if(!empty($searchterm)) {
-            $query .= " and (lower(levelname) like :searchterm or lower(levelname_raw) like :searchterm or cast(level_id as text) like :searchterm)";
+            $query .= " and (lower(a.levelname) like :searchterm or lower(a.levelname_raw) like :searchterm or cast(a.level_id as text) like :searchterm)";
             $binds['searchterm'] = "%" . $searchterm . "%";
         }
 
-        $query .= " order by position asc offset :offset fetch first 100 rows only";
+        if($this->active_uncompleted == 1) {
+            $query .= " and not exists(SELECT 1 from levelrecords c where c.level_id = a.level_id)";
+        }
+
+        $query .= " order by a.position asc offset :offset fetch first 100 rows only";
 
         $DB->query2($query, $binds);
 

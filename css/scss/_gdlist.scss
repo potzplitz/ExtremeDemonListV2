@@ -9,21 +9,111 @@
         }
     }
 
+    &__paging {
+        max-width: 5rem !important;
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
     &__controls {
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: .5rem;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
         padding-bottom: 1rem;
 
-        input[type=text] {
+        &__filters,
+        &__paging {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            min-width: 0;
+        }
+
+        &__filters {
+            flex: 1 1 auto;
+        }
+
+        &__search {
+            width: 100%;
+            min-width: 0;
             max-width: 35rem;
+        }
+
+        &__paging {
+            flex: 0 0 auto;
+            margin-left: auto;
         }
 
         &__active {
             border-color: green;
+        }
+    }
+
+    &__paging {
+        width: 5rem;
+        min-width: 0;
+        max-width: 5rem !important;
+        text-align: center;
+        -moz-appearance: textfield;
+        appearance: textfield;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        &__controls {
+            flex-direction: column;
+            align-items: stretch;
+
+            &__filters {
+                width: 100%;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto auto auto;
+                gap: .4rem;
+            }
+
+            &__search {
+                max-width: none;
+            }
+
+            &__paging {
+                width: 100%;
+                justify-content: flex-end;
+                margin-left: 0;
+            }
+        }
+    }
+
+    @media (max-width: 420px) {
+        &__controls {
+            &__filters {
+                grid-template-columns: minmax(0, 1fr) auto;
+
+                input[type="submit"] {
+                    grid-column: 2;
+                    grid-row: 1;
+                }
+
+                button {
+                    grid-row: 2;
+                    width: 100%;
+                }
+
+                button:nth-of-type(1) {
+                    grid-column: 1;
+                }
+
+                button:nth-of-type(2) {
+                    grid-column: 2;
+                }
+            }
         }
     }
 

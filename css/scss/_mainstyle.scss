@@ -123,7 +123,7 @@ main {
 
     padding: 0.7rem 1.25rem;
 
-    background-color: $deep-space-blue;
+    background-color: $yale-blue-5;
     color: $white;
 
     border: 1px solid $yale-blue-2;
@@ -149,6 +149,7 @@ main {
         transform 180ms ease;
 
     &:hover {
+        background-color: $yale-blue-4;
         border-color: $yale-blue-3;
 
         box-shadow:
@@ -159,8 +160,7 @@ main {
     }
 
     &:active {
-        background-color: $deep-space-blue-2;
-        border-color: $yale-blue-4;
+        background-color: $deep-space-blue-4;
         border-bottom-width: 1px;
         transform: translateY(1px);
         box-shadow: none;

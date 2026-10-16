@@ -51,6 +51,10 @@
     <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round" />
   </symbol>
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" style="color: white">
+    <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round" />
+</symbol>
   <symbol id="icon-add" viewBox="0 0 24 24">
     <path d="M12 5v14M5 12h14"
       stroke="currentColor"
