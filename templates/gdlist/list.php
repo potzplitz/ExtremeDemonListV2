@@ -1,5 +1,5 @@
 <section class="gdSection gdSection--xxxxl">
-    <form class="gdList__controls" method="GET" action="<-URL_HTBASE->extremedemons">
+    <form class="gdList__controls" method="GET" action="<-URL_HTBASE-><-LIST_URL->">
         <div class="gdList__controls__filters">
             <input type="text" class="gdInput gdList__controls__search"
                 placeholder="Search..." name="q" value="<-SEARCHTERM->">
@@ -40,5 +40,6 @@
     </form>
     <div class="gdList__rows__wrapper">
         <-ROWS->
+        <h3 class="DISP_NOT_FOUND gdList__notfound"><-NOT_FOUND-></h3>
     </div>
 </section>
