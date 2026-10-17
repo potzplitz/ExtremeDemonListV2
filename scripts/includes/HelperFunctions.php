@@ -28,3 +28,14 @@ function timer_end($name) {
         return $elapsed;
     }
 }
+
+function handle_error($e) {
+    error_log($e->getMessage());
+
+    if(getenv("SERVER") == "dev") {
+        die($e->getMessage());
+    }
+
+    http_response_code(500);
+    die("Internal Server Error");
+}
