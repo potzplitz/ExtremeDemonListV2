@@ -28,36 +28,12 @@ class Session {
 
             // check if user has a valid persistent session
             if(count($DB->RSArray) < 1 || !$this->validate_persistent_session($DB->RSArray[0]['userid'] ?? -1)) { // invalid persistent session => finally log out user
-                define("SESS_USERID", -1);
-                define("SESS_ID", null);
+                $this->set_session_constants(-1, null, null);
                 return -1; 
 
             } else { // valid persistent session => renew/restore session and regenerate persistent session
-                $this->regenerate_persistent_session($DB->RSArray[0]['userid']);
-                $this->create_session($DB->RSArray[0]['userid']);
 
-                // fetch session data from current new session
-                $query = "SELECT * from sessions where userid = :userid 
-                            order by session_start desc fetch first 1 row only";
-
-                $binds = [
-                    "userid" => $DB->RSArray[0]['userid']
-                ];
-
-                $DB->query2($query, $binds);
-
-                // load session data and set constants
-                define("SESS_USERID", $DB->RSArray[0]['userid']);
-                define("SESS_IDENT", $DB->RSArray[0]['sess_ident']);
-                define("SESS_ID", $DB->RSArray[0]['sess_id']);
-
-                // update user last login
-                $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
-                $binds = [
-                    "userid" => $DB->RSArray[0]['userid']
-                ];
-
-                $DB->query2($query, $binds);
+                $this->login_user($DB->RSArray[0]['userid']);
                 
                 // user is logged in => return
                 return;
@@ -95,38 +71,14 @@ class Session {
 
             // validate persistent session cookie
             if(!$this->validate_persistent_session($DB->RSArray[0]['userid'] ?? -1)) { // invalid persistent session => finally log out user
-                define("SESS_USERID", -1);
-                define("SESS_ID", null);
-                define("SESS_IDENT", null);
+
+                $this->set_session_constants(-1, null, null);
 
                 return -1;
                 
             } else { // valid persistent session => renew/restore session and regenerate persistent session
-                $this->regenerate_persistent_session($DB->RSArray[0]['userid']);
-                $this->create_session($DB->RSArray[0]['userid']);
 
-                // fetch session data from current new session
-                $query = "SELECT * from sessions where userid = :userid 
-                            order by session_start desc fetch first 1 row only";
-
-                $binds = [
-                    "userid" => $DB->RSArray[0]['userid']
-                ];
-                
-                $DB->query2($query, $binds);
-
-                // load session data and set constants
-                define("SESS_USERID", $DB->RSArray[0]['userid']);
-                define("SESS_IDENT", $DB->RSArray[0]['sess_ident']);
-                define("SESS_ID", $DB->RSArray[0]['sess_id']);
-
-                // update user last login
-                $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
-                $binds = [
-                    "userid" => $DB->RSArray[0]['userid']
-                ];
-
-                $DB->query2($query, $binds);
+                $this->login_user($DB->RSArray[0]['userid']);
                 
                 // user is logged in => return
                 return;
@@ -134,9 +86,7 @@ class Session {
         }
 
         // session in cookie is valid => no renewal or invalidating => all ok so login directly
-        define("SESS_USERID", $DB->RSArray[0]['userid']);
-        define("SESS_IDENT", $this->getSessionCookie());
-        define("SESS_ID", $DB->RSArray[0]['sess_id']);
+        $this->set_session_constants($DB->RSArray[0]['userid'], $this->getSessionCookie(), $DB->RSArray[0]['sess_id']);
 
         // update user last login
         $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
@@ -147,12 +97,47 @@ class Session {
         $DB->query2($query, $binds);
     }
 
+    private function login_user($user_id) {
+
+        $DB = new Database();
+
+        $this->regenerate_persistent_session($user_id);
+        $this->create_session($user_id);
+
+        // fetch session data from current new session
+        $query = "SELECT * from sessions where userid = :userid 
+                    order by session_start desc fetch first 1 row only";
+
+        $binds = [
+            "userid" => $user_id
+        ];
+        
+        $DB->query2($query, $binds);
+
+        // load session data and set constants
+        $this->set_session_constants($DB->RSArray[0]['userid'], $DB->RSArray[0]['sess_ident'], $DB->RSArray[0]['sess_id']);
+
+        // update user last login
+        $query = "UPDATE users set lastlog = current_timestamp where user_id = :userid";
+        $binds = [
+            "userid" => $user_id
+        ];
+
+        $DB->query2($query, $binds);
+    }
+
+    private function set_session_constants($userid, $ident, $id) {
+        define("SESS_USERID", $userid);
+        define("SESS_IDENT", $ident);
+        define("SESS_ID", $id);
+    }
+
     public function validate_persistent_session($userid) {
         $DB = new Database();
 
         $persistent = $this->getPersistentCookie() ?? null;
         
-        if($persistent === null) {// dd("test1");
+        if($persistent === null) {
             return false;
         }
 
@@ -165,18 +150,18 @@ class Session {
 
         $DB->query2($query, $binds);
 
-        if(count($DB->RSArray) < 1) {// dd("test2");
+        if(count($DB->RSArray) < 1) {
             return false;
         }
 
         // iterate through result set of 10 and check if persistent session is ok
-        $expected = hash_hmac('sha256', $persistent, getenv("HMAC_SECRET"), false);// dd($persistent);
+        $expected = hash_hmac('sha256', $persistent, getenv("HMAC_SECRET"), false);
         foreach($DB->RSArray as $row) {
-            if(hash_equals($expected, strtolower($row['token_hash']))) {// dd("test3");
+            if(hash_equals($expected, strtolower($row['token_hash']))) {
                 return true;
             }
         }
-        // dd("test4");
+
         return false;
     }
 
@@ -254,8 +239,8 @@ class Session {
         $binds = [
             "userid" => $userid,
             "sess_ident" => $sess_ident,
-            "referrer" => "",
-            "agent" => ""
+            "referrer" => $this->getReferrer(),
+            "agent" => $this->getDeviceType()
         ];
 
         $DB->query2($query, $binds);
@@ -281,7 +266,7 @@ class Session {
     }
 
     public function getDeviceType() {
-        return $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown Device';
+        return mb_substr($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown Device', 0, 255);
     }
 
     public function getReferrer() {

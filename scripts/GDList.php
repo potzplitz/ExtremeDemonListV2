@@ -88,6 +88,7 @@ class GDList implements BaseScript {
             "NOT_FOUND" => ($this->result_count <= 0 ? "Level was not found!" : ""),
             "DISP_NOT_FOUND" => ($this->result_count <= 0 ? "" : "hiddenIp"),
             "RESULT_INFOS" => $this->result_count . " Levels found (" . $this->result_time . "s.)",
+            "NOT_LOGGED_IN" => (IS_LOGGED_IN ? '' : 'hiddenIp'),
         ]);
         $Template->compile_template();
         $Template->show_template();
