@@ -1,20 +1,20 @@
 <section class="gdSection gdSection--xxxxl">
+    <p class="gdList__countTime"><-RESULT_INFOS-></p>
     <form class="gdList__controls" method="GET" action="<-URL_HTBASE-><-LIST_URL->">
         <div class="gdList__controls__filters">
-            <input type="text" class="gdInput gdList__controls__search"
-                placeholder="Search..." name="q" value="<-SEARCHTERM->">
-
+            <input type="text" class="gdInput gdList__controls__search" placeholder="Search..." name="q" value="<-SEARCHTERM->">
             <input type="submit" class="gdBtn gdBtn--secondary" value="Search">
 
-            <button type="submit" name="filter_completed" value="<-ACTIVE_COMPLETED->"
-                    class="gdBtn gdBtn--secondary <-ACTIVE_CLASS->">
+            <button type="submit" name="toggle" value="completed" class="gdBtn gdBtn--secondary <-ACTIVE_CLASS->">
                 <svg class="icon" width="24" height="21" aria-hidden="true">
                     <use href="#checkmark"></use>
                 </svg>
             </button>
 
-            <button type="submit" name="filter_uncompleted" value="<-ACTIVE_UNCOMPLETED->"
-                    class="gdBtn gdBtn--secondary <-ACTIVE_CLASS_UNCOMPLETED->">
+            <input type="hidden" name="completed" value="<-ACTIVE_COMPLETED->">
+            <input type="hidden" name="uncompleted" value="<-ACTIVE_UNCOMPLETED->">
+
+            <button type="submit" name="toggle" value="uncompleted" class="gdBtn gdBtn--secondary <-ACTIVE_CLASS_UNCOMPLETED->">
                 <svg class="icon" width="24" height="21" aria-hidden="true">
                     <use href="#uncompleted"></use>
                 </svg>
