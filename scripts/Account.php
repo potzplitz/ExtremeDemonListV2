@@ -55,7 +55,7 @@ class Account implements BaseScript {
         $DB->query2($query, $binds);
 
         if(!($DB->rows >= 1)) {
-            $this->show_login("Username or Email was not found!");
+            $this->show_login("Username or Email was not found or the Password was incorrect!");
             return;
         }
 
@@ -72,7 +72,7 @@ class Account implements BaseScript {
             return;
 
         } else {
-            $this->show_login("Incorrect Password!");
+            $this->show_login("Username or Email was not found or the Password was incorrect!");
             return;
 
         }

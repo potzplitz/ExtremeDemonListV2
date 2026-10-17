@@ -9,19 +9,15 @@ class Error_404 {
 
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPGET        => true,
-            CURLOPT_TIMEOUT        => 10,
-            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_TIMEOUT        => 2,
+            CURLOPT_CONNECTTIMEOUT => 1,
         ]);
-
         $response = curl_exec($ch);
-
-        $no = json_decode($response, true)['message'];
+        $no = json_decode($response ?: '', true)['message'] ?? "No.";
 
         $Template = new Template();
-        $Template->load_template("main/404.php");
         $Template->load_hash([
-            "NO" => $no
+            "NO" => h($no)
         ]);
         $Template->compile_template();
         $Template->show_template();

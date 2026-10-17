@@ -9,15 +9,18 @@ class Logout implements BaseScript {
 
         $DB = new Database();
 
+        $query = "UPDATE sessions set valid = 0 where userid = :userid and sess_id = :sess_id";
         $binds = [
             "userid" => SESS_USERID,
             "sess_id" => SESS_ID
         ];
-
-        $query = "UPDATE sessions set valid = 0 where userid = :userid and sess_id = :sess_id";
         $DB->query2($query, $binds);
 
         $query = "UPDATE sessions_persistent set valid = 0 where userid = :userid and persistent_id = :sess_id";
+        $binds = [
+            "userid" => SESS_USERID,
+            "hash"   => hash_hmac('sha256', $_COOKIE['persistent'] ?? '', getenv("HMAC_SECRET")),
+        ];
         $DB->query2($query, $binds);
 
         header("Location: /");
