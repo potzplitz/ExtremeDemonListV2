@@ -37,27 +37,33 @@ class Start implements BaseScript {
                 "class" => "gdStart__list__section",
                 "render" => fn() => $this->render_top(),
                 "link" => URL_HTBASE . "extremedemons",
+                "require_login" => false,
             ],
             "tags" => [
                 "title" => "Browse Tags",
                 "class" => "gdStart__tags__section",
                 "render" => fn() => $this->render_tags(),
                 "link" => URL_HTBASE . "search",
+                "require_login" => false,
             ],
             "recommendations" => [
                 "title" => "Your Recommendations",
                 "class" => "gdStart__list__section",
                 "render" => fn() => $this->render_recommendations(),
                 "link" => URL_HTBASE . "#",
+                "require_login" => true
             ],
         ];
 
         uksort($sections, fn($a, $b) => array_search($a, $order) <=> array_search($b, $order));
 
         $rows = "";
-
         foreach ($sections as $section) {
             if (!$section) {
+                continue;
+            }
+
+            if($section['require_login'] && !IS_LOGGED_IN) {
                 continue;
             }
             
