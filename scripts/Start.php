@@ -5,13 +5,7 @@ class Start implements BaseScript {
         MainController::setTitle("Main Page");
         MainController::setBreadcrumb(["invisible"]);
 
-        // $this->get_recommended_levels();
-        
-        // if(IS_LOGGED_IN) {
-            $this->show();
-        // } else {
-        //     $this->show_not_logged_in();
-        // }
+        $this->show();
     }
 
     private function show() {
@@ -129,20 +123,21 @@ class Start implements BaseScript {
         $position_spread_down = 200;
         $number_recommendations = 50;
 
-        $query = "WITH top_tags as (select t.tag, count(*) as anzahl from levels a cross join lateral json_array_elements_text(a.tags) as t(tag) ";
-        $query .= "where exists (select 1 from levelrecords c where c.level_id = a.level_id) group by t.tag order by anzahl desc limit :most_common_tags), ";
-        $query .= "avg_position as (select avg(l.position) as avg_pos from levelrecords lr join levels l on l.level_id = lr.level_id), ";
-        $query .= "matching_levels as (select distinct on (a.level_id) a.level_id, a.levelname, a.tags, a.position from levels a ";
-        $query .= "where exists (select 1 from json_array_elements_text(a.tags) as t(tag) join top_tags tt on tt.tag = t.tag) ";
-        $query .= "and a.position between (select avg_pos - :position_spread_down from avg_position) and (select avg_pos + :position_spread_up from avg_position) ";
-        $query .= "order by a.level_id, a.position asc) ";
-        $query .= "select * from matching_levels order by position asc limit :number_recommendations";
+        $query = "WITH top_tags as (select t.tag from levels a cross join lateral json_array_elements_text(a.tags) as t(tag) ";
+        $query .= "where a.level_id in (select level_id from levelrecords where user_id = :userid) group by t.tag order by count(*) desc limit :most_common_tags), ";
+        $query .= "avg_position as (select avg(l.position) as avg_pos from levelrecords lr join levels l on l.level_id = lr.level_id where lr.user_id = :userid) ";
+        $query .= "select a.level_id, a.levelname, a.tags, a.position from levels a cross join avg_position p ";
+        $query .= "where a.position between p.avg_pos - :position_spread_down and p.avg_pos + :position_spread_up ";
+        $query .= "and exists (select 1 from json_array_elements_text(a.tags) as t(tag) where t.tag in (select tag from top_tags)) ";
+        $query .= "and not exists (select 1 from levelrecords r where r.level_id = a.level_id and r.user_id = :userid) ";
+        $query .= "order by a.position asc limit :number_recommendations";
 
         $binds = [
             "most_common_tags" => $most_common_tags,
             "position_spread_up" => $position_spread_up,
             "position_spread_down" => $position_spread_down,
-            "number_recommendations" => $number_recommendations
+            "number_recommendations" => $number_recommendations,
+            "userid" => SESS_USERID
         ];
 
         $DB->query2($query, $binds);
