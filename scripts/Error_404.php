@@ -16,6 +16,7 @@ class Error_404 {
         $no = json_decode($response ?: '', true)['message'] ?? "No.";
 
         $Template = new Template();
+        $Template->load_template("main/404.php");
         $Template->load_hash([
             "NO" => h($no)
         ]);

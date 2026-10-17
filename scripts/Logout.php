@@ -16,7 +16,7 @@ class Logout implements BaseScript {
         ];
         $DB->query2($query, $binds);
 
-        $query = "UPDATE sessions_persistent set valid = 0 where userid = :userid and persistent_id = :sess_id";
+        $query = "UPDATE sessions_persistent set valid = 0 where userid = :userid and persistent_id = :hash";
         $binds = [
             "userid" => SESS_USERID,
             "hash"   => hash_hmac('sha256', $_COOKIE['persistent'] ?? '', getenv("HMAC_SECRET")),
