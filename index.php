@@ -35,6 +35,10 @@ function resolve_route(string $request): ?array
 $route = resolve_route($request);
 
 if ($route === null) {
+    if (str_contains($request, "/api")) {
+        echo_json(['error' => 404]);
+        http_response_code(404);
+    }
     require_once("scripts/Error_404.php");
     $Error404 = new Error_404();
     $Error404->show();
