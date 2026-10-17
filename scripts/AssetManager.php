@@ -12,7 +12,7 @@ class AssetManager implements BaseScript {
 
         if($userid == "-1") {
             header('Content-Type: image/png');
-            readfile(DIR_ASSETS . "profilepictures/default.png");
+            readfile(DIR_ASSETS . "profilepictures/default.jpg");
             
             return;
         }
@@ -29,7 +29,7 @@ class AssetManager implements BaseScript {
 
         } else {
             header('Content-Type: image/png');
-            readfile(DIR_ASSETS . "profilepictures/default.png");
+            readfile(DIR_ASSETS . "profilepictures/default.jpg");
             
         }
     }
