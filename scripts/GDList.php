@@ -145,8 +145,12 @@ class GDList implements BaseScript {
             $binds['searchterm'] = "%" . $searchterm . "%";
         }
 
+        if($this->active_completed == 1) {
+            $query .= " and b.user_id = :userid";
+        }
+
         if($this->active_uncompleted == 1) {
-            $query .= " and not exists(SELECT 1 from levelrecords c where c.level_id = a.level_id)";
+            $query .= " and not exists(SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid)";
         }
 
         $DB->query2($query, $binds);
