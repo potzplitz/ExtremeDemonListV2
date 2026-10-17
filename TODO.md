@@ -3,7 +3,7 @@ Startseite:
 Top 100 => fertig
 Tags => fertig
 Tags vorschläge (markierung welche tags zu den completions passen)
-Recommendations basierend auf completions
+Recommendations basierend auf completions => fertig
 listenupdates (Platzierungsänderungen etc.)
 
 inputs sanitizen (evil tags)
@@ -19,3 +19,7 @@ Detailseite:
 anzeigen welcher der nächst einfachere/schwerere ist
 Plazierungshistory anzeigen
 Victors anzeigen
+
+performance:
+
+datenbankklasse anpassen dass bie jedem select ein timer gestartet wird und wenn er beendet ist timer stoppen und wenn execution time über einer sekunde => nachricht und sql optimieren

@@ -142,7 +142,7 @@ class Session {
         }
 
         $query = "SELECT * from sessions_persistent where userid = :userid and valid = 1 
-                    and expires_at > current_timestamp order by created_at desc fetch first 10 rows only";
+                    and expires_at > current_timestamp order by created_at desc";
 
         $binds = [
             "userid" => $userid

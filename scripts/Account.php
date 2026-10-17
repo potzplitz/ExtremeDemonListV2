@@ -4,16 +4,16 @@ class Account implements BaseScript {
     public function init() {
         MainController::setTitle("Login");
 
-        if(ROUTE == "/account/login" && empty(INS["submit_login"])) {
+        if(ROUTE == "/account/login" && empty(INS["submit_login"]) && !IS_LOGGED_IN) {
             $this->show_login();
 
-        } else if(ROUTE == "/account/login" && !empty(INS["submit_login"])) {
+        } else if(ROUTE == "/account/login" && !empty(INS["submit_login"]) && !IS_LOGGED_IN) {
             $this->login();
         
-        } else if(ROUTE == "/account/register" && empty(INS["submit_register"])) {
+        } else if(ROUTE == "/account/register" && empty(INS["submit_register"]) && !IS_LOGGED_IN) {
             $this->show_register();
 
-        } else if(ROUTE == "/account/register" && !empty(INS["submit_register"])) {
+        } else if(ROUTE == "/account/register" && !empty(INS["submit_register"]) && !IS_LOGGED_IN) {
             $this->register_account();
 
         } else {

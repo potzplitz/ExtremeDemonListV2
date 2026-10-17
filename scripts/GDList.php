@@ -141,7 +141,7 @@ class GDList implements BaseScript {
         $query .= " where a.sart = :sart";
         
         if(!empty($searchterm)) {
-            $query .= " and (lower(a.levelname) like :searchterm or lower(a.levelname_raw) like :searchterm or cast(a.level_id as text) like :searchterm)";
+            $query .= " and (lower(a.levelname) like :searchterm or lower(a.levelname_raw) like :searchterm or cast(a.level_id as text) like :searchterm or cast(a.song as text) like :searchterm)";
             $binds['searchterm'] = "%" . $searchterm . "%";
         }
 
