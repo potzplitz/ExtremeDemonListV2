@@ -239,8 +239,8 @@ class Session {
         $binds = [
             "userid" => $userid,
             "sess_ident" => $sess_ident,
-            "referrer" => "",
-            "agent" => ""
+            "referrer" => $this->getReferrer(),
+            "agent" => $this->getDeviceType()
         ];
 
         $DB->query2($query, $binds);
