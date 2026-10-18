@@ -130,27 +130,23 @@ class GDList implements BaseScript {
             "userid" => SESS_USERID,
         ];
 
-        $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid) then 1 else 0 end as completed, "; 
+        $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid and c.progress > 99) then 1 else 0 end as completed, ";
         $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id and d.user_id = :userid) as attempts";
-        $query .= ", a.* from levels a ";
-
-        if($this->active_completed == 1) {
-            $query .= "join levelrecords b on b.level_id = a.level_id";
-        }
+        $query .= ", a.* from levels a";
 
         $query .= " where a.sart = :sart";
-        
+
         if(!empty($searchterm)) {
             $query .= " and (lower(a.levelname) like :searchterm or lower(a.levelname_raw) like :searchterm or cast(a.level_id as text) like :searchterm or cast(a.song as text) like :searchterm)";
-            $binds['searchterm'] = "%" . $searchterm . "%";
+            $binds['searchterm'] = "%" . mb_strtolower($searchterm) . "%";
         }
 
         if($this->active_completed == 1) {
-            $query .= " and b.user_id = :userid";
+            $query .= " and exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid and c.progress > 99)";
         }
 
         if($this->active_uncompleted == 1) {
-            $query .= " and not exists(SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid)";
+            $query .= " and not exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid and c.progress > 99)";
         }
 
         $DB->query2($query, $binds);

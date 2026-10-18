@@ -24,7 +24,7 @@ class SubmitRecord implements BaseScript {
             echo_json(['success' => '1', "action" => "delete"]);
 
         } else {
-            $query = "INSERT into levelrecords (user_id, level_id, completed_at, attempts) values (:user_id, :level_id, current_timestamp, :attempts)";
+            $query = "INSERT into levelrecords (user_id, level_id, completed_at, attempts, auto_generated, progress) values (:user_id, :level_id, current_timestamp, :attempts, 0, 100)";
             $binds = [
                 "user_id" => SESS_USERID,
                 "level_id" => INS['level_id'],
