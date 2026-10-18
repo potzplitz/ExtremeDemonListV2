@@ -59,11 +59,12 @@ class SaveFileManager implements BaseScript {
         $Template = new Template();
         $Template->load_template("savefilemanager/overview.php");
         $Template->load_hash([
-            "ACTIVE_SAVE_DATE" => !empty($active_savefile['uploaded_at']) ? date('m/d/Y \a\t H:i', strtotime($active_savefile['uploaded_at'])) : "N/A",
+            "ACTIVE_SAVE_DATE" => format_date($active_savefile['uploaded_at'] ?? null),
             "CARDS" => $cards,
             "UPLOADER" => $this->render_uploader(),
             "SAVEFILETABLE" => $this->render_savefiletable(),
-            "ACTIVE_SAVE_ID" => $active_savefile['savefile_id'],
+            "ACTIVE_SAVE_ID" => $active_savefile['savefile_id'] ?? -1,
+            "HIDE_NO_SAVEFILE" => ((count($active_savefile) <= 0) ? "hiddenIp" : "d-flex"),
         ]);
         $Template->compile_template();
         $Template->show_template();
@@ -227,7 +228,9 @@ class SaveFileManager implements BaseScript {
             "total_clicks" => "Clicks (All Levels)",
             "total_attempts" => "Attempts (All Levels)",
             "total_demons" => "Total Demons (All)",
-            "total_extremes" => "Total Extreme Demons"
+            "total_extremes" => "Total Extreme Demons",
+            "total_user_coins" => "Total User Coins",
+            "total_secret_coins" => "Total Secret Coins",
         ];
 
         $json_out_playerdata = json_decode($active_savefile['playerdata'] ?? '{}', true) ?: [];
@@ -308,7 +311,7 @@ class SaveFileManager implements BaseScript {
 
             $template_hash = [
                 "SAVE_ID" => $savefile['savefile_id'],
-                "SAVE_DATE" => $savefile['uploaded_at'],
+                "SAVE_DATE" => format_date($savefile['uploaded_at']),
                 "STARS" => json_decode($savefile['playerdata'], true)['total_stars'] ?? "N/A",
                 "DEMONS" => json_decode($savefile['playerdata'], true)['total_demons'] ?? "N/A",
                 "USER_COINS" => json_decode($savefile['playerdata'], true)['total_user_coins'] ?? "N/A",

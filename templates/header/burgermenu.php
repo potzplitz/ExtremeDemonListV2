@@ -81,7 +81,7 @@
             </a>
 
             <a href="<-URL_HTBASE->account/savefiles"
-               class="gdHeader__burgermenu__item">
+               class="gdHeader__burgermenu__item <-IS_LOGGED_IN->">
                 <span class="gdHeader__burgermenu__icon">◉</span>
                 <span>Savefile Manager</span>
             </a>
