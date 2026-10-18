@@ -81,11 +81,6 @@ class SaveFileManager implements BaseScript {
         echo_json(['success' => "1"]);
     }
     private function handle_update_records() {
-        if (SESS_USERID == 2) {
-            echo_json(['error' => 'Import is disabled for this account.']);
-            return;
-        }
-
         $DB = new Database();
 
         $query = "DELETE from levelrecords where user_id = :userid and auto_generated = 1";
