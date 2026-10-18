@@ -39,3 +39,10 @@ function handle_error($e) {
     http_response_code(500);
     die("Internal Server Error");
 }
+
+function format_date($timestamp, $fallback = "N/A") {
+    if (empty($timestamp)) {
+        return $fallback;
+    }
+    return date('M j, Y \a\t H:i', strtotime($timestamp));
+}

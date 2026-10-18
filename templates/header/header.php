@@ -62,7 +62,7 @@
             </a>
 
             <a href="<-URL_HTBASE->account/savefiles"
-               class="gdHeader__user__dropdown__item">
+               class="gdHeader__user__dropdown__item <-IS_LOGGED_IN->">
                 <span class="gdHeader__user__dropdown__icon">◉</span>
                 <span>Savefile Manager</span>
             </a>

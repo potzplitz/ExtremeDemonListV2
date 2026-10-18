@@ -9,7 +9,7 @@
                 <div class="gdSaveFile__newestfile__infos">
                     <-CARDS->
                 </div>
-                <div class="w-100 mt-3 d-flex flex-row align-items-end justify-content-end gap-2">
+                <div class="w-100 mt-3 flex-row align-items-end justify-content-end gap-2 <-HIDE_NO_SAVEFILE->">
                     <button class="gdBtn" type="button" data-action="import-records" data-save-id="<-ACTIVE_SAVE_ID->">Import Levels into List</button>
                     <button class="gdBtn" type="button" data-action="delete-imported">Delete imported Levels from List</button>
                 </div>

@@ -30,7 +30,8 @@ class Header implements BaseScript {
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
             "BURGERMENU" => $this->render_burger($username),
             "BREADCRUMB"  => MainController::getBreadcrumb(),
-            "MOBILE_BREADCRUMB" => MainController::getBreadcrumb("mobile")
+            "MOBILE_BREADCRUMB" => MainController::getBreadcrumb("mobile"),
+            "IS_LOGGED_IN" => (IS_LOGGED_IN ? "" : "hiddenIp"),
         ]);
         
         $Template->compile_template();
@@ -45,6 +46,7 @@ class Header implements BaseScript {
             "DISP_USER" => ((SESS_USERID == -1) ? "hiddenIp" : ""),
             "USERNAME" => h($username),
             "PROFILE_PICTURE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
+            "IS_LOGGED_IN" => (IS_LOGGED_IN ? "" : "hiddenIp"),
         ]);
         $Template->compile_template();
         return $Template->get_output();

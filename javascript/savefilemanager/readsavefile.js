@@ -236,9 +236,6 @@ function initSavefileUpload() {
                 total_jumps    += level.k36 ?? 0;
                 total_clicks   += level.k85 ?? 0;
                 total_attempts += level.k18 ?? 0;
-                total_user_coins += (Number(level.k61) > 0 ? 1 : 0)
-                                  + (Number(level.k62) > 0 ? 1 : 0)
-                                  + (Number(level.k63) > 0 ? 1 : 0);
                 
 
                 if (!level.k25) {
@@ -276,11 +273,15 @@ function initSavefileUpload() {
                 };
             }
 
+            const stats = save.GS_value ?? {};
+
+            playerdata.total_user_coins   = Number(stats['12'] ?? 0);
+            playerdata.total_secret_coins = Number(stats['8'] ?? 0);
+
             playerdata.total_stars    = total_stars;
             playerdata.total_jumps    = total_jumps;
             playerdata.total_clicks   = total_clicks;
             playerdata.total_attempts = total_attempts;
-            playerdata.total_user_coins = total_user_coins;
             playerdata.total_demons = total_demons;
 
             const form = new FormData();
