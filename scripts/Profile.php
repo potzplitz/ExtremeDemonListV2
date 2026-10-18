@@ -21,6 +21,12 @@ class Profile implements BaseScript {
 
     private function show() {
         $Template = new Template();
+        $Template->load_template("profile/overview.php");
+        $Template->load_hash([
+
+        ]);
+        $Template->compile_template();
+        $Template->show_template();
     }
 
     private function resolve_user($user_id) {
