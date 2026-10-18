@@ -1564,7 +1564,8 @@ main {
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis; }
+      text-overflow: ellipsis;
+      color: white; }
     .gdSaveFile__upload__file__size {
       font-size: 0.75rem;
       font-variant-numeric: tabular-nums;

@@ -16,4 +16,6 @@ const ROUTEMAP = [
     "/api/account/savefiles/rename" => "SaveFileManager",
     "/api/account/savefiles/updaterecords" => "SaveFileManager",
     "/api/account/savefiles/deleteimported" => "SaveFileManager",
+    "/account/profile" => "Profile",
+    "/user/{id}"
 ];
