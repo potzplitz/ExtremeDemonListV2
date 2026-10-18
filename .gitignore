@@ -3,3 +3,4 @@ css/.sass-cache/
 sass_check.bat
 sass_check.sh
 assets/profilepictures/
+scripts/includes/DBConnection.php

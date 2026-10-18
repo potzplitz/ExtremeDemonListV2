@@ -80,6 +80,12 @@
                 <span>My Profile</span>
             </a>
 
+            <a href="<-URL_HTBASE->account/savefiles"
+               class="gdHeader__burgermenu__item">
+                <span class="gdHeader__burgermenu__icon">◉</span>
+                <span>Savefile Manager</span>
+            </a>
+
             <a href="<-URL_HTBASE->account/settings"
                class="gdHeader__burgermenu__item">
                 <span class="gdHeader__burgermenu__icon">⚙</span>

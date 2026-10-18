@@ -1,0 +1,838 @@
+.#{$prefix}SaveFile {
+
+    &__mainwindow {
+        box-sizing: border-box;
+        min-width: 0;
+        padding: 1rem 1.25rem;
+
+        background-color: $deep-space-blue-3 !important;
+        border: 1px solid $yale-blue-2;
+        border-radius: $border-radius-base;
+
+        box-shadow:
+            0 4px 12px rgba($black, 0.3),
+            inset 0 1px 0 rgba($white, 0.03);
+    }
+
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__upper,
+    &__lower {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    &__upload {
+        flex: 1 1 0;
+        min-width: 18rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        &__header {
+            h3 {
+                margin: 0 0 0.15rem;
+                font-size: 1.35rem;
+                font-weight: 700;
+                letter-spacing: 0.01em;
+            }
+        }
+
+        &__description {
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: rgba($white, 0.55);
+        }
+
+        &__form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        // Visuell versteckt, aber fokussierbar
+        &__input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        // Fokus-Ring auf der Dropzone, wenn das versteckte Input fokussiert ist
+        &__input:focus-visible + &__dropzone {
+            outline: 2px solid $yale-blue-5;
+            outline-offset: 3px;
+        }
+
+        &__dropzone {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 0.85rem;
+            padding: 0.9rem 1rem;
+
+            text-align: left;
+            cursor: pointer;
+
+            background-color: rgba($yale-blue, 0.08);
+            border: 2px dashed rgba($yale-blue-5, 0.4);
+            border-radius: $border-radius-base;
+
+            transition:
+                background-color 180ms ease,
+                border-color 180ms ease;
+
+            // verhindert Flackern bei dragleave über Kindelementen
+            > * {
+                pointer-events: none;
+            }
+
+            &:hover,
+            &.is-dragover {
+                background-color: rgba($yale-blue, 0.2);
+                border-color: $yale-blue-5;
+            }
+
+            &.is-dragover &__title {
+                color: $yale-blue-5;
+            }
+
+            &__text {
+                display: flex;
+                flex-direction: column;
+                gap: 0.15rem;
+                min-width: 0;
+            }
+
+            &__title {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: $white;
+                transition: color 180ms ease;
+            }
+
+            &__subtitle {
+                font-size: 0.85rem;
+                color: rgba($white, 0.55);
+            }
+
+            &__link {
+                color: $yale-blue-5;
+                font-weight: 600;
+                text-decoration: underline;
+                text-underline-offset: 3px;
+            }
+
+            &__hint {
+                font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+                font-size: 0.75rem;
+                color: rgba($white, 0.4);
+            }
+        }
+
+        &__icon {
+            flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+            color: $yale-blue-5;
+            opacity: 0.9;
+            transition: transform 220ms ease;
+        }
+
+        &__dropzone:hover &__icon,
+        &__dropzone.is-dragover &__icon {
+            transform: translateY(-2px);
+        }
+
+        &__error {
+            margin: 0;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.8rem;
+            color: #ffb4b4;
+            background-color: rgba(#e5484d, 0.12);
+            border: 1px solid rgba(#e5484d, 0.4);
+            border-radius: $border-radius-base;
+
+            &[hidden] {
+                display: none;
+            }
+        }
+
+        &__file {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.6rem 0.6rem 0.9rem;
+
+            background-color: $deep-space-blue-5;
+            border: 1px solid $yale-blue-2;
+            border-left: 3px solid $yale-blue-5;
+            border-radius: $border-radius-base;
+
+            animation: gdSaveFileFadeIn 200ms ease;
+
+            &[hidden] {
+                display: none;
+            }
+
+            &__meta {
+                flex: 1;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.1rem;
+            }
+
+            &__name {
+                font-size: 0.9rem;
+                font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &__size {
+                font-size: 0.75rem;
+                font-variant-numeric: tabular-nums;
+                color: rgba($white, 0.45);
+            }
+
+            &__remove {
+                flex-shrink: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2rem;
+                height: 2rem;
+                padding: 0;
+
+                color: rgba($white, 0.55);
+                background: transparent;
+                border: 0;
+                border-radius: $border-radius-base;
+                cursor: pointer;
+
+                transition:
+                    background-color 150ms ease,
+                    color 150ms ease;
+
+                svg {
+                    width: 1rem;
+                    height: 1rem;
+                }
+
+                &:hover {
+                    color: $white;
+                    background-color: rgba($white, 0.08);
+                }
+
+                &:focus-visible {
+                    outline: 2px solid $yale-blue-5;
+                    outline-offset: 2px;
+                }
+            }
+        }
+
+        &__submit {
+            width: 100%;
+            min-height: 2.5rem;
+            cursor: pointer;
+
+            &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+                transform: none;
+            }
+        }
+
+        &__notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin: 0;
+            padding: 0.5rem 0.75rem;
+
+            background-color: rgba($yale-blue, 0.18);
+            border: 1px solid $yale-blue-2;
+            border-radius: $border-radius-base;
+
+            color: rgba($white, 0.65);
+            font-size: 0.8rem;
+            line-height: 1.5;
+
+            svg {
+                flex-shrink: 0;
+                width: 1.1rem;
+                height: 1.1rem;
+                margin-top: 0.1rem;
+                color: $yale-blue-5;
+            }
+
+            code {
+                font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+                font-size: 0.75rem;
+                color: rgba($white, 0.8);
+                overflow-wrap: anywhere;
+            }
+        }
+    }
+
+    // Außerhalb von .#{$prefix}SaveFile ablegen
+    @keyframes gdSaveFileFadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to   { opacity: 1; transform: none; }
+    }
+
+    // Außerhalb von .#{$prefix}SaveFile ablegen
+    @keyframes gdSaveFileFadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to   { opacity: 1; transform: none; }
+    }
+
+// Ersetzt den bisherigen &__savelist-Block in .#{$prefix}SaveFile
+
+&__savelist {
+    flex: 3 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    // Screenreader-only
+    &__sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    &__headerrow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.25rem 1rem;
+
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid $yale-blue-2;
+
+        h3 {
+            margin: 0;
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        h3 {
+            color: $white;
+        }
+
+        p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: $white !important;
+            opacity: 0.55;
+        }
+    }
+
+    &__tablewrap {
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 0.4rem;
+        font-size: 0.9rem;
+        color: $white;
+
+        th,
+        td,
+        td span,
+        td p {
+            color: $white;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+
+            padding: 0.6rem 0.9rem 0.35rem;
+            background-color: $deep-space-blue-3;
+
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+            opacity: 0.55;
+        }
+
+        td {
+            padding: 0.7rem 0.9rem;
+            vertical-align: middle;
+
+            background-color: $deep-space-blue-5;
+            border-top: 1px solid $yale-blue-2;
+            border-bottom: 1px solid $yale-blue-2;
+
+            transition:
+                background-color 180ms ease,
+                border-color 180ms ease;
+
+            &:first-child {
+                border-left: 3px solid $yale-blue-2;
+                border-radius: $border-radius-base 0 0 $border-radius-base;
+            }
+
+            &:last-child {
+                border-right: 1px solid $yale-blue-2;
+                border-radius: 0 $border-radius-base $border-radius-base 0;
+            }
+        }
+
+        th.is-num,
+        td.is-num {
+            text-align: right;
+        }
+
+        td.is-num {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+    }
+
+    &__row {
+        &:hover td {
+            background-color: $yale-blue;
+            border-color: $yale-blue-5;
+        }
+
+        &.is-active td {
+            background-color: rgba($yale-blue, 0.45);
+            border-color: $yale-blue-5;
+        }
+
+        &.is-active td:first-child,
+        &:hover td:first-child {
+            border-left-color: $yale-blue-5;
+        }
+
+        &.is-empty td,
+        &.is-empty:hover td {
+            background-color: transparent;
+            border: 1px dashed $yale-blue-2;
+            border-radius: $border-radius-base;
+        }
+    }
+
+    // Nimmt den restlichen Platz ein, damit lange Namen mit "…" abgeschnitten werden
+    &__cell--file {
+        width: 100%;
+        max-width: 0;
+    }
+
+    &__file {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+
+        &__head {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            min-width: 0;
+        }
+
+        &__name {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            font-weight: 600;
+            color: $white;
+        }
+
+        &__date {
+            font-size: 0.75rem;
+            font-variant-numeric: tabular-nums;
+            color: $white;
+            opacity: 0.55;
+        }
+    }
+
+    &__badge {
+        display: none;
+        flex-shrink: 0;
+        padding: 0.05rem 0.45rem;
+
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: $white;
+
+        background-color: $yale-blue;
+        border: 1px solid $yale-blue-5;
+        border-radius: 999px;
+    }
+
+    &__rename {
+        flex: 1;
+        min-width: 0;
+        padding: 0.2rem 0.45rem;
+        margin: -0.2rem 0;
+
+        font: inherit;
+        font-weight: 600;
+        color: $white;
+
+        background-color: $deep-space-blue-3;
+        border: 1px solid $yale-blue-5;
+        border-radius: $border-radius-base;
+        outline: none;
+
+        &:focus {
+            box-shadow: 0 0 0 2px rgba($yale-blue-5, 0.35);
+        }
+
+        &:disabled {
+            opacity: 0.6;
+        }
+    }
+
+    // Während des Umbenennens keine Actions anzeigen
+    &__row.is-renaming &__actions {
+        visibility: hidden;
+    }
+
+    &__row.is-active &__badge {
+        display: inline-flex;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.2rem;
+    }
+
+    &__action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+
+        color: $white;
+        opacity: 0.6;
+        background: transparent;
+        border: 0;
+        border-radius: $border-radius-base;
+        cursor: pointer;
+
+        transition:
+            background-color 150ms ease,
+            color 150ms ease,
+            opacity 150ms ease;
+
+        svg {
+            width: 1.1rem;
+            height: 1.1rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        &:hover,
+        &:focus-visible {
+            opacity: 1;
+            background-color: rgba($white, 0.1);
+        }
+
+        &:focus-visible {
+            outline: 2px solid $yale-blue-5;
+            outline-offset: 1px;
+        }
+
+        &--danger:hover {
+            color: #ffb4b4;
+            background-color: rgba(#e5484d, 0.18);
+        }
+    }
+
+    // Aktives Savefile braucht keinen "Set active"-Button
+    &__row.is-active &__action--activate {
+        display: none;
+    }
+
+    &__empty {
+        padding: 2.5rem 1rem;
+        text-align: center;
+
+        p {
+            margin: 0;
+        }
+
+        &__title {
+            font-weight: 600;
+        }
+
+        &__title {
+            color: $white !important;
+        }
+
+        &__text {
+            margin-top: 0.25rem !important;
+            font-size: 0.85rem;
+            color: $white !important;
+            opacity: 0.55;
+        }
+    }
+
+    // ---------- Mobile: Zeilen werden zu Karten ----------
+    @media (max-width: 700px) {
+        min-height: 0;
+
+        &__tablewrap {
+            overflow: visible;
+        }
+
+        &__table {
+            border-spacing: 0;
+
+            thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip-path: inset(50%);
+            }
+
+            tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+                padding-top: 0.5rem;
+            }
+
+            td,
+            td:first-child,
+            td:last-child {
+                display: block;
+                padding: 0;
+                background: none;
+                border: 0;
+                border-radius: 0;
+            }
+
+            td.is-num {
+                padding-top: 0.6rem;
+                border-top: 1px solid $yale-blue-2;
+                text-align: left;
+                font-size: 1rem;
+
+                &::before {
+                    content: attr(data-label);
+                    display: block;
+                    margin-bottom: 0.1rem;
+
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.06em;
+                    color: $white;
+                    opacity: 0.55;
+                }
+            }
+        }
+
+        &__row {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.6rem 0.75rem;
+            padding: 0.75rem 0.9rem;
+
+            background-color: $deep-space-blue-5;
+            border: 1px solid $yale-blue-2;
+            border-left: 3px solid $yale-blue-2;
+            border-radius: $border-radius-base;
+
+            &:hover td {
+                background: none;
+            }
+
+            &.is-active {
+                background-color: rgba($yale-blue, 0.45);
+                border-color: $yale-blue-5;
+            }
+
+            &.is-empty {
+                display: block;
+                padding: 0;
+                background: none;
+                border: 0;
+
+                td {
+                    border: 1px dashed $yale-blue-2 !important;
+                    border-radius: $border-radius-base !important;
+                }
+            }
+        }
+
+        // Datei-Infos über die volle Breite, Platz rechts für die Actions
+        &__cell--file {
+            grid-column: 1 / -1;
+            width: auto;
+            max-width: none;
+            min-width: 0;
+            padding-right: 6.75rem !important;
+        }
+
+        &__cell--actions {
+            position: absolute;
+            top: 0.55rem;
+            right: 0.5rem;
+        }
+    }
+
+    @media (max-width: 380px) {
+        &__row {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+}
+
+    &__newestfile {
+        flex: 3 1 0;
+
+        &__headerrow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.25rem 1rem;
+
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid $yale-blue-2;
+
+            h3 {
+                margin: 0;
+                font-size: 1.35rem;
+                font-weight: 700;
+                letter-spacing: 0.01em;
+            }
+
+            p {
+                margin: 0;
+                font-size: 0.85rem;
+                color: rgba($white, 0.45) !important;
+            }
+        }
+
+        &__infos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+            gap: 0.75rem;
+            padding-top: 1rem;
+
+            &__card {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 0.35rem;
+
+                box-sizing: border-box;
+                min-width: 0;
+                min-height: 5rem;
+                padding: 0.75rem 0.9rem;
+
+                background-color: $deep-space-blue-5;
+                border: 1px solid $yale-blue-2;
+                border-left: 3px solid $yale-blue-5;
+                border-radius: $border-radius-base;
+
+                transition:
+                    background-color 180ms ease,
+                    border-color 180ms ease,
+                    transform 180ms ease;
+
+                &:hover {
+                    background-color: $yale-blue;
+                    border-color: $yale-blue-5;
+                    border-left-color: $yale-blue-3;
+                    transform: translateY(-1px);
+                }
+
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                &__title {
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.06em;
+                    color: rgba($white, 0.45) !important;
+                }
+
+                &__value {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    line-height: 1.2;
+                    font-variant-numeric: tabular-nums;
+
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1100px) {
+        &__upper,
+        &__lower {
+            flex-direction: column;
+        }
+
+        &__newestfile,
+        &__upload,
+        &__savelist,
+        &__saveinfos {
+            flex: 1 1 auto;
+            width: 100%;
+        }
+
+        &__savelist,
+        &__saveinfos {
+            min-height: 20rem;
+        }
+    }
+}

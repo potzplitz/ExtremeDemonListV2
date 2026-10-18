@@ -61,6 +61,12 @@
                 <span>My Profile</span>
             </a>
 
+            <a href="<-URL_HTBASE->account/savefiles"
+               class="gdHeader__user__dropdown__item">
+                <span class="gdHeader__user__dropdown__icon">◉</span>
+                <span>Savefile Manager</span>
+            </a>
+
             <a href="<-URL_HTBASE->account/settings"
                class="gdHeader__user__dropdown__item">
                 <span class="gdHeader__user__dropdown__icon">⚙</span>

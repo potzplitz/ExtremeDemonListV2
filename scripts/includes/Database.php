@@ -13,6 +13,10 @@ class Database {
             return; // db bereits verbunden
         }
 
+        if(getenv("SERVER") == "dev") {
+            require("DBConnection.php");
+        }
+
         $host = getenv("DB_IP");
         $port = getenv("DB_PORT");
         $user = getenv("DB_USER");

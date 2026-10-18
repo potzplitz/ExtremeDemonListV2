@@ -72,8 +72,7 @@ main {
   max-width: 2000px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center; }
+  align-items: center; }
   .gdSection--xxxl {
     width: 80%; }
   .gdSection--xxxxl {
@@ -1430,5 +1429,558 @@ main {
   to {
     opacity: 0;
     transform: translateY(8px); } }
+.gdSaveFile__mainwindow {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  background-color: #162434 !important;
+  border: 1px solid #20344b;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(7, 10, 15, 0.3), inset 0 1px 0 rgba(239, 242, 245, 0.03); }
+.gdSaveFile__wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; }
+.gdSaveFile__upper, .gdSaveFile__lower {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1rem; }
+.gdSaveFile__upload {
+  flex: 1 1 0;
+  min-width: 18rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; }
+  .gdSaveFile__upload__header h3 {
+    margin: 0 0 0.15rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.01em; }
+  .gdSaveFile__upload__description {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(239, 242, 245, 0.55); }
+  .gdSaveFile__upload__form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem; }
+  .gdSaveFile__upload__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap; }
+  .gdSaveFile__upload__input:focus-visible + .gdSaveFile__upload__dropzone {
+    outline: 2px solid #306491;
+    outline-offset: 3px; }
+  .gdSaveFile__upload__dropzone {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
+    text-align: left;
+    cursor: pointer;
+    background-color: rgba(29, 47, 68, 0.08);
+    border: 2px dashed rgba(48, 100, 145, 0.4);
+    border-radius: 4px;
+    transition: background-color 180ms ease, border-color 180ms ease; }
+    .gdSaveFile__upload__dropzone > * {
+      pointer-events: none; }
+    .gdSaveFile__upload__dropzone:hover, .gdSaveFile__upload__dropzone.is-dragover {
+      background-color: rgba(29, 47, 68, 0.2);
+      border-color: #306491; }
+    .gdSaveFile__upload__dropzone.is-dragover .gdSaveFile__upload__dropzone__title {
+      color: #306491; }
+    .gdSaveFile__upload__dropzone__text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-width: 0; }
+    .gdSaveFile__upload__dropzone__title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #eff2f5;
+      transition: color 180ms ease; }
+    .gdSaveFile__upload__dropzone__subtitle {
+      font-size: 0.85rem;
+      color: rgba(239, 242, 245, 0.55); }
+    .gdSaveFile__upload__dropzone__link {
+      color: #306491;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px; }
+    .gdSaveFile__upload__dropzone__hint {
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.75rem;
+      color: rgba(239, 242, 245, 0.4); }
+  .gdSaveFile__upload__icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    color: #306491;
+    opacity: 0.9;
+    transition: transform 220ms ease; }
+  .gdSaveFile__upload__dropzone:hover .gdSaveFile__upload__icon, .gdSaveFile__upload__dropzone.is-dragover .gdSaveFile__upload__icon {
+    transform: translateY(-2px); }
+  .gdSaveFile__upload__error {
+    margin: 0;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
+    color: #ffb4b4;
+    background-color: rgba(229, 72, 77, 0.12);
+    border: 1px solid rgba(229, 72, 77, 0.4);
+    border-radius: 4px; }
+    .gdSaveFile__upload__error[hidden] {
+      display: none; }
+  .gdSaveFile__upload__file {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.6rem 0.6rem 0.9rem;
+    background-color: #1b2b3e;
+    border: 1px solid #20344b;
+    border-left: 3px solid #306491;
+    border-radius: 4px;
+    animation: gdSaveFileFadeIn 200ms ease; }
+    .gdSaveFile__upload__file[hidden] {
+      display: none; }
+    .gdSaveFile__upload__file__meta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem; }
+    .gdSaveFile__upload__file__name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .gdSaveFile__upload__file__size {
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+      color: rgba(239, 242, 245, 0.45); }
+    .gdSaveFile__upload__file__remove {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      color: rgba(239, 242, 245, 0.55);
+      background: transparent;
+      border: 0;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 150ms ease, color 150ms ease; }
+      .gdSaveFile__upload__file__remove svg {
+        width: 1rem;
+        height: 1rem; }
+      .gdSaveFile__upload__file__remove:hover {
+        color: #eff2f5;
+        background-color: rgba(239, 242, 245, 0.08); }
+      .gdSaveFile__upload__file__remove:focus-visible {
+        outline: 2px solid #306491;
+        outline-offset: 2px; }
+  .gdSaveFile__upload__submit {
+    width: 100%;
+    min-height: 2.5rem;
+    cursor: pointer; }
+    .gdSaveFile__upload__submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none; }
+  .gdSaveFile__upload__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    background-color: rgba(29, 47, 68, 0.18);
+    border: 1px solid #20344b;
+    border-radius: 4px;
+    color: rgba(239, 242, 245, 0.65);
+    font-size: 0.8rem;
+    line-height: 1.5; }
+    .gdSaveFile__upload__notice svg {
+      flex-shrink: 0;
+      width: 1.1rem;
+      height: 1.1rem;
+      margin-top: 0.1rem;
+      color: #306491; }
+    .gdSaveFile__upload__notice code {
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.75rem;
+      color: rgba(239, 242, 245, 0.8);
+      overflow-wrap: anywhere; }
+@keyframes gdSaveFileFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px); }
+  to {
+    opacity: 1;
+    transform: none; } }
+@keyframes gdSaveFileFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px); }
+  to {
+    opacity: 1;
+    transform: none; } }
+.gdSaveFile__savelist {
+  flex: 3 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; }
+  .gdSaveFile__savelist__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap; }
+  .gdSaveFile__savelist__headerrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #20344b; }
+    .gdSaveFile__savelist__headerrow h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.01em; }
+    .gdSaveFile__savelist__headerrow h3 {
+      color: #eff2f5; }
+    .gdSaveFile__savelist__headerrow p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #eff2f5 !important;
+      opacity: 0.55; }
+  .gdSaveFile__savelist__tablewrap {
+    flex: 1;
+    min-height: 0;
+    overflow: auto; }
+  .gdSaveFile__savelist__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.4rem;
+    font-size: 0.9rem;
+    color: #eff2f5; }
+    .gdSaveFile__savelist__table th,
+    .gdSaveFile__savelist__table td,
+    .gdSaveFile__savelist__table td span,
+    .gdSaveFile__savelist__table td p {
+      color: #eff2f5; }
+    .gdSaveFile__savelist__table th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 0.6rem 0.9rem 0.35rem;
+      background-color: #162434;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      opacity: 0.55; }
+    .gdSaveFile__savelist__table td {
+      padding: 0.7rem 0.9rem;
+      vertical-align: middle;
+      background-color: #1b2b3e;
+      border-top: 1px solid #20344b;
+      border-bottom: 1px solid #20344b;
+      transition: background-color 180ms ease, border-color 180ms ease; }
+      .gdSaveFile__savelist__table td:first-child {
+        border-left: 3px solid #20344b;
+        border-radius: 4px 0 0 4px; }
+      .gdSaveFile__savelist__table td:last-child {
+        border-right: 1px solid #20344b;
+        border-radius: 0 4px 4px 0; }
+    .gdSaveFile__savelist__table th.is-num,
+    .gdSaveFile__savelist__table td.is-num {
+      text-align: right; }
+    .gdSaveFile__savelist__table td.is-num {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap; }
+  .gdSaveFile__savelist__row:hover td {
+    background-color: #1d2f44;
+    border-color: #306491; }
+  .gdSaveFile__savelist__row.is-active td {
+    background-color: rgba(29, 47, 68, 0.45);
+    border-color: #306491; }
+  .gdSaveFile__savelist__row.is-active td:first-child, .gdSaveFile__savelist__row:hover td:first-child {
+    border-left-color: #306491; }
+  .gdSaveFile__savelist__row.is-empty td, .gdSaveFile__savelist__row.is-empty:hover td {
+    background-color: transparent;
+    border: 1px dashed #20344b;
+    border-radius: 4px; }
+  .gdSaveFile__savelist__cell--file {
+    width: 100%;
+    max-width: 0; }
+  .gdSaveFile__savelist__file {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0; }
+    .gdSaveFile__savelist__file__head {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-width: 0; }
+    .gdSaveFile__savelist__file__name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 600;
+      color: #eff2f5; }
+    .gdSaveFile__savelist__file__date {
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+      color: #eff2f5;
+      opacity: 0.55; }
+  .gdSaveFile__savelist__badge {
+    display: none;
+    flex-shrink: 0;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #eff2f5;
+    background-color: #1d2f44;
+    border: 1px solid #306491;
+    border-radius: 999px; }
+  .gdSaveFile__savelist__rename {
+    flex: 1;
+    min-width: 0;
+    padding: 0.2rem 0.45rem;
+    margin: -0.2rem 0;
+    font: inherit;
+    font-weight: 600;
+    color: #eff2f5;
+    background-color: #162434;
+    border: 1px solid #306491;
+    border-radius: 4px;
+    outline: none; }
+    .gdSaveFile__savelist__rename:focus {
+      box-shadow: 0 0 0 2px rgba(48, 100, 145, 0.35); }
+    .gdSaveFile__savelist__rename:disabled {
+      opacity: 0.6; }
+  .gdSaveFile__savelist__row.is-renaming .gdSaveFile__savelist__actions {
+    visibility: hidden; }
+  .gdSaveFile__savelist__row.is-active .gdSaveFile__savelist__badge {
+    display: inline-flex; }
+  .gdSaveFile__savelist__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.2rem; }
+  .gdSaveFile__savelist__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    color: #eff2f5;
+    opacity: 0.6;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease; }
+    .gdSaveFile__savelist__action svg {
+      width: 1.1rem;
+      height: 1.1rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round; }
+    .gdSaveFile__savelist__action:hover, .gdSaveFile__savelist__action:focus-visible {
+      opacity: 1;
+      background-color: rgba(239, 242, 245, 0.1); }
+    .gdSaveFile__savelist__action:focus-visible {
+      outline: 2px solid #306491;
+      outline-offset: 1px; }
+    .gdSaveFile__savelist__action--danger:hover {
+      color: #ffb4b4;
+      background-color: rgba(229, 72, 77, 0.18); }
+  .gdSaveFile__savelist__row.is-active .gdSaveFile__savelist__action--activate {
+    display: none; }
+  .gdSaveFile__savelist__empty {
+    padding: 2.5rem 1rem;
+    text-align: center; }
+    .gdSaveFile__savelist__empty p {
+      margin: 0; }
+    .gdSaveFile__savelist__empty__title {
+      font-weight: 600; }
+    .gdSaveFile__savelist__empty__title {
+      color: #eff2f5 !important; }
+    .gdSaveFile__savelist__empty__text {
+      margin-top: 0.25rem !important;
+      font-size: 0.85rem;
+      color: #eff2f5 !important;
+      opacity: 0.55; }
+  @media (max-width: 700px) {
+    .gdSaveFile__savelist {
+      min-height: 0; }
+      .gdSaveFile__savelist__tablewrap {
+        overflow: visible; }
+      .gdSaveFile__savelist__table {
+        border-spacing: 0; }
+        .gdSaveFile__savelist__table thead {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip-path: inset(50%); }
+        .gdSaveFile__savelist__table tbody {
+          display: flex;
+          flex-direction: column;
+          gap: 0.6rem;
+          padding-top: 0.5rem; }
+        .gdSaveFile__savelist__table td,
+        .gdSaveFile__savelist__table td:first-child,
+        .gdSaveFile__savelist__table td:last-child {
+          display: block;
+          padding: 0;
+          background: none;
+          border: 0;
+          border-radius: 0; }
+        .gdSaveFile__savelist__table td.is-num {
+          padding-top: 0.6rem;
+          border-top: 1px solid #20344b;
+          text-align: left;
+          font-size: 1rem; }
+          .gdSaveFile__savelist__table td.is-num::before {
+            content: attr(data-label);
+            display: block;
+            margin-bottom: 0.1rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #eff2f5;
+            opacity: 0.55; }
+      .gdSaveFile__savelist__row {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.6rem 0.75rem;
+        padding: 0.75rem 0.9rem;
+        background-color: #1b2b3e;
+        border: 1px solid #20344b;
+        border-left: 3px solid #20344b;
+        border-radius: 4px; }
+        .gdSaveFile__savelist__row:hover td {
+          background: none; }
+        .gdSaveFile__savelist__row.is-active {
+          background-color: rgba(29, 47, 68, 0.45);
+          border-color: #306491; }
+        .gdSaveFile__savelist__row.is-empty {
+          display: block;
+          padding: 0;
+          background: none;
+          border: 0; }
+          .gdSaveFile__savelist__row.is-empty td {
+            border: 1px dashed #20344b !important;
+            border-radius: 4px !important; }
+      .gdSaveFile__savelist__cell--file {
+        grid-column: 1 / -1;
+        width: auto;
+        max-width: none;
+        min-width: 0;
+        padding-right: 6.75rem !important; }
+      .gdSaveFile__savelist__cell--actions {
+        position: absolute;
+        top: 0.55rem;
+        right: 0.5rem; } }
+  @media (max-width: 380px) {
+    .gdSaveFile__savelist__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gdSaveFile__newestfile {
+  flex: 3 1 0; }
+  .gdSaveFile__newestfile__headerrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #20344b; }
+    .gdSaveFile__newestfile__headerrow h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.01em; }
+    .gdSaveFile__newestfile__headerrow p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: rgba(239, 242, 245, 0.45) !important; }
+  .gdSaveFile__newestfile__infos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 0.75rem;
+    padding-top: 1rem; }
+    .gdSaveFile__newestfile__infos__card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.35rem;
+      box-sizing: border-box;
+      min-width: 0;
+      min-height: 5rem;
+      padding: 0.75rem 0.9rem;
+      background-color: #1b2b3e;
+      border: 1px solid #20344b;
+      border-left: 3px solid #306491;
+      border-radius: 4px;
+      transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease; }
+      .gdSaveFile__newestfile__infos__card:hover {
+        background-color: #1d2f44;
+        border-color: #306491;
+        border-left-color: #a0caee;
+        transform: translateY(-1px); }
+      .gdSaveFile__newestfile__infos__card p {
+        margin: 0;
+        padding: 0; }
+      .gdSaveFile__newestfile__infos__card__title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: rgba(239, 242, 245, 0.45) !important; }
+      .gdSaveFile__newestfile__infos__card__value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+@media (max-width: 1100px) {
+  .gdSaveFile__upper, .gdSaveFile__lower {
+    flex-direction: column; }
+  .gdSaveFile__newestfile, .gdSaveFile__upload, .gdSaveFile__savelist, .gdSaveFile__saveinfos {
+    flex: 1 1 auto;
+    width: 100%; }
+  .gdSaveFile__savelist, .gdSaveFile__saveinfos {
+    min-height: 20rem; } }
 
 /*# sourceMappingURL=main.css.map */
