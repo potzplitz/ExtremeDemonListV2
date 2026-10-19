@@ -1,67 +1,321 @@
-    .#{$prefix}Profile {
-        &__profileheader {
-            width: 100%;
-            min-height: 10rem;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+.#{$prefix}Profile {
 
-            &__pfp {
-                display: flex;
-                flex-direction: row;
-                gap: 1rem;
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
 
-                img {
-                    width: 100px;
-                    height: 100px;
-                    border-radius: $border-radius-base;
-                }
+    &__hardest {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 2rem;
+        width: 100%;
+        min-height: 20rem;
+        overflow: hidden;
+        isolation: isolate;
 
-                p {
-                    color: white;
-                    margin: 0;
-                    padding: 0;
-                }
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: var(--hardest-thumb) center / cover no-repeat;
+            filter: blur(2rem);
+            transform: scale(1.2);
+            opacity: .35;
+        }
 
-                &__username {
-                    font-size: 1.9rem;
-                    font-weight: bold;
-                }
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(90deg, rgba($ink-black, .2) 0%, rgba($ink-black, .85) 60%);
+        }
 
-                &__infowrapper {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    justify-content: space-evenly;
-                }
+        &__thumb {
+            flex: 0 0 auto;
+            width: min(30rem, 45%);
+            aspect-ratio: 16 / 9;
+            border-radius: $border-radius-base;
+            border: 1px solid rgba($steel-blue, .25);
+            overflow: hidden;
+            box-shadow: 0 1rem 2.5rem rgba($black, .6);
+
+            >img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform .4s ease;
             }
 
-            &__icons {
-                // width: 100%;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-start;
-                gap: 1rem;
-                &__icon {
-                    img {
-                        width: 60px;
-                        // height: 40px;
-                    }
-                }
+            &:hover>img {
+                transform: scale(1.05);
             }
         }
 
-        &__mainwindow {
-            box-sizing: border-box;
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: .5rem;
             min-width: 0;
-            padding: 1rem 1.25rem;
+        }
 
-            background-color: $deep-space-blue-3 !important;
-            border: 1px solid $yale-blue-2;
-            border-radius: $border-radius-base;
+        &__label {
+            margin: 0;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .15em;
+            color: $steel-blue;
+        }
 
-            box-shadow: 0 4px 12px rgba($black, 0.3), inset 0 1px 0 rgba($white, 0.03);
+        &__position {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, $yale-blue-3, $dusty-grape);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        &__name {
+            margin: 0 0 1rem;
+            font-size: 2rem;
+            line-height: 1.15;
+            color: $white;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1.25rem;
+
+            &__thumb {
+                width: 100%;
+            }
+
+            &::after {
+                background: linear-gradient(180deg, rgba($ink-black, .2), rgba($ink-black, .9));
+            }
         }
     }
+
+    &__infowrapper {
+        display: flex;
+        flex-direction: row;
+        gap: .5rem;
+        width: 100%;
+
+        &__info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1 1 0;
+            min-height: 10rem;
+
+            &__header {
+                margin: 0;
+                padding-bottom: .75rem;
+                font-size: .8rem;
+                font-weight: 700;
+                letter-spacing: .15em;
+                color: $steel-blue;
+                border-bottom: 1px solid $yale-blue-2;
+            }
+
+            &__tags {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: .4rem;
+            }
+
+            &__tag {
+                display: inline-flex;
+                flex-direction: row;
+                align-items: center;
+                gap: .45rem;
+                padding: .25rem .3rem .25rem .7rem;
+                font-size: .75rem;
+                font-weight: 600;
+                letter-spacing: .04em;
+                color: rgba($white, .85);
+                background-color: rgba($white, .06);
+                border: 1px solid $yale-blue-2;
+                border-radius: 999px;
+                transition: border-color .2s ease, color .2s ease;
+
+                // meistgenutzter Tag
+                &:first-child {
+                    border-color: rgba($dusty-grape, .6);
+                }
+
+                &:hover {
+                    color: $white;
+                    border-color: $yale-blue-4;
+                }
+
+                &__count {
+                    min-width: 1.4rem;
+                    padding: .05rem .4rem;
+                    font-size: .65rem;
+                    font-weight: 700;
+                    text-align: center;
+                    font-variant-numeric: tabular-nums;
+                    color: $yale-blue-3;
+                    background-color: $yale-blue;
+                    border-radius: 999px;
+                }
+            }
+
+            &__stat {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .35rem;
+                margin-top: auto;
+            }
+
+            &__stats {
+                display: flex;
+                flex-direction: row;
+                gap: 1.5rem;
+                margin-top: auto;
+
+                >* {
+                    flex: 1 1 0;
+                }
+
+                >*+* {
+                    padding-left: 1.5rem;
+                    border-left: 1px solid $yale-blue-2;
+                }
+            }
+
+            &__value {
+                font-size: 3rem;
+                font-weight: 800;
+                line-height: 1;
+                font-variant-numeric: tabular-nums;
+                background: linear-gradient(135deg, $yale-blue-3, $dusty-grape);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            &__sub {
+                font-size: .8rem;
+                color: rgba($white, .6);
+            }
+        }
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+        }
+    }
+    &__profileheader {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        width: 100%;
+        min-height: 10rem;
+
+        &__pfp {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            min-width: 0;
+
+            &__avatar {
+                flex-shrink: 0;
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border: 2px solid $yale-blue-2;
+                border-radius: $border-radius-base;
+                box-shadow: 0 6px 16px rgba($black, 0.35);
+            }
+
+            &__infowrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+                min-width: 0;
+            }
+
+            &__country {
+                padding: 0.1rem 0.5rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+                line-height: 1.4;
+                letter-spacing: 0.08em;
+                color: rgba($white, 0.85);
+                background-color: rgba($white, 0.06);
+                border: 1px solid $yale-blue-2;
+                border-radius: 999px;
+            }
+
+            &__username {
+                margin: 0 0 0.2rem;
+                font-size: 1.9rem;
+                font-weight: 700;
+                line-height: 1.1;
+                letter-spacing: 0.01em;
+                color: $white;
+                overflow-wrap: anywhere;
+            }
+
+            &__meta {
+                margin: 0;
+                font-size: 0.8rem;
+                line-height: 1.4;
+                color: rgba($white, 0.75);
+            }
+
+            &__metalabel {
+                margin-right: 0.35rem;
+                font-size: 0.65rem;
+                font-weight: 600;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: rgba($white, 0.45);
+            }
+        }
+
+        &__icons {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+
+            &__icon img {
+                width: 60px;
+            }
+        }
+    }
+
+    &__mainwindow {
+        box-sizing: border-box;
+        min-width: 0;
+        padding: 1.25rem 1.5rem;
+
+        background-color: $deep-space-blue-3 !important;
+        background-image: linear-gradient(135deg, rgba($white, 0.04), transparent 60%);
+        border: 1px solid $yale-blue-2;
+        border-radius: $border-radius-base;
+
+        box-shadow: 0 4px 12px rgba($black, 0.3), inset 0 1px 0 rgba($white, 0.03);
+    }
+}

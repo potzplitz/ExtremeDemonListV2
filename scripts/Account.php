@@ -125,7 +125,7 @@ class Account implements BaseScript {
 
         $password_hash = password_hash(INS['password'], PASSWORD_ARGON2ID);
 
-        $query = "INSERT into users (username, email, password, lastlog) values (:username, :email, :password, current_date)";
+        $query = "INSERT into users (username, email, password, lastlog, first_login) values (:username, :email, :password, current_timestamp, current_timestamp)";
         $binds = [
             "username" => INS['username'],
             "email" => INS["email"],

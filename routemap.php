@@ -19,4 +19,5 @@ const ROUTEMAP = [
     "/account/profile" => "Profile",
     "/user/{id}" => "Profile",
     "/api/gdwrapper/levels/{level_id}" => "GetGDLevels",
+    "/api/gdwrapper/user/{user_id}" => "GetGDUser",
 ];
