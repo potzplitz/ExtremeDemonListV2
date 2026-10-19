@@ -1429,6 +1429,13 @@ main {
   to {
     opacity: 0;
     transform: translateY(8px); } }
+@keyframes gdSaveFileFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px); }
+  to {
+    opacity: 1;
+    transform: none; } }
 .gdSaveFile__mainwindow {
   box-sizing: border-box;
   min-width: 0;
@@ -1564,7 +1571,8 @@ main {
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis; }
+      text-overflow: ellipsis;
+      color: white; }
     .gdSaveFile__upload__file__size {
       font-size: 0.75rem;
       font-variant-numeric: tabular-nums;
@@ -1623,20 +1631,6 @@ main {
       font-size: 0.75rem;
       color: rgba(239, 242, 245, 0.8);
       overflow-wrap: anywhere; }
-@keyframes gdSaveFileFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px); }
-  to {
-    opacity: 1;
-    transform: none; } }
-@keyframes gdSaveFileFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px); }
-  to {
-    opacity: 1;
-    transform: none; } }
 .gdSaveFile__savelist {
   flex: 3 1 0;
   display: flex;
@@ -1732,6 +1726,23 @@ main {
   .gdSaveFile__savelist__cell--file {
     width: 100%;
     max-width: 0; }
+  .gdSaveFile__savelist__cell--icons {
+    white-space: nowrap; }
+  .gdSaveFile__savelist__icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem; }
+    .gdSaveFile__savelist__icons__icon {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .gdSaveFile__savelist__icons__icon img {
+        display: block;
+        width: 40px;
+        height: 40px;
+        object-fit: contain; }
   .gdSaveFile__savelist__file {
     display: flex;
     flex-direction: column;
@@ -1881,7 +1892,7 @@ main {
       .gdSaveFile__savelist__row {
         position: relative;
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.6rem 0.75rem;
         padding: 0.75rem 0.9rem;
         background-color: #1b2b3e;
@@ -1907,13 +1918,20 @@ main {
         max-width: none;
         min-width: 0;
         padding-right: 6.75rem !important; }
+      .gdSaveFile__savelist__cell--icons {
+        grid-column: 1 / -1;
+        white-space: normal; }
+      .gdSaveFile__savelist__icons {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 0.3rem; }
+        .gdSaveFile__savelist__icons__icon img {
+          width: 32px;
+          height: 32px; }
       .gdSaveFile__savelist__cell--actions {
         position: absolute;
         top: 0.55rem;
         right: 0.5rem; } }
-  @media (max-width: 380px) {
-    .gdSaveFile__savelist__row {
-      grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .gdSaveFile__newestfile {
   flex: 3 1 0; }
   .gdSaveFile__newestfile__headerrow {
@@ -1982,5 +2000,49 @@ main {
     width: 100%; }
   .gdSaveFile__savelist, .gdSaveFile__saveinfos {
     min-height: 20rem; } }
+
+.gdProfile__profileheader {
+  width: 100%;
+  min-height: 10rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; }
+  .gdProfile__profileheader__pfp {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem; }
+    .gdProfile__profileheader__pfp img {
+      width: 100px;
+      height: 100px;
+      border-radius: 4px; }
+    .gdProfile__profileheader__pfp p {
+      color: white;
+      margin: 0;
+      padding: 0; }
+    .gdProfile__profileheader__pfp__username {
+      font-size: 1.9rem;
+      font-weight: bold; }
+    .gdProfile__profileheader__pfp__infowrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-evenly; }
+  .gdProfile__profileheader__icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem; }
+    .gdProfile__profileheader__icons__icon img {
+      width: 60px; }
+.gdProfile__mainwindow {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  background-color: #162434 !important;
+  border: 1px solid #20344b;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(7, 10, 15, 0.3), inset 0 1px 0 rgba(239, 242, 245, 0.03); }
 
 /*# sourceMappingURL=main.css.map */

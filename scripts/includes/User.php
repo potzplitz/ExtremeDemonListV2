@@ -45,6 +45,12 @@ class User {
         return isset($this->user['is_admin']) && (int)$this->user['is_admin'] === 1;
     }
 
+    public function getRank() {
+        $DB = new Database();
+
+        $query = "";
+    }
+
     public function isLoggedIn(): bool {
         return $this->is_logged_in;
     }

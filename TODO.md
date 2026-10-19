@@ -13,6 +13,8 @@ Liste:
 Victors pro level noch mit anzeigen => danach auch filtern/sortieren können
 Suchfunktion
 
+platz unterschied rechner
+
 
 
 Detailseite:
