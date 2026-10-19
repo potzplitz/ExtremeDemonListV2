@@ -77,4 +77,29 @@ class RobApi {
         
         return json_encode($named, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
+    public function parse_to_array(): array {
+        $parts = explode('#', $this->response);
+        $main = $parts[0];
+        $segments = explode(':', $main);
+
+        $data = [];
+        for ($i = 0; $i < count($segments) - 1; $i += 2) {
+            $key = trim($segments[$i]);
+            $value = isset($segments[$i + 1]) ? trim($segments[$i + 1]) : '';
+            if ($key !== '') {
+                $data[$key] = $value;
+            }
+        }
+
+        $named = [];
+        foreach ($data as $k => $v) {
+            $named[$this->keyMap[$k] ?? "unknown_$k"] = $v;
+        }
+
+        if (!empty($named['description_base64'])) {
+            $named['description'] = @utf8_decode(base64_decode($named['description_base64']));
+        }
+        return $named;
+    }
 }

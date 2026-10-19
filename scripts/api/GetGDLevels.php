@@ -42,7 +42,6 @@ class GetGDLevels implements BaseScript {
     }
 
     public function request($inHash) {
-        require_once("RobApi.php");
         $api = new RobApi();
         $api->set_request_method(Methods::POST);
         $api->set_rob_script("getGJLevels21.php");

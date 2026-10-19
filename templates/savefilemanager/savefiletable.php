@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th scope="col">Savefile</th>
+                <th></th>
                 <th scope="col" class="is-num">Stars</th>
                 <th scope="col" class="is-num">Demons</th>
                 <th scope="col" class="is-num">Coins</th>
