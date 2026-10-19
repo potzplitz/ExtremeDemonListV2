@@ -8,7 +8,7 @@ class GetGDLevels implements BaseScript {
         8  => 'difficultyDenominator',
         9  => 'level_difficulty',
         10 => 'downloads',
-        12 => 'audio_track',
+        12 => 'officialSong',
         13 => 'game_version',
         14 => 'likes',
         17 => 'is_demon',
@@ -20,14 +20,13 @@ class GetGDLevels implements BaseScript {
         45 => 'object_count',
         3  => 'description_base64',
         15 => 'two_player_mode',
-        30 => 'song_id',
+        35 => 'song_id',
         31 => 'is_ldm',
         37 => 'coins_verified',
         38 => 'password',
         39 => 'level_length',
         46 => 'is_cp_verified',
         47 => 'is_copied',
-        35 => 'record_id'
     ];
     private $mode = "";
     public function __construct() {
