@@ -2422,11 +2422,24 @@ main {
   .gdProfile__completions__play {
     justify-self: end; }
   @media (max-width: 768px) {
-    .gdProfile__completions__head, .gdProfile__completions__row {
-      display: grid;
-      grid-template-columns: 4rem minmax(0, 2fr) minmax(0, 1fr) 11rem; }
+    .gdProfile__completions__head {
+      display: none; }
+    .gdProfile__completions__row {
+      grid-template-columns: 3rem minmax(0, 1fr) auto;
+      grid-template-areas: "pos level level" ". creator date";
+      row-gap: .25rem;
+      column-gap: .75rem; }
+    .gdProfile__completions__pos {
+      grid-area: pos; }
+    .gdProfile__completions__level {
+      grid-area: level; }
+    .gdProfile__completions__creator {
+      grid-area: creator; }
+    .gdProfile__completions__date {
+      grid-area: date; }
     .gdProfile__completions__creator, .gdProfile__completions__date {
-      display: none; } }
+      font-size: .75rem;
+      color: rgba(239, 242, 245, 0.55); } }
 .gdProfile__progresslist {
   display: flex;
   flex-direction: column;

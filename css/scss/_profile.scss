@@ -576,15 +576,39 @@
         }
 
         @media (max-width: 768px) {
-            &__head,
+            &__head {
+                display: none;
+            }
+
             &__row {
-                display: grid;
-                grid-template-columns: 4rem minmax(0, 2fr) minmax(0, 1fr) 11rem;
+                grid-template-columns: 3rem minmax(0, 1fr) auto;
+                grid-template-areas:
+                    "pos level level"
+                    ". creator date";
+                row-gap: .25rem;
+                column-gap: .75rem;
+            }
+
+            &__pos {
+                grid-area: pos;
+            }
+
+            &__level {
+                grid-area: level;
+            }
+
+            &__creator {
+                grid-area: creator;
+            }
+
+            &__date {
+                grid-area: date;
             }
 
             &__creator,
             &__date {
-                display: none;
+                font-size: .75rem;
+                color: rgba($white, .55);
             }
         }
     }

@@ -27,6 +27,15 @@ performance:
 datenbankklasse anpassen dass bie jedem select ein timer gestartet wird und wenn er beendet ist timer stoppen und wenn execution time über einer sekunde => nachricht und sql optimieren
 
 
+JULIAN FEEDBACK
+
+TODO: (ideen)
+=============
+- seite wechseln button zusätzlich noch unten am ende anfügen
+- pfeilbutton (links o. rechts) ausgrauen wenn man auf erster oder letzter seite ist
+- doppelpfeil button einfügen um ans ende oder den anfang zu springen (erste seite / letzte seite)
+
+
 https://gdicon.oat.zone/icon.png?type=cube&value=47&color1=12&color2=70
 
 
