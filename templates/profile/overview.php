@@ -64,4 +64,41 @@
             <a class="gdBtn gdBtn--secondary" href="<-LINK->">Go to level</a>
         </div>
     </div>
+        <div class="gdProfile__row">
+        <div class="gdProfile__mainwindow gdProfile__activity">
+            <p class="gdProfile__title">RECENT ACTIVITY</p>
+            <div class="gdProfile__activity__list">
+                <-ACTIVITY->
+            </div>
+        </div>
+        <div class="gdProfile__mainwindow gdProfile__hardest gdProfile__hardest--compact <-NCL_MOD->" style="--hardest-thumb: url('<-NCL_THUMB->')">
+            <a class="gdProfile__hardest__thumb" href="<-NCL_LINK->">
+                <img src="<-NCL_THUMB->" alt="" loading="lazy">
+            </a>
+            <div class="gdProfile__hardest__content">
+                <p class="gdProfile__hardest__label">HARDEST NCL</p>
+                <span class="gdProfile__hardest__position">#<-NCL_POSITION-></span>
+                <h2 class="gdProfile__hardest__name"><-NCL_NAME-></h2>
+                <a class="gdBtn gdBtn--secondary" href="<-NCL_LINK->">Go to level</a>
+            </div>
+        </div>
+    </div>
+    <div class="gdProfile__mainwindow gdProfile__completions">
+        <p class="gdProfile__title">COMPLETIONS</p>
+        <div class="gdProfile__completions__list">
+            <div class="gdProfile__completions__head">
+                <span>#</span>
+                <span>Level</span>
+                <span class="gdProfile__completions__creator">Creator</span>
+                <span class="gdProfile__completions__date">Date</span>
+            </div>
+            <-COMPLETION_ROWS->
+        </div>
+    </div>
+    <div class="gdProfile__mainwindow gdProfile__progresslist">
+        <p class="gdProfile__title">PROGRESS (>40%)</p>
+        <div class="gdProfile__progresslist__list">
+            <-PROGRESS_ROWS->
+        </div>
+    </div>
 </section>
