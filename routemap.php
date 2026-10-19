@@ -17,5 +17,6 @@ const ROUTEMAP = [
     "/api/account/savefiles/updaterecords" => "SaveFileManager",
     "/api/account/savefiles/deleteimported" => "SaveFileManager",
     "/account/profile" => "Profile",
-    "/user/{id}"
+    "/user/{id}" => "Profile",
+    "/api/gdwrapper/levels/{level_id}" => "GetGDLevels",
 ];

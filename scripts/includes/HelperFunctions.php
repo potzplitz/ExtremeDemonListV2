@@ -46,3 +46,15 @@ function format_date($timestamp, $fallback = "N/A") {
     }
     return date('M j, Y \a\t H:i', strtotime($timestamp));
 }
+
+function get_active_savefile($user_id) {
+    $DB = new Database();
+
+    $query = "SELECT * from savefiles where user_id = :userid order by active desc, uploaded_at desc fetch first 1 row only";
+    $binds = [
+        "userid" => $user_id
+    ];
+
+    $DB->query2($query, $binds);
+    return $DB->RSArray;
+}

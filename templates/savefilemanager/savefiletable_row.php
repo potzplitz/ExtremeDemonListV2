@@ -8,6 +8,11 @@
             <span class="gdSaveFile__savelist__file__date"><-SAVE_DATE-></span>
         </div>
     </td>
+    <td class="gdSaveFile__savelist__cell--icons">
+        <div class="gdSaveFile__savelist__icons">
+            <-ICONS->
+        </div>
+    </td>
     <td class="is-num" data-label="Stars"><span><-STARS-></span></td>
     <td class="is-num" data-label="Demons"><span><-DEMONS-></span></td>
     <td class="is-num" data-label="Coins"><span><-USER_COINS-></span></td>

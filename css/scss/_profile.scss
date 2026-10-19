@@ -1,3 +1,67 @@
-.#{$prefix}List {
-    
-}
+    .#{$prefix}Profile {
+        &__profileheader {
+            width: 100%;
+            min-height: 10rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            &__pfp {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+
+                img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: $border-radius-base;
+                }
+
+                p {
+                    color: white;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                &__username {
+                    font-size: 1.9rem;
+                    font-weight: bold;
+                }
+
+                &__infowrapper {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: space-evenly;
+                }
+            }
+
+            &__icons {
+                // width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 1rem;
+                &__icon {
+                    img {
+                        width: 60px;
+                        // height: 40px;
+                    }
+                }
+            }
+        }
+
+        &__mainwindow {
+            box-sizing: border-box;
+            min-width: 0;
+            padding: 1rem 1.25rem;
+
+            background-color: $deep-space-blue-3 !important;
+            border: 1px solid $yale-blue-2;
+            border-radius: $border-radius-base;
+
+            box-shadow: 0 4px 12px rgba($black, 0.3), inset 0 1px 0 rgba($white, 0.03);
+        }
+    }
