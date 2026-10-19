@@ -124,15 +124,18 @@ class Start implements BaseScript {
         $position_spread_down = 100;
         $number_recommendations = 50;
 
-        $query = "WITH top_tags as (select t.tag from levels a cross join lateral json_array_elements_text(a.tags) as t(tag) ";
+        // Nicht-Array-Tags (JSON null, Strings, …) als leeres Array behandeln
+        $tags_safe = "(case when json_typeof(a.tags) = 'array' then a.tags else '[]'::json end)";
+
+        $query = "WITH top_tags as (select t.tag from levels a cross join lateral json_array_elements_text($tags_safe) as t(tag) ";
         $query .= "where a.level_id in (select level_id from levelrecords where user_id = :userid and progress > 99) group by t.tag order by count(*) desc limit :most_common_tags), ";
         $query .= "hardest as (select avg(x.position) as avg_pos from (select distinct l.level_id, l.position from levelrecords lr join levels l on l.level_id = lr.level_id ";
-        $query .= "where lr.user_id = :userid and lr.progress > 99 and l.position is not null order by l.position asc limit :hardest_count) x), ";
+        $query .= "where lr.user_id = :userid and lr.progress > 99 and l.position is not null and l.sart = 'AREDL' order by l.position asc limit :hardest_count) x), ";
         $query .= "candidates as (select a.level_id, a.levelname, a.tags, a.position, ";
-        $query .= "(select count(*) from json_array_elements_text(a.tags) as t(tag) where t.tag in (select tag from top_tags)) as tag_hits, ";
+        $query .= "(select count(*) from json_array_elements_text($tags_safe) as t(tag) where t.tag in (select tag from top_tags)) as tag_hits, ";
         $query .= "abs(a.position - h.avg_pos) as distance ";
         $query .= "from levels a cross join hardest h ";
-        $query .= "where a.position between h.avg_pos - :position_spread_down and h.avg_pos + :position_spread_up ";
+        $query .= "where a.sart = 'AREDL' and a.position between h.avg_pos - :position_spread_down and h.avg_pos + :position_spread_up ";
         $query .= "and not exists (select 1 from levelrecords r where r.level_id = a.level_id and r.user_id = :userid and r.progress > 99)) ";
         $query .= "select level_id, levelname, tags, position from (";
         $query .= "select level_id, levelname, tags, position from candidates where tag_hits > 0 ";
@@ -209,7 +212,14 @@ class Start implements BaseScript {
     private function get_tags() {
         $DB = new Database();
         
-        $query = "SELECT distinct(tag) from levels, jsonb_array_elements_text(tags::jsonb) as tag order by tag";
+            $query = "
+                    SELECT DISTINCT t.tag AS tag
+                    FROM levels l
+                    CROSS JOIN LATERAL jsonb_array_elements_text(l.tags::jsonb) AS t(tag)
+                    WHERE l.sart = 'AREDL'
+                    AND jsonb_typeof(l.tags::jsonb) = 'array'
+                    ORDER BY t.tag
+                ";
         $DB->query($query);
 
         return $DB->RSArray;
