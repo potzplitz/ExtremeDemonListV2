@@ -19,6 +19,11 @@
                     <use href="#uncompleted"></use>
                 </svg>
             </button>
+            <button type="button" class="gdBtn gdBtn--secondary __openoverlay__" data-content="<-COMPARE->" data-title="Compare Levels">
+                <svg width="24" height="21">
+                    <use href="#icon-compare"/>
+                </svg>
+            </button>
         </div>
 
         <div class="gdList__controls__paging">

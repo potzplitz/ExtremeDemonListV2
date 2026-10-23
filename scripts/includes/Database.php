@@ -35,7 +35,7 @@ class Database {
         try {
             $stmt = self::$pdo->query($sql);
 
-            $this->RSArray = $stmt->fetchAll();
+            $this->RSArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $this->rows = count($this->RSArray);
 
         } catch (PDOException $e) {
@@ -53,7 +53,7 @@ class Database {
 
             $stmt->execute();
 
-            $this->RSArray = $stmt->fetchAll();
+            $this->RSArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $this->rows = count($this->RSArray);
 
         } catch (PDOException $e) {
