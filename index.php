@@ -67,6 +67,7 @@ if ($route === null) {
     }
 
     MainController::addJavascript("header/breadcrumb.js");
+    MainController::addJavascript("main/openoverlay.js");
 
     require_once("scripts/Header.php");
     $Header = new Header();

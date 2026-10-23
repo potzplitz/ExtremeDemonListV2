@@ -2,5 +2,6 @@ scripts/includes/env.php
 css/.sass-cache/
 sass_check.bat
 sass_check.sh
+sass_check_new
 assets/profilepictures/
 scripts/includes/DBConnection.php

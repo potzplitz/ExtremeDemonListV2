@@ -19,6 +19,7 @@ class GDList implements BaseScript {
         $bread[] = ["link" => "/", "text" => "Main Page"];
         
         MainController::addJavascript("gdlist/submit_record.js");
+        MainController::addJavascript("gdlist/comparelevel.js");
 
         switch(ROUTE) {
             case "/extremedemons":
@@ -89,6 +90,7 @@ class GDList implements BaseScript {
             "DISP_NOT_FOUND" => ($this->result_count <= 0 ? "" : "hiddenIp"),
             "RESULT_INFOS" => $this->result_count . " Levels found (" . $this->result_time . "s.)",
             "NOT_LOGGED_IN" => (IS_LOGGED_IN ? '' : 'hiddenIp'),
+            "COMPARE" => h($this->render_compare()),
         ]);
         $Template->compile_template();
         $Template->show_template();
@@ -116,6 +118,17 @@ class GDList implements BaseScript {
         }
 
         return $rows;
+    }
+
+    private function render_compare() {
+        $Template = new Template();
+        $Template->load_template("gdlist/compare.php");
+        $Template->load_hash([
+            "LISTTYPE" => ($this->listtype == ListType::NCL ? "NCL" : "AREDL")
+        ]);
+        $Template->compile_template();
+
+        return $Template->get_output();
     }
 
     private function get_levels() {

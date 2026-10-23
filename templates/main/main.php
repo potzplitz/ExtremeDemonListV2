@@ -31,6 +31,10 @@
 
         <-BODY_FOOTER->
 
+        <div class="gdMain__overlaywrapper">
+            
+        </div>
+
     </body>
 
 </html>
