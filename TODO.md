@@ -15,7 +15,7 @@ Suchfunktion
 
 levels nach progress/eigenen attempts sortieren
 
-platz unterschied rechner
+platz unterschied rechner => fertig
 
 
 
@@ -33,9 +33,9 @@ JULIAN FEEDBACK
 
 TODO: (ideen)
 =============
-- seite wechseln button zusätzlich noch unten am ende anfügen
-- pfeilbutton (links o. rechts) ausgrauen wenn man auf erster oder letzter seite ist
-- doppelpfeil button einfügen um ans ende oder den anfang zu springen (erste seite / letzte seite)
+- seite wechseln button zusätzlich noch unten am ende anfügen => fertig
+- pfeilbutton (links o. rechts) ausgrauen wenn man auf erster oder letzter seite ist => fertig
+- doppelpfeil button einfügen um ans ende oder den anfang zu springen (erste seite / letzte seite) => fertig
 
 
 https://gdicon.oat.zone/icon.png?type=cube&value=47&color1=12&color2=70
