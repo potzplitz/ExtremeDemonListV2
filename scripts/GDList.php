@@ -14,6 +14,7 @@ class GDList implements BaseScript {
     private $page = 0;
     private $per_page = 100;
     private $max_page = 0;
+    private $page_action = null;
     public function init() {
 
         $bread[] = ["link" => "/", "text" => "Main Page"];
@@ -59,11 +60,17 @@ class GDList implements BaseScript {
                 break;
         }
 
-        if(isset(INS['prev'])) {
-            $this->page--;
+        if (isset(INS['prev_max'])) {
+            $this->page_action = 'first';
 
-        } else if(isset(INS['next'])) {
-            $this->page++;
+        } elseif (isset(INS['prev'])) {
+            $this->page_action = 'prev';
+
+        } elseif (isset(INS['next'])) {
+            $this->page_action = 'next';
+
+        } elseif (isset(INS['next_max'])) {
+            $this->page_action = 'last';
 
         }
 
@@ -91,6 +98,8 @@ class GDList implements BaseScript {
             "RESULT_INFOS" => $this->result_count . " Levels found (" . $this->result_time . "s.)",
             "NOT_LOGGED_IN" => (IS_LOGGED_IN ? '' : 'hiddenIp'),
             "COMPARE" => h($this->render_compare()),
+            "PREV_DISABLED" => ($this->page <= 1 ? "disabled" : ""),
+            "NEXT_DISABLED" => ($this->page >= $this->max_page ? "disabled" : ""),
         ]);
         $Template->compile_template();
         $Template->show_template();
@@ -166,6 +175,22 @@ class GDList implements BaseScript {
         $this->result_count = $DB->rows;
 
         $this->max_page = max(1, (int)ceil($this->result_count / $this->per_page));
+
+        switch ($this->page_action) {
+            case 'first':
+                $this->page = 1;
+                break;
+            case 'prev':
+                $this->page--;
+                break;
+            case 'next':
+                $this->page++;
+                break;
+            case 'last':
+                $this->page = $this->max_page;
+                break;
+        }
+
         $this->page = min(max(1, $this->page), $this->max_page);
 
         $query .= " order by a.position asc offset :offset fetch first 100 rows only";

@@ -27,18 +27,27 @@
         </div>
 
         <div class="gdList__controls__paging">
-            <button type="submit" name="prev" value="1" class="gdBtn gdBtn--secondary">
+            <button type="submit" name="prev_max" value="1" class="gdBtn gdBtn--secondary" <-PREV_DISABLED->>
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevrons-left"></use>
+                </svg>
+            </button>
+            <button type="submit" name="prev" value="1" class="gdBtn gdBtn--secondary" <-PREV_DISABLED->>
                 <svg class="icon" width="24" height="21" aria-hidden="true">
                     <use href="#icon-chevron-left"></use>
                 </svg>
             </button>
 
-            <input type="number" class="gdInput gdList__paging"
-                name="page" min="1" value="<-PAGE->">
+            <input type="number" class="gdInput gdList__paging" name="page" min="1" value="<-PAGE->">
 
-            <button type="submit" name="next" value="1" class="gdBtn gdBtn--secondary">
+            <button type="submit" name="next" value="1" class="gdBtn gdBtn--secondary" <-NEXT_DISABLED->>
                 <svg class="icon" width="24" height="21" aria-hidden="true">
                     <use href="#icon-chevron-right"></use>
+                </svg>
+            </button>
+            <button type="submit" name="next_max" value="1" class="gdBtn gdBtn--secondary" <-NEXT_DISABLED->>
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevrons-right"></use>
                 </svg>
             </button>
         </div>
@@ -47,4 +56,31 @@
         <-ROWS->
         <h3 class="DISP_NOT_FOUND gdList__notfound"><-NOT_FOUND-></h3>
     </div>
+    <form class="w-100 d-flex justify-content-end" method="GET" action="<-URL_HTBASE-><-LIST_URL->">
+        <div class="gdList__controls__paging">
+            <button type="submit" name="prev_max" value="1" class="gdBtn gdBtn--secondary" <-PREV_DISABLED->>
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevrons-left"></use>
+                </svg>
+            </button>
+            <button type="submit" name="prev" value="1" class="gdBtn gdBtn--secondary" <-PREV_DISABLED->>
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevron-left"></use>
+                </svg>
+            </button>
+
+            <input type="number" class="gdInput gdList__paging" name="page" min="1" value="<-PAGE->">
+
+            <button type="submit" name="next" value="1" class="gdBtn gdBtn--secondary" <-NEXT_DISABLED->>
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevron-right"></use>
+                </svg>
+            </button>
+            <button type="submit" name="next_max" value="1" class="gdBtn gdBtn--secondary" <-NEXT_DISABLED->>
+                <svg class="icon" width="24" height="21" aria-hidden="true">
+                    <use href="#icon-chevrons-right"></use>
+                </svg>
+            </button>
+        </div>
+    </form>
 </section>
