@@ -51,10 +51,12 @@ class Database {
                 $stmt->bindValue(':' . $key, $value);
             }
 
-            $stmt->execute();
+            $success = $stmt->execute();
 
             $this->RSArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $this->rows = count($this->RSArray);
+
+            return $success;
 
         } catch (PDOException $e) {
             handle_error($e);
