@@ -121,6 +121,8 @@ class GDList implements BaseScript {
                 "CHECKED_CLASS" => ($elem['completed'] == 1 ? "gdList__item--checked" : ""),
                 "ATTEMPTS" => $elem['attempts'] ?? 0,
                 "HIDE_NOT_LOGGED_IN" => (IS_LOGGED_IN ? "" : "hiddenIp"),
+                "DISP_DEMONFACE" => ($this->listtype == ListType::NCL ? "" : "hiddenIp"),
+                "DIFFICULTY" => $elem['difficulty'],
             ]);
             $Template->compile_template();
             $rows .= $Template->get_output();

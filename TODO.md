@@ -46,3 +46,6 @@ account mit gd account verknüpfen:
 in einstellungen unter section account wird es einen punkt geben mit "connect your account with geometry dash" (notice dass man dadurch dann verifizierter user ist)
 
 dann dialog mit, "token erzeugen", was dann ein token erzeugt und dann button "check token" dann request an getGJUserInfo20 mit account id (wird beim registrieren abgefragt(getGJUsers20.php mit username), wenn nicht gefunden, kann ein user sie mit seinem savefile ermitteln den er hochladen kann (dort dann noch notice dass man nur seine eigenen savefile hochladen soll)). wenn token übereinstimmen dann in db feld "verified" in users auf 1 setzen. zusätzlich dort noch ein feld mit token oder evtl eine extra tabelle für die geometry dash account linkung (überlegen was schlauer ist)
+
+
+custom lists:

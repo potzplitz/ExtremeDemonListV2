@@ -3,6 +3,13 @@
 
     <div class="gdList__item__info">
         <p class="gdList__item__position">#<-POSITION-></p>
+
+        <span class="gdList__item__face <-DISP_DEMONFACE->">
+            <img src="<-URL_HTBASE->/assets/demonfaces/<-DIFFICULTY->.png"
+                alt="<-DIFFICULTY->" width="56" height="56"
+                loading="lazy" decoding="async">
+        </span>
+
         <p class="gdList__item__name" title="<-LEVELNAME->"><-LEVELNAME-></p>
     </div>
 
