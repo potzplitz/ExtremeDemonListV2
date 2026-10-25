@@ -542,19 +542,50 @@ $success-dark: #23835f;
             position: relative;
             z-index: 2;
             display: flex;
-            align-items: baseline;
-            gap: .75rem;
+            align-items: center; // statt baseline, sonst hängt das Bild schief
+            gap: .85rem;
             flex: 1 1 auto;
             min-width: 0;
         }
 
         &__position {
             flex: 0 0 auto;
+            min-width: 4ch; // hält die Gesichter in einer Spalte
             margin: 0;
+            text-align: right;
             font-size: 1.2rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
             opacity: .7;
+        }
+
+        &__face {
+            position: relative;
+            flex: 0 0 auto;
+            display: grid;
+            place-items: center;
+            // width: 3.5rem;
+            // height: 3.5rem;
+
+            // weicher Hof, damit sich das Gesicht vom Thumbnail löst
+            &::before {
+                content: "";
+                position: absolute;
+                inset: -12%;
+                border-radius: 50%;
+                background: radial-gradient(closest-side, rgba($black, .6), rgba($black, 0));
+                pointer-events: none;
+                transition: background .25s ease;
+            }
+
+            img {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                filter: drop-shadow(0 2px 3px rgba($black, .75));
+                transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
+            }
         }
 
         &__name {
