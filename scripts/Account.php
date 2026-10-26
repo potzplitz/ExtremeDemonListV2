@@ -1,6 +1,7 @@
 <?php
 
 class Account implements BaseScript {
+    private $account_mode = null;
     public function init() {
         MainController::setTitle("Login");
 
@@ -16,12 +17,28 @@ class Account implements BaseScript {
         } else if(ROUTE == "/account/register" && !empty(INS["submit_register"]) && !IS_LOGGED_IN) {
             $this->register_account();
 
+        } else if(ROUTE == "/api/auth/account/register") {
+            die;
+
+        } else if(ROUTE == "/api/auth/account/login") {
+            $this->account_mode = "api";
+            $this->login();
+
+        } else if(ROUTE == "/api/auth/session/renew") {
+
         } else {
             header("Location: " . URL_HTBASE);
         }
     }
 
     private function show_login($error = "") {
+
+        if($this->account_mode == "api") {
+            header("Content-Type: application/json");
+            echo_json(["error" => $error]);
+            return;
+        }
+
         $Template = new Template();
 
         $Template->load_template("account/login.php");
@@ -68,8 +85,23 @@ class Account implements BaseScript {
                 $Session->create_persistent_session($DB->RSArray[0]['user_id']);
             }
 
-            header("Location: " . URL_HTBASE);
-            return;
+            if($this->account_mode == "api") {
+                header("Content-Type: application/json");
+
+                $User = new User(SESS_USERID);
+                $userdata = $User->load_user();
+
+                echo_json([
+                    "user_id" => SESS_USERID,
+                    "username" => $userdata['username'],
+                    "session_token" => SESS_IDENT,
+                    "persistent_hash" => (isset(INS['remember']) ? $User->get_persistent_token() : null)
+                ]);
+                return;
+            } else {
+                header("Location: " . URL_HTBASE);
+                return;
+            }
 
         } else {
             $this->show_login("Username or Email was not found or the Password was incorrect!");

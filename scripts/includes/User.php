@@ -31,7 +31,7 @@ class User {
         }
         
         $user = [
-            "userid" => $DB->RSArray[0]['userid'],
+            // "userid" => $DB->RSArray[0]['userid'],
             "username" => $DB->RSArray[0]['username'],
             "email" => $DB->RSArray[0]['email'],
             //"is_admin" => (int)(empty($DB->RSArray[0]['admin']) ? 0 : $DB->RSArray[0]['admin'])
@@ -49,6 +49,20 @@ class User {
         $DB = new Database();
 
         $query = "";
+    }
+
+    public function get_persistent_token() {
+        $DB = new Database();
+
+        $query = "SELECT * from sessions_persistent where userid = :userid and valid = 1 order by expires_at desc fetch first 1 row only";
+        $binds = [
+            "userid" => $this->userid
+        ];
+
+        $DB->query2($query, $binds);
+        
+        return $DB->RSArray[0]['token_hash'];
+
     }
 
     public function isLoggedIn(): bool {

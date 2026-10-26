@@ -1,3 +1,4 @@
+
 .#{$prefix}Footer {
     width: 100%;
     margin-top: 3rem;
@@ -5,7 +6,6 @@
     border-top: 1px solid $yale-blue-3;
     box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.425);
     box-sizing: border-box;
-    bottom: 0;
 
     &__inner {
         display: flex;
@@ -28,56 +28,108 @@
         }
     }
 
-    // ── Links (gleiches Verhalten wie im Header) ────────────────────
+    // Data source cards
     &__nav {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.25rem;
+        justify-content: flex-end;
+        gap: 0.75rem;
+    }
 
-        &__link {
-            position: relative;
-            padding: 0.5rem 0.9rem;
-            border-radius: 10px;
-            color: #dce6f0;
-            text-decoration: none;
+    &__credit {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: 220px;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(124, 158, 178, 0.18);
+        border-radius: 10px;
+        background: rgba(7, 15, 25, 0.2);
+        color: #dce6f0;
+        text-decoration: none;
+        transition:
+            background 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
+
+        &:hover {
+            background: rgba(124, 158, 178, 0.1);
+            border-color: rgba(124, 158, 178, 0.5);
+            transform: translateY(-2px);
+
+            .#{$prefix}Footer__credit__icon {
+                color: #fff;
+                transform: translate(2px, -2px);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid $steel-blue;
+            outline-offset: 3px;
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            min-width: 0;
+        }
+
+        &__label {
+            color: $steel-blue;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            line-height: 1;
+        }
+
+        &__name {
+            color: #eaf1f8;
             font-size: 0.85rem;
             font-weight: 600;
-            white-space: nowrap;
+            line-height: 1.35;
+        }
+
+        &__icon {
+            flex-shrink: 0;
+            margin-left: auto;
+            color: $steel-blue;
+            font-size: 1.15rem;
             transition:
-                color 0.15s ease,
-                background 0.15s ease;
-
-            &::after {
-                content: "";
-                position: absolute;
-                left: 0.9rem;
-                right: 0.9rem;
-                bottom: 0.2rem;
-                height: 2px;
-                border-radius: 2px;
-                background: $steel-blue;
-                transform: scaleX(0);
-                transition: transform 0.2s ease;
-            }
-
-            &:hover {
-                color: #fff;
-                background: rgba(124, 158, 178, 0.12);
-
-                &::after {
-                    transform: scaleX(1);
-                }
-            }
-
-            &:focus-visible {
-                outline: 2px solid $steel-blue;
-                outline-offset: 2px;
-            }
+                color 0.2s ease,
+                transform 0.2s ease;
         }
     }
 
-    // ── Unterleiste ─────────────────────────────────────────────────
+    // Special thanks
+
+&__thanks {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0.25rem 0 0.5rem;
+    text-align: center;
+
+    &__label {
+        display: block;
+        margin-bottom: 0.4rem;
+        color: rgba(124, 158, 178, 0.75);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+    }
+
+    p {
+        margin: 0;
+        color: rgba(170, 189, 208, 0.7);
+        font-size: 0.72rem;
+        line-height: 1.6;
+    }
+}
+
+    // Bottom bar
     &__bottom {
         display: flex;
         justify-content: space-between;
@@ -90,14 +142,31 @@
     }
 }
 
+// Tablet
 @media (max-width: 900px) {
     .#{$prefix}Footer {
         &__inner {
             flex-direction: column;
+            align-items: center;
         }
 
         &__nav {
             justify-content: center;
+            width: 100%;
+        }
+
+        &__credit {
+            flex: 1 1 240px;
+            max-width: 360px;
+        }
+
+        &__thanks {
+            max-width: 420px;
+            margin: 0 auto 1.5rem;
+            padding: 1rem 1rem 0;
+            text-align: center;
+            border-left: 0;
+            border-top: 2px solid rgba(124, 158, 178, 0.4);
         }
 
         &__bottom {
@@ -108,16 +177,38 @@
     }
 }
 
+// Mobile
 @media (max-width: 600px) {
     .#{$prefix}Footer {
-        &__inner,
-        &__bottom {
-            padding-left: 1rem;
-            padding-right: 1rem;
+        &__inner {
+            padding: 1.5rem 1rem;
         }
 
         &__logo img {
             width: 100px;
+        }
+
+        &__nav {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        &__credit {
+            width: 100%;
+            min-width: 0;
+            max-width: none;
+            box-sizing: border-box;
+        }
+
+        &__thanks {
+            margin: 0 1rem 1.5rem;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        &__bottom {
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
     }
 }
