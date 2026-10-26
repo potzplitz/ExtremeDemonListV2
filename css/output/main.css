@@ -1003,8 +1003,7 @@ main {
   background-color: #162434;
   border-top: 1px solid #a0caee;
   box-shadow: 0 -6px 12px rgba(0, 0, 0, 0.425);
-  box-sizing: border-box;
-  bottom: 0; }
+  box-sizing: border-box; }
   .gdFooter__inner {
     display: flex;
     align-items: center;
@@ -1024,36 +1023,71 @@ main {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.25rem; }
-    .gdFooter__nav__link {
-      position: relative;
-      padding: 0.5rem 0.9rem;
-      border-radius: 10px;
-      color: #dce6f0;
-      text-decoration: none;
+    justify-content: flex-end;
+    gap: 0.75rem; }
+  .gdFooter__credit {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 220px;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(124, 158, 178, 0.18);
+    border-radius: 10px;
+    background: rgba(7, 15, 25, 0.2);
+    color: #dce6f0;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+    .gdFooter__credit:hover {
+      background: rgba(124, 158, 178, 0.1);
+      border-color: rgba(124, 158, 178, 0.5);
+      transform: translateY(-2px); }
+      .gdFooter__credit:hover .gdFooter__credit__icon {
+        color: #fff;
+        transform: translate(2px, -2px); }
+    .gdFooter__credit:focus-visible {
+      outline: 2px solid #86a0b6ff;
+      outline-offset: 3px; }
+    .gdFooter__credit__info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 0; }
+    .gdFooter__credit__label {
+      color: #86a0b6ff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1; }
+    .gdFooter__credit__name {
+      color: #eaf1f8;
       font-size: 0.85rem;
       font-weight: 600;
-      white-space: nowrap;
-      transition: color 0.15s ease, background 0.15s ease; }
-      .gdFooter__nav__link::after {
-        content: "";
-        position: absolute;
-        left: 0.9rem;
-        right: 0.9rem;
-        bottom: 0.2rem;
-        height: 2px;
-        border-radius: 2px;
-        background: #86a0b6ff;
-        transform: scaleX(0);
-        transition: transform 0.2s ease; }
-      .gdFooter__nav__link:hover {
-        color: #fff;
-        background: rgba(124, 158, 178, 0.12); }
-        .gdFooter__nav__link:hover::after {
-          transform: scaleX(1); }
-      .gdFooter__nav__link:focus-visible {
-        outline: 2px solid #86a0b6ff;
-        outline-offset: 2px; }
+      line-height: 1.35; }
+    .gdFooter__credit__icon {
+      flex-shrink: 0;
+      margin-left: auto;
+      color: #86a0b6ff;
+      font-size: 1.15rem;
+      transition: color 0.2s ease, transform 0.2s ease; }
+  .gdFooter__thanks {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0.25rem 0 0.5rem;
+    text-align: center; }
+    .gdFooter__thanks__label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: rgba(124, 158, 178, 0.75);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em; }
+    .gdFooter__thanks p {
+      margin: 0;
+      color: rgba(170, 189, 208, 0.7);
+      font-size: 0.72rem;
+      line-height: 1.6; }
   .gdFooter__bottom {
     display: flex;
     justify-content: space-between;
@@ -1066,19 +1100,45 @@ main {
 
 @media (max-width: 900px) {
   .gdFooter__inner {
-    flex-direction: column; }
+    flex-direction: column;
+    align-items: center; }
   .gdFooter__nav {
-    justify-content: center; }
+    justify-content: center;
+    width: 100%; }
+  .gdFooter__credit {
+    flex: 1 1 240px;
+    max-width: 360px; }
+  .gdFooter__thanks {
+    max-width: 420px;
+    margin: 0 auto 1.5rem;
+    padding: 1rem 1rem 0;
+    text-align: center;
+    border-left: 0;
+    border-top: 2px solid rgba(124, 158, 178, 0.4); }
   .gdFooter__bottom {
     flex-direction: column;
     align-items: center;
     text-align: center; } }
 @media (max-width: 600px) {
-  .gdFooter__inner, .gdFooter__bottom {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+  .gdFooter__inner {
+    padding: 1.5rem 1rem; }
   .gdFooter__logo img {
-    width: 100px; } }
+    width: 100px; }
+  .gdFooter__nav {
+    flex-direction: column;
+    align-items: stretch; }
+  .gdFooter__credit {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    box-sizing: border-box; }
+  .gdFooter__thanks {
+    margin: 0 1rem 1.5rem;
+    padding-left: 0;
+    padding-right: 0; }
+  .gdFooter__bottom {
+    padding-left: 1rem;
+    padding-right: 1rem; } }
 .gdBreadcrumb {
   width: 100%;
   padding: 1.25rem 2rem 0;
