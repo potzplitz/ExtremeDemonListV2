@@ -19,7 +19,7 @@
                     <use href="#uncompleted"></use>
                 </svg>
             </button>
-            <button type="button" class="gdBtn gdBtn--secondary __openoverlay__" data-content="<-COMPARE->" data-title="Compare Levels">
+            <button type="button" class="gdBtn gdBtn--secondary __openoverlay__" data-content="<-COMPARE->" data-title="Compare Levels" data-type="ok">
                 <svg width="24" height="21">
                     <use href="#icon-compare"/>
                 </svg>
@@ -57,6 +57,8 @@
         <h3 class="DISP_NOT_FOUND gdList__notfound"><-NOT_FOUND-></h3>
     </div>
     <form class="w-100 d-flex justify-content-end" method="GET" action="<-URL_HTBASE-><-LIST_URL->">
+        <input type="hidden" name="completed" value="<-ACTIVE_COMPLETED->">
+        <input type="hidden" name="uncompleted" value="<-ACTIVE_UNCOMPLETED->">
         <div class="gdList__controls__paging">
             <button type="submit" name="prev_max" value="1" class="gdBtn gdBtn--secondary" <-PREV_DISABLED->>
                 <svg class="icon" width="24" height="21" aria-hidden="true">

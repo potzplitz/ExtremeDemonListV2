@@ -4,13 +4,15 @@ $(document).ready(() => {
 
         const title = $element.data('title');
         const content = $element.data('content');
+        const type = $element.data('type');
 
         $.ajax({
             url: '/api/overlay/open',
             method: 'GET',
             data: {
                 title: title,
-                content: content
+                content: content,
+                type: type,
             },
             dataType: 'json',
 
