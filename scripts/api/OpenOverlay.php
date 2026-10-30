@@ -38,7 +38,7 @@ class OpenOverlay implements BaseScript {
         $Template->load_template("main/overlay.php");
         $Template->load_hash(array_merge([
             "TITLE" => h(INS['title'] ?? ""),
-            "CONTENT" => h(INS['content'] ?? ""),
+            "CONTENT" => INS['content'] ?? "",
         ], $placeholder_arr));
         $Template->compile_template();
 
