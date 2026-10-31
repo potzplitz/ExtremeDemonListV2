@@ -85,23 +85,23 @@ class Account implements BaseScript {
                 $Session->create_persistent_session($DB->RSArray[0]['user_id']);
             }
 
-            if($this->account_mode == "api") {
-                header("Content-Type: application/json");
+            // if($this->account_mode == "api") {
+            //     header("Content-Type: application/json");
 
-                $User = new User(SESS_USERID);
-                $userdata = $User->load_user();
+            //     $User = new User(SESS_USERID);
+            //     $userdata = $User->load_user();
 
-                echo_json([
-                    "user_id" => SESS_USERID,
-                    "username" => $userdata['username'],
-                    "session_token" => SESS_IDENT,
-                    "persistent_hash" => (isset(INS['remember']) ? $User->get_persistent_token() : null)
-                ]);
-                return;
-            } else {
+            //     echo_json([
+            //         "user_id" => SESS_USERID,
+            //         "username" => $userdata['username'],
+            //         "session_token" => SESS_IDENT,
+            //         "persistent_hash" => (isset(INS['remember']) ? $User->get_persistent_token() : null)
+            //     ]);
+            //     return;
+            // } else {
                 header("Location: " . URL_HTBASE);
                 return;
-            }
+            // }
 
         } else {
             $this->show_login("Username or Email was not found or the Password was incorrect!");

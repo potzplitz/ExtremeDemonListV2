@@ -2,11 +2,21 @@
 
 class Session {
     private function getSessionCookie(): ?string {
-        return $_COOKIE['session'] ?? null;
+        return $_COOKIE['session'] ?? $this->getBearerToken() ?? INS['session'] ?? null;
     }
 
     private function getPersistentCookie(): ?string {
-        return $_COOKIE['persistent'] ?? null;
+        return $_COOKIE['persistent'] ?? INS['persistent'] ?? null;
+    }
+
+    private function getBearerToken(): ?string {
+        $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+
+        if(preg_match('/^Bearer\s+(.+)$/i', $header, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
     }
 
     public function load_session_data() {
