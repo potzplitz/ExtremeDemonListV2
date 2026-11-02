@@ -156,7 +156,7 @@ class GDList implements BaseScript {
 
         $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid and c.progress > 99) then 1 else 0 end as completed, ";
         $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id and d.user_id = :userid) as attempts";
-        $query .= ", a.* from levels a";
+        $query .= ", a.level_id, case when a.position = 0 then 'NA' else a.position::text end as position, a.difficulty, a.levelname, a.level_id from levels a";
 
         $query .= " where a.sart = :sart";
 
@@ -195,7 +195,8 @@ class GDList implements BaseScript {
 
         $this->page = min(max(1, $this->page), $this->max_page);
 
-        $query .= " order by a.position asc offset :offset fetch first 100 rows only";
+        $query .= " order by case when a.position = 0 then 1 else 0 end, a.position asc";
+        $query .= " offset :offset fetch first 100 rows only";
 
         $binds['offset'] = ($this->page - 1) * $this->per_page;
 
