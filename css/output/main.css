@@ -1637,9 +1637,31 @@ main {
       position: relative;
       width: 100%;
       height: 100%;
+      max-width: 40px;
+      height: auto;
       object-fit: contain;
       filter: drop-shadow(0 2px 3px rgba(7, 10, 15, 0.75));
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .gdList__item__coins {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -2px;
+    display: flex;
+    align-items: center;
+    pointer-events: none; }
+    .gdList__item__coins img {
+      display: block;
+      width: 20px;
+      height: 20px;
+      max-width: none;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 1px rgba(7, 10, 15, 0.8)); }
+      .gdList__item__coins img + img {
+        margin-left: -4px; }
+  .gdList__item__face:has(.gdList__item__coins) {
+    margin-bottom: .55rem; }
   .gdList__item__name {
     min-width: 0;
     margin: 0;
