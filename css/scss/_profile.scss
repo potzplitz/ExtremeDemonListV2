@@ -673,6 +673,11 @@
             color: rgba($white, .55);
         }
 
+        &__badges {
+            display: inline-flex;
+            gap: 8px;
+        }
+
         &__percent {
             flex: 0 0 auto;
             margin-left: auto;

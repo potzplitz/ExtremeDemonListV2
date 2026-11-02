@@ -283,21 +283,56 @@ class Profile implements BaseScript {
 
         $DB->query2($query, $binds);
 
-        return $DB->RSArray ?? [];
+        $levels = [];
+
+        foreach ($DB->RSArray ?? [] as $row) {
+            $key = $row['levelname'];
+
+            if (!isset($levels[$key])) {
+                $levels[$key] = [
+                    "levelname" => $row['levelname'],
+                    "progress"  => $row['progress'],
+                    "lists"     => [],
+                ];
+            }
+
+            $levels[$key]['progress'] = max($levels[$key]['progress'], $row['progress']);
+            $levels[$key]['lists'][$row['sart']] = $row['position'];
+        }
+
+        return array_values($levels);
     }
 
     private function render_progress_list() {
         $rows = "";
 
-        foreach ($this->get_progress_list() as $row) {
+        foreach ($this->get_progress_list() as $level) {
+            $badges = "";
+
+            // feste Reihenfolge: AREDL immer vor NCL
+            foreach (['AREDL', 'NCL'] as $list) {
+                if (!isset($level['lists'][$list])) {
+                    continue;
+                }
+
+                $Badge = new Template();
+                $Badge->load_template("profile/progress_badge.php");
+                $Badge->load_hash([
+                    "POSITION" => $level['lists'][$list],
+                    "LIST" => $list,
+                    "LIST_MOD" => $list == 'NCL' ? "gdProfile__badge--ncl" : "",
+                ]);
+                $Badge->compile_template();
+
+                $badges .= $Badge->get_output();
+            }
+
             $Template = new Template();
             $Template->load_template("profile/progress_row.php");
             $Template->load_hash([
-                "NAME" => $row['levelname'],
-                "POSITION" => $row['position'],
-                "LIST" => $row['sart'],
-                "LIST_MOD" => $row['sart'] == 'NCL' ? "gdProfile__badge--ncl" : "",
-                "PROGRESS" => $row['progress'],
+                "NAME" => $level['levelname'],
+                "BADGES" => $badges,
+                "PROGRESS" => $level['progress'],
             ]);
             $Template->compile_template();
 
