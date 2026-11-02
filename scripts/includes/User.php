@@ -4,39 +4,40 @@ class User {
     public array $user = [];
     private $userid = -1;
     private $is_admin = false;
-    private $is_logged_in = true;
+    private $is_logged_in = false;
 
     public function __construct($userid) {
         $this->userid = $userid;
     }
-    public function load_user() {
+
+    public function load_user(): array {
         $DB = new Database();
 
-        if($this->userid == -1) {
+        if ($this->userid == -1) {
             $this->is_logged_in = false;
-            return $user = ["userid" => -1];
+            return ["userid" => -1];
         }
-        
+
         $query = "SELECT * from users where user_id = :userid";
         $binds = [
             "userid" => $this->userid
         ];
+
         $DB->query2($query, $binds);
 
-        $check_rsarray = $DB->RSArray[0]['user_id'] ?? null;
-
-        if($check_rsarray == null) {
+        if ($DB->rows <= 0) {
             $this->is_logged_in = false;
-            return $user = ["userid" => -1];
+            return ["userid" => -1];
         }
-        
+
         $user = [
-            // "userid" => $DB->RSArray[0]['userid'],
+            "userid" => $DB->RSArray[0]['user_id'],
             "username" => $DB->RSArray[0]['username'],
-            "email" => $DB->RSArray[0]['email'],
-            //"is_admin" => (int)(empty($DB->RSArray[0]['admin']) ? 0 : $DB->RSArray[0]['admin'])
+            "email" => $DB->RSArray[0]['email']
         ];
+
         $this->user = $user;
+        $this->is_logged_in = true;
 
         return $user;
     }

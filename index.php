@@ -49,7 +49,12 @@ if ($route === null) {
     $routeParams  = $route['params'];
 
     $Session = new Session();
-    $Session->load_session_data();
+    if (str_contains($request, "/api")) {
+        $Session->authenticate_api_request();
+    } else {
+        $Session->authenticate_user();
+    }
+    
 
     define("IS_LOGGED_IN", SESS_USERID !== -1);
 
