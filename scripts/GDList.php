@@ -121,14 +121,33 @@ class GDList implements BaseScript {
                 "CHECKED_CLASS" => ($elem['completed'] == 1 ? "gdList__item--checked" : ""),
                 "ATTEMPTS" => $elem['attempts'] ?? 0,
                 "HIDE_NOT_LOGGED_IN" => (IS_LOGGED_IN ? "" : "hiddenIp"),
-                "DISP_DEMONFACE" => ($this->listtype == ListType::NCL ? "" : "hiddenIp"),
-                "DIFFICULTY" => $elem['difficulty'],
+                // "DISP_DEMONFACE" => ($this->listtype == ListType::NCL ? "" : "hiddenIp"),
+                "DIFFICULTY" => ($elem['difficulty'] == 'na' ? "na" : $elem['difficulty'] . "_" . $elem['rating']),
+                "COINS" => $this->render_coins($elem['coins']),
             ]);
             $Template->compile_template();
             $rows .= $Template->get_output();
         }
 
         return $rows;
+    }
+
+    private function render_coins($count_coins) {
+        $count_coins = (int)$count_coins;
+
+        if ($count_coins <= 0) {
+            return "";
+        }
+
+        $coins = "";
+
+        for ($i = 1; $i <= $count_coins; $i++) {
+            $coins .= "<img src='" . URL_HTBASE . "assets/coin.png' alt='' width='13' height='13' loading='lazy' decoding='async'>";
+        }
+
+        $label = $count_coins . ($count_coins === 1 ? " Coin" : " Coins");
+
+        return "<span class='gdList__item__coins' role='img' title='" . $label . "' aria-label='" . $label . "'>" . $coins . "</span>";
     }
 
     private function render_compare() {
@@ -156,7 +175,7 @@ class GDList implements BaseScript {
 
         $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid and c.progress > 99) then 1 else 0 end as completed, ";
         $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id and d.user_id = :userid) as attempts";
-        $query .= ", a.level_id, case when a.position = 0 then 'NA' else a.position::text end as position, a.difficulty, a.levelname, a.level_id from levels a";
+        $query .= ", a.level_id, case when a.position = 0 then 'NA' else a.position::text end as position, lower(a.difficulty) as difficulty, lower(a.rating) as rating, a.coins, a.levelname, a.level_id from levels a";
 
         $query .= " where a.sart = :sart";
 
