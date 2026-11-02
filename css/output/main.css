@@ -2871,6 +2871,9 @@ main {
     flex: 0 0 auto;
     font-size: .8rem;
     color: rgba(239, 242, 245, 0.55); }
+  .gdProfile__progresslist__badges {
+    display: inline-flex;
+    gap: 8px; }
   .gdProfile__progresslist__percent {
     flex: 0 0 auto;
     margin-left: auto;
