@@ -9,10 +9,10 @@ class ApiAuth implements BaseScript {
     private function check_inputs() {
         $inputs = INS;
 
-        // if($_SERVER['REQUEST_METHOD'] !== "POST") {
-        //     header('Allow: POST');
-        //     $this->throw_api_error("Invalid Request Method!");
-        // }
+        if($_SERVER['REQUEST_METHOD'] !== "POST") {
+            header('Allow: POST');
+            $this->throw_api_error("Invalid Request Method!");
+        }
 
         if(count($inputs) <= 0) {
             $this->throw_api_error("Bad Request");
@@ -43,8 +43,8 @@ class ApiAuth implements BaseScript {
         }
 
         if(password_verify(INS['password'], $DB->RSArray[0]['password'])) {
-            $this->create_session(isset(INS['remember']), $DB->RSArray[0]['user_id']);
-            $this->return_userinfo($DB->RSArray[0]['user_id']);
+            $sess = $this->create_session(isset(INS['remember']), $DB->RSArray[0]['user_id']);
+            $this->return_userinfo($DB->RSArray[0]['user_id'], $sess[0], $sess[1]);
 
         } else {
             $this->throw_api_error("Username or Email was not found or the Password was incorrect!");
@@ -53,14 +53,16 @@ class ApiAuth implements BaseScript {
 
     private function create_session($remember, $user_id) {
         $Session = new Session();
-        $Session->create_session($user_id);
+        $sess = $Session->create_session($user_id);
 
         if($remember) {
-            $Session->create_persistent_session($user_id);
+            $persistent_sess = $Session->create_persistent_session($user_id);
         }
+
+        return [$sess, $persistent_sess ?? null];
     }
 
-    private function return_userinfo($user_id) {
+    private function return_userinfo($user_id, $session_token, $persistent_token) {
         $User = new User($user_id);
 
         $userdata = $User->load_user();
@@ -69,8 +71,8 @@ class ApiAuth implements BaseScript {
             "success" => "ok",
             "user_id" => $user_id,
             "username" => $userdata['username'],
-            "session_token" => SESS_IDENT,
-            "persistent_hash" => (isset(INS['remember']) ? $User->get_persistent_token() : null)
+            "session_token" => $session_token,
+            "persistent_hash" => (isset(INS['remember']) ? $persistent_token : null)
         ];
 
         echo_json($returnobj);

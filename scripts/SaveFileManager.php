@@ -8,6 +8,7 @@ class SaveFileManager implements BaseScript {
         MainController::setTitle("Save File Manager");
         MainController::addJavascript("savefilemanager/readsavefile.js");
 
+        $bread = [];
         $bread[] = ["link" => "/", "text" => "Main Page"];
 
         if(ROUTE == "/account/savefiles" && IS_LOGGED_IN) {
@@ -19,19 +20,19 @@ class SaveFileManager implements BaseScript {
 
         }else if(ROUTE == "/api/account/savefiles/delete" && IS_LOGGED_IN) {
             $this->handle_delete();
-        
+
         } else if(ROUTE == "/api/account/savefiles/setactive" && IS_LOGGED_IN) {
             $this->handle_setactive();
-        
+
         } else if(ROUTE == "/api/account/savefiles/rename" && IS_LOGGED_IN) {
             $this->handle_rename();
-        
+
         } else if(ROUTE == "/api/account/savefiles/updaterecords" && IS_LOGGED_IN) {
             $this->handle_update_records();
-        
+
         } else if(ROUTE == "/api/account/savefiles/deleteimported" && IS_LOGGED_IN) {
             $this->handle_delete_imported();
-        
+
         } else {
             if(ROUTE == "/account/savefiles") {
                 header("Location: " . URL_HTBASE);
@@ -55,7 +56,7 @@ class SaveFileManager implements BaseScript {
         } else {
             $cards = $this->render_infocards($active_savefile);
         }
-        
+
         $Template = new Template();
         $Template->load_template("savefilemanager/overview.php");
         $Template->load_hash([
@@ -291,7 +292,7 @@ class SaveFileManager implements BaseScript {
 
     private function render_savefile_rows() {
         $Template = new Template();
-        
+
         $savefiles = $this->get_all_savefiles();
 
         $this->count_savefile = count($savefiles);
@@ -384,7 +385,7 @@ class SaveFileManager implements BaseScript {
 
             $rows .= $Template->get_output();
         }
-        
+
         return $rows;
     }
 
