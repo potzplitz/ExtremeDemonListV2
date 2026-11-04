@@ -150,7 +150,7 @@ class Session {
      * @param int $userid
      * @return string
      */
-    public function create_session(int $userid) {
+    public function create_session(int $userid): string {
         $DB = new Database();
 
         $sess_ident = bin2hex(random_bytes(64));
@@ -183,7 +183,7 @@ class Session {
      * @param int $userid
      * @return string
      */
-    public function create_persistent_session(int $userid) { // gets called from outside this class (in login function in Account management class)
+    public function create_persistent_session(int $userid):string { // gets called from outside this class (in login function in Account management class)
         $DB = new Database();
 
         // generate persistent session identity hashed to raw hex values
@@ -217,7 +217,7 @@ class Session {
      * Sets the session constants for a user to -1
      * @return void
      */
-    private function logout_user() {
+    private function logout_user(): void {
 
         // unset all cookies
         setcookie("session", "", [
@@ -314,7 +314,7 @@ class Session {
      * @param string $session
      * @return int
      */
-    private function get_userid_from_session(string $session) {
+    private function get_userid_from_session(string $session): int {
         $DB = new Database();
 
         $query = "SELECT userid from sessions where sess_ident = :session and valid = 1 and expires > current_timestamp";
@@ -454,7 +454,7 @@ class Session {
      * @param string $old_persistent_session
      * @return mixed
      */
-    private function get_user_from_old_persistent_session(string $old_persistent_session) {
+    private function get_user_from_old_persistent_session(string $old_persistent_session): mixed {
         $DB = new Database();
 
         $query = "SELECT userid from sessions_persistent where token_hash = :hash and valid = 1 and expires_at > current_timestamp";
@@ -596,7 +596,7 @@ class Session {
      * @param mixed $persistent
      * @return void
      */
-    private function invalidate_persistent_session($persistent) {
+    private function invalidate_persistent_session($persistent): void {
         $DB = new Database();
 
         $query = "UPDATE sessions_persistent set valid = 0 where token_hash = :hash";
