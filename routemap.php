@@ -24,5 +24,5 @@ const ROUTEMAP = [
     "/api/levels/search" => "LevelSuggest",
     "/account/settings" => "Settings",
     "/api/auth/account/login" => "ApiAuth",
-    "/api/auth/session/renew" => "RenewToken"
+    "/api/auth/session/renew" => "RenewToken",
 ];

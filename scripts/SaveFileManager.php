@@ -7,6 +7,7 @@ class SaveFileManager implements BaseScript {
     public function init() {
         MainController::setTitle("Save File Manager");
         MainController::addJavascript("savefilemanager/readsavefile.js");
+        MainController::addJavascript("savefilemanager/savefilecontrols.js");
 
         $bread = [];
         $bread[] = ["link" => "/", "text" => "Main Page"];
