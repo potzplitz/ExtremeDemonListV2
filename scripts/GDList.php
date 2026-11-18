@@ -14,6 +14,7 @@ class GDList implements BaseScript {
     private $page = 0;
     private $per_page = 100;
     private $max_page = 0;
+    private $count_legacy = 0;
     private $page_action = null;
     public function init() {
 
@@ -95,7 +96,7 @@ class GDList implements BaseScript {
             "LIST_URL" => ($this->listtype == ListType::NCL ? "ninecircles" : "extremedemons"),
             "NOT_FOUND" => ($this->result_count <= 0 ? "Level was not found!" : ""),
             "DISP_NOT_FOUND" => ($this->result_count <= 0 ? "" : "hiddenIp"),
-            "RESULT_INFOS" => $this->result_count . " Levels found (" . $this->result_time . "s.)",
+            "RESULT_INFOS" => $this->result_count . ($this->count_legacy > 0 ? (" (+ " . $this->count_legacy . " Legacy)") : "") . " Levels found (" . $this->result_time . "s.)",
             "NOT_LOGGED_IN" => (IS_LOGGED_IN ? '' : 'hiddenIp'),
             "COMPARE" => h($this->render_compare()),
             "PREV_DISABLED" => ($this->page <= 1 ? "disabled" : ""),
@@ -111,9 +112,24 @@ class GDList implements BaseScript {
 
         $rows = "";
 
+        $seperator = "
+            <div class='d-flex flex-row gap-3 align-items-center justify-content-center'>
+                <div class='w-100 my-4 seperator'></div>
+                <p class='mt-3'>LEGACY</p>
+                <div class='w-100 my-4 seperator'></div>
+            </div>
+        ";
+
+        $separator_placed = false;
+
         foreach($level as $elem) {
             $Template = new Template();
             $Template->load_template("gdlist/level_row.php");
+
+            if($elem['legacy'] == 1) {
+                $elem['position'] = "---";
+            }
+
             $Template->load_hash([
                 "LEVELNAME" => $elem['levelname'],
                 "LEVEL_ID" => $elem['level_id'],
@@ -125,6 +141,12 @@ class GDList implements BaseScript {
                 "DIFFICULTY" => ($elem['difficulty'] == 'na' ? "na" : $elem['difficulty'] . "_" . $elem['rating']),
                 "COINS" => $this->render_coins($elem['coins']),
             ]);
+
+            if($elem['legacy'] == 1 && !$separator_placed) {
+                $rows .= $seperator;
+                $separator_placed = true;
+            }
+
             $Template->compile_template();
             $rows .= $Template->get_output();
         }
@@ -175,7 +197,7 @@ class GDList implements BaseScript {
 
         $query = "SELECT case when exists (SELECT 1 from levelrecords c where c.level_id = a.level_id and c.user_id = :userid and c.progress > 99) then 1 else 0 end as completed, ";
         $query .= "(SELECT attempts from levelrecords d where d.level_id = a.level_id and d.user_id = :userid) as attempts";
-        $query .= ", a.level_id, case when a.position = 0 then 'NA' else a.position::text end as position, lower(a.difficulty) as difficulty, lower(a.rating) as rating, a.coins, a.levelname, a.level_id from levels a";
+        $query .= ", a.level_id, case when a.position = 0 then 'NA' else a.position::text end as position, lower(a.difficulty) as difficulty, lower(a.rating) as rating, a.coins, a.levelname, a.level_id, a.legacy from levels a";
 
         $query .= " where a.sart = :sart";
 
@@ -211,6 +233,14 @@ class GDList implements BaseScript {
                 $this->page = $this->max_page;
                 break;
         }
+
+        foreach($DB->RSArray as $arr) {
+            if($arr['legacy'] == 1) {
+                $this->count_legacy++;
+            }   
+        }
+
+        $this->result_count = $this->result_count - $this->count_legacy;
 
         $this->page = min(max(1, $this->page), $this->max_page);
 
