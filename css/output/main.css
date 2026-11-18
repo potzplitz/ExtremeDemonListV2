@@ -111,6 +111,10 @@ body {
 ::-webkit-scrollbar-corner {
   background: #0b1119; }
 
+.seperator {
+  width: 100%;
+  border-bottom: 1px solid #a0caee; }
+
 * {
   font-family: "Quicksand", sans-serif;
   font-optical-sizing: auto;
