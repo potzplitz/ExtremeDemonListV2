@@ -1,4 +1,4 @@
-<section class="gdSection gdSection--xxxxl">
+<section class="gdSection gdSection--xxxxl d-flex flex-column gap-3">
     <div class="gdSettings gdSettings__box">
         <h3>General</h3>
         <p>Manage your general settings of the Extreme Demon List</p>
@@ -33,4 +33,16 @@
             </div>
         </div>
     </div>
+    <!-- <div class="gdSettings__box">
+        <h3>Main Page</h3>
+        <p>Change your settings on the main page</p>
+        <div class="separator"></div>
+        <div class="gdSettings__content">
+            <form class="gdSettings__settings" method="POST" action="<-URL_HTBASE->account/settings">
+
+            </form>
+            <div class="gdSettings__settings">
+
+            </div>
+        </div> -->
 </section>
