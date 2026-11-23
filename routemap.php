@@ -23,6 +23,7 @@ const ROUTEMAP = [
     "/api/overlay/open" => "OpenOverlay",
     "/api/levels/search" => "LevelSuggest",
     "/account/settings" => "Settings",
+    "/account/pfp" => "Settings",
     "/api/auth/account/login" => "ApiAuth",
     "/api/auth/session/renew" => "RenewToken",
 ];

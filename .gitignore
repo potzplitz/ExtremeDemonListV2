@@ -6,3 +6,4 @@ sass_check_new
 assets/profilepictures/
 scripts/includes/DBConnection.php
 scripts/includes/DevTools.php
+assets/profilepictures

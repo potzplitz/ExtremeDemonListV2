@@ -23,9 +23,9 @@ class AssetManager implements BaseScript {
             $err = ["error" => "User not found!"];
             echo json_encode($err, JSON_PRETTY_PRINT);
 
-        } else if(file_exists(DIR_ASSETS . "profilepictures/" . $userid . ".png")) {
+        } else if(file_exists(DIR_ASSETS . "profilepictures/" . $userid . ".webp")) {
             header('Content-Type: image/png');
-            readfile(DIR_ASSETS . "profilepictures/" . $userid . ".png");
+            readfile(DIR_ASSETS . "profilepictures/" . $userid . ".webp");
 
         } else {
             header('Content-Type: image/png');
