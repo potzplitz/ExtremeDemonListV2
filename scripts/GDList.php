@@ -127,7 +127,7 @@ class GDList implements BaseScript {
             $Template->load_template("gdlist/level_row.php");
 
             if($elem['legacy'] == 1) {
-                $elem['position'] = "---";
+                $elem['position'] = "X";
             }
 
             $Template->load_hash([
@@ -137,7 +137,6 @@ class GDList implements BaseScript {
                 "CHECKED_CLASS" => ($elem['completed'] == 1 ? "gdList__item--checked" : ""),
                 "ATTEMPTS" => $elem['attempts'] ?? 0,
                 "HIDE_NOT_LOGGED_IN" => (IS_LOGGED_IN ? "" : "hiddenIp"),
-                // "DISP_DEMONFACE" => ($this->listtype == ListType::NCL ? "" : "hiddenIp"),
                 "DIFFICULTY" => ($elem['difficulty'] == 'na' ? "na" : $elem['difficulty'] . "_" . $elem['rating']),
                 "COINS" => $this->render_coins($elem['coins']),
             ]);

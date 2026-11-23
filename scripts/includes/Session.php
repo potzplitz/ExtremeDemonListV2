@@ -6,26 +6,50 @@ class Session {
 
     private function getSessionCookie(): ?string {
         // Gets Session Token from Cookie, Bearer or via Parameter
-        return $_COOKIE['session'] ?? $this->getBearerToken() ?? INS['session'] ?? null;
+        return $this->sanitizeToken($_COOKIE['session'] ?? null)
+            ?? $this->getBearerToken()
+            ?? $this->sanitizeToken(INS['session'] ?? null);
     }
 
     private function getPersistentCookie(): ?string {
         // Gets Persistent Token from Cookie or via Parameter
-        return $_COOKIE['persistent'] ?? INS['persistent'] ?? null;
+        return $this->sanitizeToken($_COOKIE['persistent'] ?? null)
+            ?? $this->sanitizeToken(INS['persistent'] ?? null);
     }
 
     private function getBearerToken(): ?string {
         $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
-        if(preg_match('/^Bearer\s+(.+)$/i', $header, $matches)) {
-            return $matches[1];
+        if(is_string($header) && preg_match('/^Bearer\s+(\S+)$/i', $header, $matches)) {
+            return $this->sanitizeToken($matches[1]);
         }
 
         return null;
     }
 
+    /**
+     * SECURITY: Only accepts tokens in the format this class generates (hex strings).
+     * Prevents arrays (e.g. ?session[]=x) causing TypeErrors and rejects junk input early.
+     * @param mixed $token
+     * @return string|null
+     */
+    private function sanitizeToken(mixed $token): ?string {
+        if(!is_string($token) || $token === '' || strlen($token) > 256 || !ctype_xdigit($token)) {
+            return null;
+        }
+
+        return $token;
+    }
+
     private function hashToken(string $token): string {
-        return hash_hmac('sha256', $token, getenv('HMAC_SECRET'));
+        $secret = getenv('HMAC_SECRET');
+
+        // SECURITY: never hash with an empty/missing key (would make the hashes trivially computable)
+        if(!is_string($secret) || $secret === '') {
+            throw new RuntimeException("HMAC_SECRET is not configured");
+        }
+
+        return hash_hmac('sha256', $token, $secret);
     }
 
     public function getDeviceType() {
@@ -122,7 +146,14 @@ class Session {
      * @param string $persistent_token
      * @return array|false
      */
-    public function renew_token(string $persistent_token): array|false {
+    public function renew_token(mixed $persistent_token): array|false {
+        // SECURITY: reject non-hex / non-string input (e.g. arrays from the request body)
+        $persistent_token = $this->sanitizeToken($persistent_token);
+
+        if($persistent_token === null) {
+            return false;
+        }
+
         if(!$this->validate_persistent_session($persistent_token)) {
             return false;
         }
@@ -133,8 +164,19 @@ class Session {
             return false;
         }
 
-        $new_persistent = $this->renew_persistent_session();
+        // SECURITY: rotate exactly the token that was passed in (not whatever is in the cookie)
+        $new_persistent = $this->renew_persistent_session($persistent_token);
+
+        // SECURITY: token was already used by a concurrent request (or became invalid) => abort
+        if($new_persistent === false || (int)$new_persistent['userid'] !== (int)$userid) {
+            return false;
+        }
+
         $new_session = $this->renew_session($userid);
+
+        if(strlen($new_session) <= 0) {
+            return false;
+        }
 
         $this->invalidate_persistent_session($persistent_token);
 
@@ -188,7 +230,7 @@ class Session {
 
         // generate persistent session identity hashed to raw hex values
         $token = bin2hex(random_bytes(32));
-        $tokenHash = hash_hmac('sha256', $token, getenv("HMAC_SECRET"), false);
+        $tokenHash = $this->hashToken($token); // SECURITY: same HMAC, but with secret check
 
         // insert persistent session into DB
         $query = "INSERT into sessions_persistent (userid, expires_at, token_hash, created_at, valid, agent, referrer) values 
@@ -241,6 +283,16 @@ class Session {
     }
 
     /**
+     * SECURITY: Fails closed. If login fails, the user is logged out and the constants are set to -1
+     * (otherwise SESS_USERID stays undefined and every request with a session of a deleted user crashes).
+     * @return bool always false
+     */
+    private function fail_login(): bool {
+        $this->logout_user();
+        return false;
+    }
+
+    /**
      * Logs in user if all checks succeeded.
      * Sets the global constants and loads other user data
      * @return bool
@@ -253,7 +305,7 @@ class Session {
 
         // check if user is valid
         if($user == -1) {
-            return false;
+            return $this->fail_login();
         }
 
         // update user last login
@@ -266,6 +318,11 @@ class Session {
 
         // get the session id based on the ident
         $id = $this->translate_session_to_id($session);
+
+        // SECURITY: session vanished between checks => do not log in with SESS_ID -1
+        if($id == -1) {
+            return $this->fail_login();
+        }
 
         $this->set_session_constants($user, $session, $id);
 
@@ -304,6 +361,11 @@ class Session {
      * @return void
      */
     private function set_session_constants($userid, $ident, $id): void {
+        // SECURITY: constants can only be set once per request; never overwrite / warn on redefinition
+        if(defined("SESS_USERID")) {
+            return;
+        }
+
         define("SESS_USERID", $userid);
         define("SESS_IDENT", $ident);
         define("SESS_ID", $id);
@@ -435,7 +497,8 @@ class Session {
     private function get_user_from_active_persistent_session(string $active_persistent): int {
         $DB = new Database();
 
-        $query = "SELECT userid from sessions_persistent where token_hash = :hash and valid = 1";
+        // SECURITY: also check expiry here (was missing)
+        $query = "SELECT userid from sessions_persistent where token_hash = :hash and valid = 1 and expires_at > current_timestamp";
         $binds = [
             "hash" => $this->hashToken($active_persistent)
         ];
@@ -446,7 +509,38 @@ class Session {
             return -1;
         }
 
-        return $DB->RSArray[0]['userid'];
+        return (int)$DB->RSArray[0]['userid'];
+    }
+
+    /**
+     * SECURITY: Atomically consumes (invalidates) a persistent token and returns its userid.
+     * Only ONE request can ever consume a token => no double use on parallel requests (race condition).
+     * @param string $persistent
+     * @return int|false
+     */
+    private function consume_persistent_session(string $persistent): int|false {
+        $DB = new Database();
+
+        $query = "UPDATE sessions_persistent set valid = 0
+                    where token_hash = :hash and valid = 1 and expires_at > current_timestamp
+                    RETURNING userid";
+        $binds = [
+            "hash" => $this->hashToken($persistent)
+        ];
+
+        $DB->query2($query, $binds);
+
+        if($DB->rows <= 0) {
+            return false;
+        }
+
+        $user_id = (int)$DB->RSArray[0]['userid'];
+
+        if(!$this->validate_user($user_id)) {
+            return false;
+        }
+
+        return $user_id;
     }
 
     /**
@@ -481,12 +575,18 @@ class Session {
      * Renewal of the persistent session and rotates the tokens
      * @return array|bool
      */
-    private function renew_persistent_session(): array|false {
+    private function renew_persistent_session(?string $old_persistent = null): array|false {
         $DB = new Database();
 
-        $old_persistent = $this->getPersistentCookie();
+        // SECURITY: explicitly passed token wins (API), otherwise cookie/parameter as before
+        $old_persistent = $old_persistent ?? $this->getPersistentCookie();
 
-        $userid = $this->get_user_from_old_persistent_session($old_persistent);
+        if(empty($old_persistent)) {
+            return false;
+        }
+
+        // SECURITY: validate AND invalidate the old token in one atomic statement (prevents token reuse)
+        $userid = $this->consume_persistent_session($old_persistent);
 
         if(!$userid) {
             return false;
@@ -508,8 +608,7 @@ class Session {
 
         $DB->query2($query, $binds);
 
-        // invalidate old persistent sess
-        $this->invalidate_persistent_session($old_persistent);
+        // old persistent sess was already invalidated atomically in consume_persistent_session()
 
         // set new persistent cookie
         setcookie("persistent", $token, [
@@ -582,6 +681,11 @@ class Session {
     private function invalidate_session(?string $session):void {
         $DB = new Database();
 
+        // nothing to invalidate
+        if(empty($session)) {
+            return;
+        }
+
         // Invalidate
         $query = "UPDATE sessions set valid = 0 where sess_ident = :ident";
         $binds = [
@@ -598,6 +702,11 @@ class Session {
      */
     private function invalidate_persistent_session($persistent): void {
         $DB = new Database();
+
+        // nothing to invalidate (also avoids TypeError in hashToken on null/array)
+        if(!is_string($persistent) || $persistent === '') {
+            return;
+        }
 
         $query = "UPDATE sessions_persistent set valid = 0 where token_hash = :hash";
         $binds = [
