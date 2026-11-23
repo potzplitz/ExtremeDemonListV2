@@ -42,7 +42,7 @@ class Profile implements BaseScript {
         $Template = new Template();
         $Template->load_template("profile/overview.php");
         $Template->load_hash([
-            "IMAGE" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
+            "IMAGE" => URL_HTBASE . "api/profilepicture/" . $this->user_id,
             "USERNAME" => $user['username'],
             "LASTLOG" => format_date($user['lastlog']),
             "FIRST_LOGIN" => format_date($user['first_login']),
