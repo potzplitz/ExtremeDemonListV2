@@ -11,3 +11,5 @@
         <-SECTIONS->
     </div>
 </section>
+
+<input type="button" class="hiddenIp __openoverlay__ gdStart__changelog__trigger" data-title="Changelog" data-type="ok" data-content="<-CHANGELOG->" data-show="<-CHANGELOG_SHOW->" data-release-id="<-CHANGELOG_RELEASE_ID->">

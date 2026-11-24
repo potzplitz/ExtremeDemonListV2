@@ -2,6 +2,7 @@
 
 const ROUTEMAP = [
     "/" => "Start",
+    "/api/changelog/read" => "Start",
     "/account/login" => "Account",
     "/account/register" => "Account",
     "/account/logout" => "Logout",

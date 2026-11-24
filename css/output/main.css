@@ -26,7 +26,7 @@ body {
   flex-direction: column;
   z-index: 10000;
   width: min(600px, calc(100vw - 32px));
-  max-height: calc(100dvh - 48px);
+  max-height: 45rem;
   background: #121d29;
   color: #eff2f5;
   border: 1px solid #1b2b3e;
@@ -70,6 +70,7 @@ body {
       outline-offset: 2px; }
   .gdMain__overlay__content {
     padding: 24px;
+    overflow-y: auto;
     overscroll-behavior: contain;
     min-height: 0;
     color: #eff2f5; }
@@ -897,6 +898,72 @@ main {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0; }
+  .gdStart__changelog {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right: .25rem; }
+    .gdStart__changelog__entry {
+      padding: 1rem 1.25rem;
+      background-color: #162434;
+      border: 1px solid #20344b;
+      border-radius: 4px; }
+      .gdStart__changelog__entry:first-child {
+        box-shadow: 0 0 12px rgba(160, 202, 238, 0.12); }
+      .gdStart__changelog__entry__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: .5rem;
+        padding-bottom: .75rem;
+        margin-bottom: .75rem;
+        border-bottom: 1px solid #20344b; }
+      .gdStart__changelog__entry__title {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700; }
+      .gdStart__changelog__entry__tag {
+        padding: .15rem .5rem;
+        font-size: .75rem;
+        font-weight: 600;
+        white-space: nowrap;
+        color: #a0caee;
+        background-color: rgba(65, 137, 200, 0.15);
+        border: 1px solid rgba(65, 137, 200, 0.35);
+        border-radius: 4px; }
+      .gdStart__changelog__entry__body {
+        color: rgba(239, 242, 245, 0.85);
+        font-size: .95rem;
+        line-height: 1.6; }
+        .gdStart__changelog__entry__body p {
+          margin: 0 0 .5rem; }
+          .gdStart__changelog__entry__body p:last-child {
+            margin-bottom: 0; }
+        .gdStart__changelog__entry__body ul {
+          margin: 0 0 .75rem;
+          padding-left: 1.25rem; }
+        .gdStart__changelog__entry__body li {
+          margin-bottom: .25rem; }
+          .gdStart__changelog__entry__body li::marker {
+            color: #4189c8; }
+        .gdStart__changelog__entry__body code {
+          padding: .1rem .35rem;
+          font-family: Consolas, "Courier New", monospace;
+          font-size: .85em;
+          color: #a0caee;
+          background-color: #0d151e;
+          border-radius: 4px; }
+        .gdStart__changelog__entry__body a {
+          color: #a0caee;
+          word-break: break-all; }
+          .gdStart__changelog__entry__body a:hover {
+            color: #eff2f5; }
+    .gdStart__changelog__meta {
+      margin-left: .25rem;
+      font-size: .8rem;
+      color: #86a0b6ff;
+      white-space: nowrap; }
 
 .gdLogin {
   display: flex;

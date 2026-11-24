@@ -8,7 +8,7 @@ $(document).ready(() => {
 
         $.ajax({
             url: '/api/overlay/open',
-            method: 'GET',
+            method: 'POST',
             data: {
                 title: title,
                 content: content,
