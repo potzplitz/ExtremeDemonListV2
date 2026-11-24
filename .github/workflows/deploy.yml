@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - deploy
+  # Wird vom !DEPLOY-Workflow gestartet (Pushes mit dem GITHUB_TOKEN lösen "push" nicht aus)
+  workflow_dispatch:
 
 # Verhindert, dass zwei Deployments gleichzeitig laufen
 concurrency:
@@ -13,6 +15,10 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    # Zum Anlegen des Releases und Tags
+    permissions:
+      contents: write
 
     env:
       CT_ID: "727"
@@ -26,6 +32,9 @@ jobs:
     steps:
       - name: Code auschecken
         uses: actions/checkout@v4
+        with:
+          # Ganze Historie und Tags, damit das Release die Commits seit dem letzten Deploy findet
+          fetch-depth: 0
 
       - name: sshpass installieren und SSH einrichten
         run: |
@@ -62,3 +71,43 @@ jobs:
               $STAGING_DIR/ $TARGET_DIR/ && \
             chown -R www-data:www-data $TARGET_DIR && \
             rm -rf $STAGING_DIR'"
+
+      - name: Release mit allen Änderungen seit dem letzten Deploy anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          export TZ=Europe/Berlin
+          NOW=$(date +%s)
+          TAG="deploy-$(date -d "@$NOW" +%Y%m%d-%H%M%S)"
+          TITLE="Deploy $(date -d "@$NOW" '+%d.%m.%Y %H:%M')"
+
+          # Letztes Deploy-Release finden (Tags sortieren sich nach Datum)
+          PREV=$(git tag --list 'deploy-*' | sort | tail -n 1)
+          if [ -n "$PREV" ]; then
+            LOG=$(git log "$PREV..HEAD" --no-merges --pretty='- %s (%h, %an)')
+          else
+            LOG=$(git log --no-merges --max-count=50 --pretty='- %s (%h, %an)')
+          fi
+          # Den !DEPLOY-Marker aus den Commit-Titeln entfernen
+          LOG=$(printf '%s\n' "$LOG" | sed -E 's/^- !deploy:?[[:space:]]*/- /I')
+
+          NOTES="$RUNNER_TEMP/release-notes.md"
+          {
+            if [ -n "$PREV" ]; then
+              echo "Änderungen seit \`$PREV\`:"
+            else
+              echo "Erstes Deploy-Release (die letzten 50 Commits):"
+            fi
+            echo
+            if [ -n "$LOG" ]; then
+              echo "$LOG"
+            else
+              echo "_Keine neuen Commits, gleicher Stand erneut deployt._"
+            fi
+            if [ -n "$PREV" ]; then
+              echo
+              echo "**Vergleich:** $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$PREV...$TAG"
+            fi
+          } > "$NOTES"
+
+          gh release create "$TAG" --target "$GITHUB_SHA" --title "$TITLE" --notes-file "$NOTES"

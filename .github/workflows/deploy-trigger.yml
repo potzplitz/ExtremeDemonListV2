@@ -1,0 +1,49 @@
+name: "!DEPLOY: main nach deploy mergen"
+
+# Beginnt die letzte Commit-Nachricht eines Pushs auf main mit "!DEPLOY"
+# und kommt der Push vom Repo-Eigentümer, wird main in deploy gemergt
+# und danach "Deploy to live server" gestartet.
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write   # Push auf deploy
+  actions: write    # "Deploy to live server" starten
+
+concurrency:
+  group: deploy-trigger
+  cancel-in-progress: false
+
+jobs:
+  merge-to-deploy:
+    # actor = wer gepusht hat, triggering_actor = wer einen Re-run gestartet hat
+    if: >-
+      startsWith(github.event.head_commit.message, '!DEPLOY') &&
+      github.actor == github.repository_owner &&
+      github.triggering_actor == github.repository_owner
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: deploy auschecken
+        uses: actions/checkout@v4
+        with:
+          ref: deploy
+          fetch-depth: 0
+
+      - name: main in deploy mergen
+        env:
+          # Über env statt direkt im Skript, damit die Nachricht nicht als Shell-Code läuft
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git merge --no-ff "$GITHUB_SHA" -m "$COMMIT_MESSAGE"
+          git push origin HEAD:refs/heads/deploy
+
+      - name: Live-Deploy starten
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run "Deploy to live server" --ref deploy
