@@ -72,7 +72,7 @@ jobs:
             chown -R www-data:www-data $TARGET_DIR && \
             rm -rf $STAGING_DIR'"
 
-      - name: Release mit allen Änderungen seit dem letzten Deploy anlegen
+      - name: Release mit allen Changes since dem letzten Deploy anlegen
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -94,15 +94,15 @@ jobs:
           NOTES="$RUNNER_TEMP/release-notes.md"
           {
             if [ -n "$PREV" ]; then
-              echo "Änderungen seit \`$PREV\`:"
+              echo "Changes since \`$PREV\`:"
             else
-              echo "Erstes Deploy-Release (die letzten 50 Commits):"
+              echo "first deploy release (the last 50 Commits):"
             fi
             echo
             if [ -n "$LOG" ]; then
               echo "$LOG"
             else
-              echo "_Keine neuen Commits, gleicher Stand erneut deployt._"
+              echo "_no new commits._"
             fi
             if [ -n "$PREV" ]; then
               echo
