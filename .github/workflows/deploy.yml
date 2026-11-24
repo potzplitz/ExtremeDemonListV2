@@ -33,7 +33,6 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
         with:
-          # Ganze Historie und Tags, damit das Release die Commits seit dem letzten Deploy findet
           fetch-depth: 0
 
       - name: sshpass installieren und SSH einrichten
