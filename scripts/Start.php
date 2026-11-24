@@ -1,24 +1,57 @@
 <?php
 
 class Start implements BaseScript {
+
+    private $changelog_release_id = 0;
     public function init() {
         MainController::setTitle("Main Page");
         MainController::setBreadcrumb(["invisible"]);
 
-        $this->show();
+        if(ROUTE == "/api/changelog/read" && IS_LOGGED_IN) {
+            $this->set_read();
+        } else {
+            $this->show();
+        }
     }
 
     private function show() {
         $rows = $this->wrap_section();
+
+        $changelog = "";
+
+        if(IS_LOGGED_IN) {
+            $changelog = $this->check_changelog_git();
+            MainController::addJavascript("start/changelog.js");
+        }
 
         $Template = new Template();
         $Template->load_template("start/start.php");
         $Template->load_hash([
             "RANDOM_LEVEL" => $this->get_random_level(),
             "SECTIONS" => $rows,
+            "CHANGELOG" => htmlspecialchars($changelog, ENT_QUOTES),
+            "CHANGELOG_SHOW" => $changelog !== "" ? "true" : "false",
+            "CHANGELOG_RELEASE_ID" => (string)$this->changelog_release_id
         ]);
         $Template->compile_template();
         $Template->show_template();
+    }
+
+    private function set_read() {
+        $DB = new Database();
+
+        $quCheck = "SELECT 1 from log where user_id = :user_id and value = :value and sart = 'CLOSECHANGELOG'";
+
+        $query = "INSERT into log (sart, user_id, value, timestamp) values ('CLOSECHANGELOG', :user_id, :value, current_timestamp)";
+        $binds = [
+            "user_id" => SESS_USERID,
+            "value" => INS['release_id']
+        ];
+
+        $DB->query2($quCheck, $binds);
+        if($DB->rows < 1) {
+            $DB->query2($query, $binds);
+        }
     }
 
     private function wrap_section() {
@@ -242,5 +275,206 @@ class Start implements BaseScript {
         ]);
         $Template->compile_template();
         $Template->show_template();
+    }
+
+    private function check_changelog_git() { // prüft ob 5 minuten seit letztem aufruf vergangen sind
+        $DB = new Database();
+
+        $query = "SELECT timestamp from log where sart = 'GITREFRESH' order by timestamp desc fetch first 1 row only";
+        $DB->query($query);
+
+        $last_refresh = $DB->RSArray[0]['timestamp'] ?? null;
+
+        if($last_refresh == null || strtotime($last_refresh) + 300 <= time()) {
+            $this->get_changelog_git();
+        }
+
+        return $this->load_changelog_git();
+    }
+
+    private function load_changelog_git() {
+        $DB = new Database();
+
+        $quLastUpdateSeen = "SELECT value from log where sart = 'CLOSECHANGELOG' and user_id = :user_id order by timestamp desc fetch first 1 row only"; // in value steht release_id vom letzten changelog fenster schließen
+        $bindsLastUpdateSeen = [
+            "user_id" => SESS_USERID
+        ];
+
+        $DB->query2($quLastUpdateSeen, $bindsLastUpdateSeen);
+
+        $last_seen = $DB->RSArray[0]['value'] ?? null;
+
+        $query = "SELECT * from last_site_update order by last_update desc fetch first 10 rows only";
+        $DB->query($query);
+
+        $releases = $DB->RSArray;
+        $unseen_count = 0;
+
+        foreach($releases as $release) {
+            if($last_seen == null || (int)$release['release_id'] != (int)$last_seen) {
+                $unseen_count++;
+            } else {
+                break;
+            }
+        }
+
+        $quGetReleases = "SELECT * from last_site_update order by deploy_timestamp desc fetch first " . $unseen_count . " rows only";
+        $DB->query($quGetReleases);
+
+        $this->changelog_release_id = (int)($DB->RSArray[0]['release_id'] ?? 0);
+
+        $Template = new Template();
+        $Template->load_template("start/changelog.php");
+        
+        $entries = "";
+        foreach($DB->RSArray as $rel) {
+            $Template = new Template();
+            $Template->load_template("start/changelog_entry.php");
+            $Template->load_hash([
+                "TITLE" => htmlspecialchars($rel['release_name'] ?? ''),
+                "TAG" => htmlspecialchars($rel['tag_name'] ?? ''),
+                "CHANGES" => $this->format_changelog($rel['changes'])
+            ]);
+            $Template->compile_template();
+            $entries .= $Template->get_output();
+        }
+
+        if($entries === "") {
+            return "";
+        }
+
+        $Template = new Template();
+        $Template->load_template("start/changelog.php");
+        $Template->load_hash([
+            "ENTRIES" => $entries
+        ]);
+        $Template->compile_template();
+
+        return $Template->get_output();
+        
+    }
+
+    private function format_changelog($raw) {
+        $md = json_decode($raw, true);
+        if(!is_string($md)) {
+            $md = (string)$raw;
+        }
+
+        $html = "";
+        $in_list = false;
+
+        foreach(preg_split('/\R/', trim($md)) as $line) {
+            $line = trim($line);
+
+            if(str_starts_with($line, '- ')) {
+                if(!$in_list) {
+                    $html .= "<ul>";
+                    $in_list = true;
+                }
+
+                $item = $this->format_changelog_inline(substr($line, 2));
+                $item = preg_replace('/\s\(([0-9a-f]{7,40}), ([^()]+)\)$/', ' <span class="gdStart__changelog__meta">$1 · $2</span>', $item);
+
+                $html .= "<li>" . $item . "</li>";
+                continue;
+            }
+
+            if($in_list) {
+                $html .= "</ul>";
+                $in_list = false;
+            }
+
+            if($line !== "") {
+                $html .= "<p>" . $this->format_changelog_inline($line) . "</p>";
+            }
+        }
+
+        if($in_list) {
+            $html .= "</ul>";
+        }
+
+        return $html;
+    }
+
+    private function format_changelog_inline($text) {
+        $text = htmlspecialchars($text, ENT_QUOTES);
+        $text = preg_replace('/`([^`]+)`/', '<code>$1</code>', $text);
+        $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
+        $text = preg_replace('/(?<!\w)_(.+?)_(?!\w)/', '<em>$1</em>', $text);
+        $text = preg_replace('~(https?://[^\s<]+)~', '<a href="$1" target="_blank" rel="noopener">$1</a>', $text);
+
+        return $text;
+    }
+
+    private function get_changelog_git() {
+        $DB = new Database();
+
+        $repo_url = GIT_REPO_URL . "?per_page=10";
+
+        //request
+
+        $ch = curl_init($repo_url);
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/vnd.github+json',
+                'User-Agent: ExtremeDemonListV2'
+            ]
+        ]);
+
+        $response = curl_exec($ch);
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        $query = "INSERT into log (sart, user_id, value, timestamp) values ('ERR', :user_id, :value, current_timestamp)";
+        $binds = [
+            "user_id" => SESS_USERID,
+            "value" => "Startseite github curl error | code: " . $status . " | response: " . $response
+        ];
+
+        $quLog = "INSERT into log (sart, user_id, value, timestamp) values ('GITREFRESH', :user_id, :value, current_timestamp)";
+
+        $bindsLog = [
+            "user_id" => SESS_USERID,
+            "value" => "Github -> refresh"
+        ];
+        $DB->query2($quLog, $bindsLog);
+
+        if((int)$status != 200 || $response === false) {
+
+            $DB->query2($query, $binds);
+
+        } else {
+            $json_res = json_decode($response, true);
+
+            if(!is_array($json_res)) {
+                return;
+            }
+
+            $query = "INSERT into last_site_update (user_id, release_name, release_id, last_update, changes, tag_name, deploy_timestamp) values (:user_id, :release_name, :release_id, current_timestamp, :changes, :tag_name, :deploy_timestamp)";
+            $quCheck = "SELECT 1 from last_site_update where release_id = :release_id";
+
+            foreach(array_reverse($json_res) as $elem) {
+                $binds = [
+                    "user_id" => SESS_USERID,
+                    "tag_name" => $elem['tag_name'],
+                    "release_id" => $elem['id'],
+                    "release_name" => $elem['name'],
+                    "changes" => json_encode($elem['body']),
+                    "deploy_timestamp" => strtotime($elem['created_at'])
+                ];
+
+                $bindsCheck = [
+                    "release_id" => $elem['id']
+                ];
+
+                $DB->query2($quCheck, $bindsCheck);
+                if($DB->rows > 0) {
+                    continue;
+                }
+
+                $DB->query2($query, $binds);
+            }
+        }
     }
 }

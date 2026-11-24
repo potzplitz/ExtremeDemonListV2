@@ -27,3 +27,4 @@ define("ROUTE", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 define("MODE", $_REQUEST['mode'] ?? '');
 define("INS", $_REQUEST);
 define("DIR_ASSETS", DIR_ROOT . "/assets/");
+define("GIT_REPO_URL", "https://api.github.com/repos/potzplitz/ExtremeDemonListV2/releases");

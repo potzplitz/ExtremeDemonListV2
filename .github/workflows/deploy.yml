@@ -78,7 +78,7 @@ jobs:
           export TZ=Europe/Berlin
           NOW=$(date +%s)
           TAG="deploy-$(date -d "@$NOW" +%Y%m%d-%H%M%S)"
-          TITLE="Deploy $(date -d "@$NOW" '+%d.%m.%Y %H:%M')"
+          TITLE="Changelog from $(date -d "@$NOW" '+%d.%m.%Y %H:%M')"
 
           # Letztes Deploy-Release finden (Tags sortieren sich nach Datum)
           PREV=$(git tag --list 'deploy-*' | sort | tail -n 1)
@@ -105,7 +105,7 @@ jobs:
             fi
             if [ -n "$PREV" ]; then
               echo
-              echo "**Vergleich:** $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$PREV...$TAG"
+              echo "**Compare:** $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$PREV...$TAG"
             fi
           } > "$NOTES"
 

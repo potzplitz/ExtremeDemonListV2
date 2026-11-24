@@ -31,7 +31,7 @@ body {
         z-index: 10000;
 
         width: min(600px, calc(100vw - 32px));
-        max-height: calc(100dvh - 48px);
+        max-height: 45rem;
 
         background: $deep-space-blue;
         color: $white;
@@ -96,7 +96,7 @@ body {
 
         &__content {
             padding: 24px;
-            // overflow-y: auto;
+            overflow-y: auto;
             overscroll-behavior: contain;
             min-height: 0;
             color: $white;
