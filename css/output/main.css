@@ -2916,9 +2916,9 @@ main {
   .gdSettings__box {
     width: 100%;
     min-height: 20rem;
-    background-color: #20344b;
+    background-color: #121d29;
     border-radius: 4px;
-    border: #4189c8 solid 1px;
+    border: #1b2b3e solid 1px;
     padding: 1rem 1.5rem 1.5rem; }
   .gdSettings__content {
     display: grid;
