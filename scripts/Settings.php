@@ -15,8 +15,8 @@ class Settings implements BaseScript {
     }
 
     private function update_pfp() {
-        $maxSize = 5 * 1024 * 1024;   // 5 MB
-        $outSize = 512;               // gespeichert als max. 512x512
+        $maxSize = 5 * 1024 * 1024; 
+        $outSize = 512;
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->pfp_json(['error' => 'Method not allowed.'], 405);
@@ -28,7 +28,6 @@ class Settings implements BaseScript {
             $this->pfp_json(['error' => 'Not logged in.'], 401);
         }
 
-        // Datei-Uploads landen in $_FILES, nicht in $_POST
         $pfp = $_FILES['pfp'] ?? null;
         if (!is_array($pfp) || $pfp['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($pfp['tmp_name'])) {
             $this->pfp_json(['error' => 'No valid file uploaded.'], 400);
@@ -38,13 +37,11 @@ class Settings implements BaseScript {
             $this->pfp_json(['error' => 'File is too large (max. 5 MB).'], 413);
         }
 
-        // Echten Bildtyp prüfen, nicht Dateiendung/MIME vom Browser vertrauen
         $info = @getimagesize($pfp['tmp_name']);
         if ($info === false || !in_array($info[2], [IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_WEBP], true)) {
             $this->pfp_json(['error' => 'Only PNG, JPG or WebP allowed.'], 415);
         }
 
-        // Schutz vor riesigen Bildern, die GD den Speicher sprengen
         if ($info[0] > 4096 || $info[1] > 4096) {
             $this->pfp_json(['error' => 'Image is too large (max. 4096 px).'], 422);
         }
@@ -58,8 +55,6 @@ class Settings implements BaseScript {
             $this->pfp_json(['error' => 'Could not read the image.'], 422);
         }
 
-        // Mittig quadratisch zuschneiden und neu kodieren
-        // (entfernt Metadaten und eventuell eingeschleusten Code)
         $w    = imagesx($src);
         $h    = imagesy($src);
         $side = min($w, $h);
@@ -77,8 +72,6 @@ class Settings implements BaseScript {
             $this->pfp_json(['error' => 'Upload directory is not writable.'], 500);
         }
 
-        // Erst in eine Temp-Datei schreiben, dann ersetzen:
-        // schlägt das Speichern fehl, bleibt das alte Bild erhalten
         $tmpPath = $absPath . '.tmp';
         if (!imagewebp($dst, $tmpPath, 85) || !rename($tmpPath, $absPath)) {
             @unlink($tmpPath);
@@ -88,14 +81,11 @@ class Settings implements BaseScript {
         $this->pfp_json(['success' => true, 'path' => $relPath]);
     }
 
-    // Fester Pfad pro User, relativ zum Document-Root
     private function pfp_path($userId) {
         $id = preg_replace('/[^A-Za-z0-9_-]/', '', (string) $userId);
         return $id === '' ? null : 'assets/profilepictures/' . $id . '.webp';
     }
 
-    // Für <-PFP_URL-> im Template; ?v= sorgt dafür, dass der Browser nach
-    // einem Upload nicht das alte Bild aus dem Cache zeigt
     private function pfp_url($userId) {
         $relPath = $this->pfp_path($userId);
         $absPath = $relPath ? rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $relPath : null;
