@@ -40,7 +40,7 @@ class Start implements BaseScript {
     private function set_read() {
         $DB = new Database();
 
-        $query = "INSERT into user_changelog_status (user_id, last_seen_release_id, last_seen_at) values (:user_id, :release_id, current_timestamp) on conflict (user_id) do update set last_seen_release_id = excluded.last_seen_release_id, last_seen_at = current_timestamp";
+        $query = "INSERT into user_changelog_status (user_id, last_seen_release_id, last_seen_at) values (:user_id, :last_seen_release_id, current_timestamp) on conflict (user_id) do update set last_seen_release_id = excluded.last_seen_release_id, last_seen_at = current_timestamp";
         $binds = [
             "user_id" => SESS_USERID,
             "last_seen_release_id" => INS['release_id']
@@ -287,7 +287,7 @@ class Start implements BaseScript {
         return $this->load_changelog_git();
     }
 
-    private function load_changelog_git() {
+    private function load_changelog_git() { 
         $DB = new Database();
 
         $quLastUpdateSeen = "SELECT last_seen_release_id from user_changelog_status where user_id = :user_id"; // in value steht release_id vom letzten changelog fenster schließen
@@ -297,7 +297,7 @@ class Start implements BaseScript {
 
         $DB->query2($quLastUpdateSeen, $bindsLastUpdateSeen);
 
-        $last_seen = $DB->RSArray[0]['value'] ?? null;
+        $last_seen = $DB->RSArray[0]['last_seen_release_id'] ?? null;
 
         $query = "SELECT * from last_site_update order by last_update desc fetch first 10 rows only";
         $DB->query($query);
