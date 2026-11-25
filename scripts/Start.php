@@ -406,8 +406,6 @@ class Start implements BaseScript {
 
         $repo_url = GIT_REPO_URL . "?per_page=10";
 
-        //request
-
         $ch = curl_init($repo_url);
 
         curl_setopt_array($ch, [
