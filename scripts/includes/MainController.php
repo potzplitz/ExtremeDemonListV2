@@ -34,7 +34,7 @@ class MainController {
         // URL bauen
         $src = $opts['external']
             ? $script
-            : URL_HTBASE . "javascript/" . $script;
+            : URL_HTBASE . "javascript/" . $script . "?v=" . time();
 
         // Attribute
         $attr = "";

@@ -64,7 +64,23 @@ class Start implements BaseScript {
 
     private function wrap_section() {
 
-        $order = ["list", "tags", "recommendations", "changelog"];
+        $DB = new Database();
+
+        $order = [];
+
+        if(!IS_LOGGED_IN) {
+            $order = MAINPAGE_SECTIONS;
+
+        } else {
+            $query = "SELECT * from settings where user_id = :user_id";
+            $binds = [
+                "user_id" => SESS_USERID
+            ];
+
+            $DB->query2($query, $binds);
+
+            $order = json_decode($DB->RSArray[0]['mainpage_order'], true);
+        }
 
         $sections = [
             "list" => [
