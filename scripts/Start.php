@@ -49,9 +49,22 @@ class Start implements BaseScript {
         $DB->query2($query, $binds);
     }
 
+    private function render_changelog() {
+        $changelog = $this->get_latest_changelog();
+
+        $Template = new Template();
+        $Template->load_template("start/changelog_block.php");
+        $Template->load_hash([
+            "CHANGELOG" => $changelog
+        ]);
+        $Template->compile_template();
+
+        return $Template->get_output();
+    }
+
     private function wrap_section() {
 
-        $order = ["list", "tags", "recommendations"];
+        $order = ["list", "tags", "recommendations", "changelog"];
 
         $sections = [
             "list" => [
@@ -72,6 +85,13 @@ class Start implements BaseScript {
                 "title" => "Your Recommendations",
                 "class" => "gdStart__list__section",
                 "render" => fn() => $this->render_recommendations(),
+                "link" => URL_HTBASE . "#",
+                "require_login" => true
+            ],
+            "changelog" => [
+                "title" => "Latest 3 Changelogs",
+                "class" => "gdStart__list__section",
+                "render" => fn() => $this->render_changelog(),
                 "link" => URL_HTBASE . "#",
                 "require_login" => true
             ],
@@ -133,10 +153,15 @@ class Start implements BaseScript {
             $rows .= $Template->get_output();
         }
 
+        if(count($levels) <= 0) {
+            $rows = "<div class='w-100 h-100 d-flex flex-row align-items-center justify-content-center'><p>You have to complete some Extreme Demons to see your recommendations!</p></div>";
+        }
+
         
         $Template->load_template("start/list.php");
         $Template->load_hash([
-            "ROWS" => $rows
+            "ROWS" => $rows,
+            "H_100" => (count($levels) <= 0 ? "h-100" : ""), 
         ]);
         $Template->compile_template();
         
@@ -270,6 +295,35 @@ class Start implements BaseScript {
         ]);
         $Template->compile_template();
         $Template->show_template();
+    }
+
+    private function get_latest_changelog() {
+        $DB = new Database();
+
+        $query = "SELECT * from last_site_update order by deploy_timestamp desc fetch first 3 rows only";
+        $DB->query($query);
+
+        $Template = new Template();
+        $Template->load_template("start/changelog.php");
+        
+        $entries = "";
+        foreach($DB->RSArray as $rel) {
+            $Template = new Template();
+            $Template->load_template("start/changelog_entry.php");
+            $Template->load_hash([
+                "TITLE" => htmlspecialchars($rel['release_name'] ?? ''),
+                "TAG" => htmlspecialchars($rel['tag_name'] ?? ''),
+                "CHANGES" => $this->format_changelog($rel['changes'])
+            ]);
+            $Template->compile_template();
+            $entries .= $Template->get_output();
+        }
+
+        if($entries === "") {
+            return "";
+        }
+
+        return $entries;
     }
 
     private function check_changelog_git() { // prüft ob 5 minuten seit letztem aufruf vergangen sind
