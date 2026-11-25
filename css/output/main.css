@@ -905,11 +905,10 @@ main {
     padding-right: .25rem; }
     .gdStart__changelog__entry {
       padding: 1rem 1.25rem;
-      background-color: #162434;
       border: 1px solid #20344b;
       border-radius: 4px; }
       .gdStart__changelog__entry:first-child {
-        box-shadow: 0 0 12px rgba(160, 202, 238, 0.12); }
+        border: #306491 solid 1px; }
       .gdStart__changelog__entry__head {
         display: flex;
         align-items: center;

@@ -220,13 +220,11 @@
 
         &__entry {
             padding: 1rem 1.25rem;
-            background-color: $deep-space-blue-3;
             border: 1px solid $yale-blue-2;
             border-radius: $border-radius-base;
 
-            // neuestes Release hervorheben
             &:first-child {
-                box-shadow: 0 0 12px rgba($yale-blue-3, .12);
+                border: $yale-blue-5 solid 1px;
             }
 
             &__head {
