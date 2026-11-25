@@ -36,6 +36,16 @@ function handle_error($e) {
         die($e->getMessage());
     }
 
+    $DB = new Database();
+
+    $query = "INSERT into log (sart, user_id, value, timestamp) values ('ERR', :user_id, :error, current_timestamp)";
+    $binds = [
+        "user_id" => SESS_USERID,
+        "error" => $e->getMessage()
+    ];
+
+    $DB->query2($query, $binds);
+
     http_response_code(500);
     die("Internal Server Error");
 }
