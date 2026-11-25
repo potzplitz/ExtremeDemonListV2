@@ -33,16 +33,25 @@
             </div>
         </div>
     </div>
-    <!-- <div class="gdSettings__box">
+    <div class="gdSettings__box">
         <h3>Main Page</h3>
         <p>Change your settings on the main page</p>
         <div class="separator"></div>
         <div class="gdSettings__content">
-            <form class="gdSettings__settings" method="POST" action="<-URL_HTBASE->account/settings">
+            <form class="gdSettings__settings" method="POST" action="<-URL_HTBASE->account/settings" data-order-form>
+                <p class="gdSettings__hint">Drag and drop the sections to change their order - you can also use the arrows!</p>
 
+                <ul class="gdOrder" data-order-list>
+                    <-MAINPAGE_SECTIONS->
+                </ul>
+
+                <input type="hidden" name="mode" value="change_order">
+                <input type="hidden" name="order_mainpage" value='<-MAINPAGE_ORDER->' data-order-input>
+                <input class="gdBtn" value="Save Order" type="submit">
             </form>
             <div class="gdSettings__settings">
 
             </div>
-        </div> -->
+        </div>
+    </div>
 </section>

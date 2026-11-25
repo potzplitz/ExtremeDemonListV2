@@ -3,15 +3,35 @@
 class Settings implements BaseScript {
     public function init() {
         MainController::addJavascript("settings/profilepictureupload.js");
+        MainController::addJavascript("settings/mainpageorder.js");
         MainController::setTitle("Settings");
 
-        if(ROUTE == "/account/settings" && IS_LOGGED_IN && empty(INS['username'])) {
+        if(ROUTE == "/account/settings" && IS_LOGGED_IN && empty(INS)) {
             $this->show_settings();
         } else if(ROUTE == "/account/settings" && IS_LOGGED_IN && !empty(INS['username'])) {
             $this->update_userdata(INS);
         } else if(ROUTE == "/account/pfp" && IS_LOGGED_IN) {
             $this->update_pfp();
+        } else if(ROUTE == "/account/settings" && IS_LOGGED_IN && !empty(INS['order_mainpage'])) {
+            $this->update_mainpage_order();
         }
+    }
+    private function update_mainpage_order() {
+        $DB = new Database();
+
+        if(!json_validate(INS['order_mainpage'])) {
+            die();
+        }
+
+        $query = "UPDATE settings set mainpage_order = :mainpage_order where user_id = :user_id";
+        $binds = [
+            "mainpage_order" => INS['order_mainpage'],
+            "user_id" => SESS_USERID
+        ];
+
+        $DB->query2($query, $binds);
+
+        $this->show_settings();
     }
 
     private function update_pfp() {
@@ -91,7 +111,7 @@ class Settings implements BaseScript {
         $absPath = $relPath ? rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $relPath : null;
 
         if (!$absPath || !is_file($absPath)) {
-            return 'assets/img/default-pfp.png'; // ANPASSEN: euer Standard-Avatar
+            return 'assets/profilepictures/default.png';
         }
 
         return $relPath . '?v=' . filemtime($absPath);
@@ -106,18 +126,51 @@ class Settings implements BaseScript {
 
     private function show_settings() {
         
-
         $user = $this->get_userdata();
-        
+
+        $order = $this->get_mainpage_order();
+
         $Template = new Template();
         $Template->load_template("settings/overview.php");
         $Template->load_hash([
             "USERNAME" => $user[0]['username'],
             "EMAIL" => $user[0]['email'],
-            "PFP_URL" => URL_HTBASE . "api/profilepicture/" . SESS_USERID
+            "PFP_URL" => URL_HTBASE . "api/profilepicture/" . SESS_USERID,
+            "MAINPAGE_SECTIONS" => $this->render_mainpage_sections($order),
+            "MAINPAGE_ORDER" => htmlspecialchars(json_encode($order), ENT_QUOTES)
         ]);
         $Template->compile_template();
         $Template->show_template();
+    }
+
+    private function get_mainpage_order() {
+        $DB = new Database();
+
+        $query = "SELECT mainpage_order from settings where user_id = :user_id";
+        $binds = [
+            "user_id" => SESS_USERID
+        ];
+        $DB->query2($query, $binds);
+
+        return json_decode($DB->RSArray[0]['mainpage_order'], true) ?? MAINPAGE_SECTIONS;
+    }
+
+    private function render_mainpage_sections(array $order) {
+        $Template = new Template();
+        $Template->load_template("settings/mainpage_section.php");
+
+        $rows = "";
+        foreach ($order as $i => $key) {
+            $Template->load_hash([
+                "SECTION_KEY" => htmlspecialchars($key, ENT_QUOTES),
+                "POSITION" => $i + 1,
+                "SECTION_NAME" => htmlspecialchars(MAINPAGE_SECTIONS[$key], ENT_QUOTES)
+            ]);
+            $Template->compile_template();
+            $rows .= $Template->get_output();
+        }
+
+        return $rows;
     }
 
     private function get_userdata() {

@@ -96,6 +96,7 @@ if (!str_contains($request, "/api")) {
         "BODY_FOOTER" => MainController::getFooter(),
         "CONTENT"     => MainController::getContent(),
         "SCRIPTS"     => MainController::getJavascript(),
+        "TIMESTAMP"   => time(),
     ]);
     $Template->compile_template();
     echo $Template->get_output();

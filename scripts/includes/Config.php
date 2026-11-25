@@ -28,3 +28,10 @@ define("MODE", $_REQUEST['mode'] ?? '');
 define("INS", $_REQUEST);
 define("DIR_ASSETS", DIR_ROOT . "/assets/");
 define("GIT_REPO_URL", "https://api.github.com/repos/potzplitz/ExtremeDemonListV2/releases");
+
+define("MAINPAGE_SECTIONS", [
+    "list" => "Current Top 100",
+    "tags" => "Browse Tags",
+    "recommendations" => "Your Recommendations",
+    "changelog" => "Latest 3 Changelogs"
+]);
