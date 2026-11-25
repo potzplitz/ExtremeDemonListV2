@@ -93,7 +93,7 @@ class Start implements BaseScript {
                 "class" => "gdStart__list__section",
                 "render" => fn() => $this->render_changelog(),
                 "link" => URL_HTBASE . "#",
-                "require_login" => true
+                "require_login" => false
             ],
         ];
 

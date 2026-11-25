@@ -91,7 +91,7 @@ class Settings implements BaseScript {
         $absPath = $relPath ? rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $relPath : null;
 
         if (!$absPath || !is_file($absPath)) {
-            return 'assets/img/default-pfp.png'; // ANPASSEN: euer Standard-Avatar
+            return 'assets/profilepictures/default.png';
         }
 
         return $relPath . '?v=' . filemtime($absPath);
