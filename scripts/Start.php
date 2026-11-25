@@ -40,18 +40,13 @@ class Start implements BaseScript {
     private function set_read() {
         $DB = new Database();
 
-        $quCheck = "SELECT 1 from log where user_id = :user_id and value = :value and sart = 'CLOSECHANGELOG'";
-
-        $query = "INSERT into log (sart, user_id, value, timestamp) values ('CLOSECHANGELOG', :user_id, :value, current_timestamp)";
+        $query = "INSERT into user_changelog_status (user_id, last_seen_release_id, last_seen_at) values (:user_id, :release_id, current_timestamp) on conflict (user_id) do update set last_seen_release_id = excluded.last_seen_release_id, last_seen_at = current_timestamp";
         $binds = [
             "user_id" => SESS_USERID,
-            "value" => INS['release_id']
+            "last_seen_release_id" => INS['release_id']
         ];
 
-        $DB->query2($quCheck, $binds);
-        if($DB->rows < 1) {
-            $DB->query2($query, $binds);
-        }
+        $DB->query2($query, $binds);
     }
 
     private function wrap_section() {
@@ -280,10 +275,10 @@ class Start implements BaseScript {
     private function check_changelog_git() { // prüft ob 5 minuten seit letztem aufruf vergangen sind
         $DB = new Database();
 
-        $query = "SELECT timestamp from log where sart = 'GITREFRESH' order by timestamp desc fetch first 1 row only";
+        $query = "SELECT last_refresh from git_refresh_status where id = 1";
         $DB->query($query);
 
-        $last_refresh = $DB->RSArray[0]['timestamp'] ?? null;
+        $last_refresh = $DB->RSArray[0]['last_refresh'] ?? null;
 
         if($last_refresh == null || strtotime($last_refresh) + 300 <= time()) {
             $this->get_changelog_git();
@@ -295,7 +290,7 @@ class Start implements BaseScript {
     private function load_changelog_git() {
         $DB = new Database();
 
-        $quLastUpdateSeen = "SELECT value from log where sart = 'CLOSECHANGELOG' and user_id = :user_id order by timestamp desc fetch first 1 row only"; // in value steht release_id vom letzten changelog fenster schließen
+        $quLastUpdateSeen = "SELECT last_seen_release_id from user_changelog_status where user_id = :user_id"; // in value steht release_id vom letzten changelog fenster schließen
         $bindsLastUpdateSeen = [
             "user_id" => SESS_USERID
         ];
@@ -432,13 +427,8 @@ class Start implements BaseScript {
             "value" => "Startseite github curl error | code: " . $status . " | response: " . $response
         ];
 
-        $quLog = "INSERT into log (sart, user_id, value, timestamp) values ('GITREFRESH', :user_id, :value, current_timestamp)";
-
-        $bindsLog = [
-            "user_id" => SESS_USERID,
-            "value" => "Github -> refresh"
-        ];
-        $DB->query2($quLog, $bindsLog);
+        $quLog = "UPDATE git_refresh_status set last_refresh = current_timestamp, last_status = 200, last_error = null where id = 1";
+        $DB->query($quLog);
 
         if((int)$status != 200 || $response === false) {
 
