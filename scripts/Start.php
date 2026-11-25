@@ -187,13 +187,12 @@ class Start implements BaseScript {
     private function get_recommended_levels() {
         $DB = new Database;
 
-        $most_common_tags = 5; // top tag appearances
+        $most_common_tags = 5;
         $hardest_count = 10;
         $position_spread_up = 150;
         $position_spread_down = 100;
         $number_recommendations = 50;
 
-        // Nicht-Array-Tags (JSON null, Strings, …) als leeres Array behandeln
         $tags_safe = "(case when json_typeof(a.tags) = 'array' then a.tags else '[]'::json end)";
 
         $query = "WITH top_tags as (select t.tag from levels a cross join lateral json_array_elements_text($tags_safe) as t(tag) ";
