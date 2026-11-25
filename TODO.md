@@ -49,3 +49,8 @@ dann dialog mit, "token erzeugen", was dann ein token erzeugt und dann button "c
 
 
 custom lists:
+
+allegmein:
+
+alert klasse bauen (siehe gdAlert)
+bildverarbeitungsklasse bauen => bild in verschiedenste formate konvertieren und abspeichern bei zb upload
