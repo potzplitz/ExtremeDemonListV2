@@ -50,7 +50,16 @@ class Start implements BaseScript {
     }
 
     private function render_changelog() {
+        $changelog = $this->get_latest_changelog();
 
+        $Template = new Template();
+        $Template->load_template("start/changelog_block.php");
+        $Template->load_hash([
+            "CHANGELOG" => $changelog
+        ]);
+        $Template->compile_template();
+
+        return $Template->get_output();
     }
 
     private function wrap_section() {
@@ -80,7 +89,7 @@ class Start implements BaseScript {
                 "require_login" => true
             ],
             "changelog" => [
-                "title" => "Latest Changelog",
+                "title" => "Latest 3 Changelogs",
                 "class" => "gdStart__list__section",
                 "render" => fn() => $this->render_changelog(),
                 "link" => URL_HTBASE . "#",
@@ -286,6 +295,35 @@ class Start implements BaseScript {
         ]);
         $Template->compile_template();
         $Template->show_template();
+    }
+
+    private function get_latest_changelog() {
+        $DB = new Database();
+
+        $query = "SELECT * from last_site_update order by deploy_timestamp desc fetch first 3 rows only";
+        $DB->query($query);
+
+        $Template = new Template();
+        $Template->load_template("start/changelog.php");
+        
+        $entries = "";
+        foreach($DB->RSArray as $rel) {
+            $Template = new Template();
+            $Template->load_template("start/changelog_entry.php");
+            $Template->load_hash([
+                "TITLE" => htmlspecialchars($rel['release_name'] ?? ''),
+                "TAG" => htmlspecialchars($rel['tag_name'] ?? ''),
+                "CHANGES" => $this->format_changelog($rel['changes'])
+            ]);
+            $Template->compile_template();
+            $entries .= $Template->get_output();
+        }
+
+        if($entries === "") {
+            return "";
+        }
+
+        return $entries;
     }
 
     private function check_changelog_git() { // prüft ob 5 minuten seit letztem aufruf vergangen sind
